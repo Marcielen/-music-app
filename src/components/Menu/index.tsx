@@ -1,62 +1,101 @@
-import { Box, Fade, Flex, Icon, Text, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
-import { LogoIcon, LogoIconSmall } from "icons";
+import { Box, Flex, Icon, Text } from "@chakra-ui/react";
+
+import { HomeIcon, LogoIcon, LogoIconSmall, SearchIcon } from "icons";
+
+import { ContainerMenu } from "./ContainerMenu";
 
 export const Menu = () => {
   const [animation, setAnimation] = useState(true);
 
   return (
-    <Box height="full">
-      <Box
-        display="flex"
-        flexDirection="column"
-        bg="black"
-        pl="10px"
-        pr="10px"
+    <Box position="relative" height="full">
+      <ContainerMenu
         transform={!animation ? "translateX(0)" : "translateX(-100%)"}
-        height="full"
-        position="absolute"
-        top="0"
-        left="0"
-        transition="transform 0.9s ease-in-out"
-      >
-        <Flex
-          onClick={() => {
-            setTimeout(() => {
-              setAnimation(!animation);
-            }, 1000);
-          }}
-          w="60px"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Icon cursor="pointer" w="50px" h="70px" as={LogoIconSmall} />
-        </Flex>
-      </Box>
-
-      <Box
-        display="flex"
-        flexDirection="column"
-        bg="black"
-        pl="10px"
-        pr="10px"
-        transform={animation ? "translateX(0)" : "translateX(-100%)"}
-        height="full"
-        position="absolute"
-        top="0"
-        left="0"
-        transition="transform 0.9s ease-in-out"
-      >
-        <Flex
-          onClick={() => {
+        handleAnimation={() => {
+          setTimeout(() => {
             setAnimation(!animation);
+          }, 1000);
+        }}
+        width="80px"
+        pt="20px"
+      >
+        <Flex pb="15px" justifyContent="center" alignItems="center">
+          <Icon cursor="pointer" w="38px" h="50px" as={LogoIconSmall} />
+        </Flex>
+        <Flex
+          _hover={{
+            background: "#282828",
           }}
+          mb="5px"
+          cursor="pointer"
           alignItems="center"
+          pt="10px"
+          pb="10px"
+          pl="10px"
           justifyContent="center"
         >
-          <Icon cursor="pointer" w="160px" h="70px" as={LogoIcon} />
+          <Icon mr="15px" cursor="pointer" w="30px" h="25px" as={HomeIcon} />
         </Flex>
-      </Box>
+        <Flex
+          _hover={{
+            background: "#282828",
+          }}
+          mb="5px"
+          cursor="pointer"
+          alignItems="center"
+          pt="10px"
+          pb="10px"
+          pl="10px"
+          justifyContent="center"
+        >
+          <Icon mr="15px" cursor="pointer" w="30px" h="25px" as={SearchIcon} />
+        </Flex>
+      </ContainerMenu>
+
+      <ContainerMenu
+        transform={animation ? "translateX(0)" : "translateX(-100%)"}
+        handleAnimation={() => {
+          setAnimation(!animation);
+        }}
+        w="200px"
+        pt="20px"
+      >
+        <Flex pb="15px" justifyContent="center" alignItems="center">
+          <Icon cursor="pointer" w="120px" h="50px" as={LogoIcon} />
+        </Flex>
+        <Flex
+          _hover={{
+            background: "#282828",
+          }}
+          mb="5px"
+          cursor="pointer"
+          alignItems="center"
+          pt="10px"
+          pb="10px"
+          pl="15px"
+        >
+          <Icon mr="15px" cursor="pointer" w="30px" h="25px" as={HomeIcon} />
+          <Text color="white" fontSize="14px" fontWeight="bold">
+            Home
+          </Text>
+        </Flex>
+        <Flex
+          _hover={{
+            background: "#282828",
+          }}
+          cursor="pointer"
+          alignItems="center"
+          pt="10px"
+          pb="10px"
+          pl="15px"
+        >
+          <Icon mr="15px" cursor="pointer" w="30px" h="25px" as={SearchIcon} />
+          <Text color="white" fontSize="14px" fontWeight="bold">
+            Search
+          </Text>
+        </Flex>
+      </ContainerMenu>
     </Box>
   );
 };
