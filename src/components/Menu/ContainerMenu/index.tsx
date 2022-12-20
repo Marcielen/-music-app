@@ -10,7 +10,6 @@ import {
 
 interface ContainerMenuProps extends BoxProps {
   transform: string;
-  handleAnimation: () => void;
   children: React.ReactNode;
 }
 
@@ -18,7 +17,6 @@ export const ContainerMenu = ({
   transform,
   width,
   children,
-  handleAnimation,
   ...rest
 }: ContainerMenuProps) => {
   return (
@@ -31,9 +29,9 @@ export const ContainerMenu = ({
       position="absolute"
       top="0"
       left="0"
-      transition="transform 0.9s ease-in-out"
+      transition="transform 1s ease-in-out"
     >
-      <Box onClick={() => handleAnimation()} w={width} {...rest}>
+      <Box w={width} {...rest}>
         {children}
       </Box>
     </Box>

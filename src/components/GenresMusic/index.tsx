@@ -6,22 +6,66 @@ import Image from "next/image";
 import GenresMusicPopImage from "Assets/pop.png";
 import GenresMusicIndieImage from "Assets/indie.png";
 import GenresMusicHipHopImage from "Assets/hipHop.png";
-import GenresMusicBluesImage from "Assets/blues.png";
+import GenresMusicRockImage from "Assets/rock.png";
+import GenresMusicPunkImage from "Assets/punk.png";
 
 export const GenresMusic = () => {
   return (
     <Carousel initialSlide={3} spaceBetween={50} slidesPerView={3}>
       <Slide>
-        <Image src={GenresMusicPopImage} alt="Genres Music Pop" />
+        <Image
+          style={{
+            height: "190px",
+            objectFit: "cover",
+            borderRadius: "10px",
+          }}
+          src={GenresMusicRockImage}
+          alt="Genres Music Rock"
+        />
       </Slide>
       <Slide>
-        <Image src={GenresMusicIndieImage} alt="Genres Music indie" />
+        <Image
+          style={{
+            height: "190px",
+            objectFit: "cover",
+            borderRadius: "10px",
+          }}
+          src={GenresMusicPopImage}
+          alt="Genres Music Pop"
+        />
       </Slide>
       <Slide>
-        <Image src={GenresMusicHipHopImage} alt="Genres Music Hip-Hop" />
+        <Image
+          style={{
+            height: "190px",
+            objectFit: "cover",
+            borderRadius: "10px",
+          }}
+          src={GenresMusicIndieImage}
+          alt="Genres Music indie"
+        />
       </Slide>
       <Slide>
-        <Image src={GenresMusicBluesImage} alt="Genres Music Blues" />
+        <Image
+          style={{
+            height: "190px",
+            objectFit: "cover",
+            borderRadius: "10px",
+          }}
+          src={GenresMusicHipHopImage}
+          alt="Genres Music Hip-Hop"
+        />
+      </Slide>
+      <Slide>
+        <Image
+          style={{
+            height: "190px",
+            objectFit: "cover",
+            borderRadius: "10px",
+          }}
+          src={GenresMusicPunkImage}
+          alt="Genres Music Punk"
+        />
       </Slide>
     </Carousel>
   );
