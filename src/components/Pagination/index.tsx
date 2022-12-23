@@ -86,29 +86,40 @@ export const Pagination = ({
     <Box mt="20px" w="full" color="white">
       <FormProvider {...formMethods}>
         <Box borderTopRadius="4px" w="full" overflow="auto">
-          <Table variant="filled" size={size}>
+          <Table variant="" size={size}>
             <Thead>
-              <Tr>
-                {tableHeaders.map(
-                  ({ content, key, isOrderable = true, ...restOfHeader }) => {
-                    return (
-                      <Th
-                        key={key}
-                        whiteSpace="nowrap"
-                        userSelect="none"
-                        {...restOfHeader}
-                        fontWeight="bold"
-                      >
-                        {content}
-                      </Th>
-                    );
-                  }
-                )}
-              </Tr>
+              <>
+                <Tr>
+                  {tableHeaders.map(
+                    ({ content, key, width, ...restOfHeader }) => {
+                      return (
+                        <Th
+                          pl="70px"
+                          width={width}
+                          key={key}
+                          userSelect="none"
+                          fontWeight="bold"
+                        >
+                          <Flex {...restOfHeader}>{content}</Flex>
+                        </Th>
+                      );
+                    }
+                  )}
+                </Tr>
+                <Tr>
+                  <Th pb="10px" pt="0px" colSpan={4}>
+                    <Flex
+                      w="full"
+                      bg="gray.700"
+                      h="1px"
+                      justifyContent="center"
+                      alignItems="center"
+                    />
+                  </Th>
+                </Tr>
+              </>
             </Thead>
-            <Flex justifyContent="center" alignItems="center">
-              <Divider w="97.5%" />
-            </Flex>
+
             <Tbody>
               {hasRows ? (
                 renderTableRows
@@ -123,28 +134,27 @@ export const Pagination = ({
           </Table>
         </Box>
         <Flex justifyContent="center" alignItems="center">
-          <Divider w="97.5%" />
+          <Divider w="96.3%" />
         </Flex>
         <Flex pt="20px" pb="15px" justifyContent="center" alignItems="center">
           <Flex justifyContent="center" alignItems="center">
             <Text
               fontSize="11px"
-              color="pink.600"
               onClick={() => setCurrentPage(1)}
               cursor="pointer"
               borderWidth="2px"
               borderTopLeftRadius="8px"
               borderBottomStartRadius="8px"
-              borderColor="white"
+              borderColor="gray.600"
               p="5px"
               h="32px"
+              background="gray.900"
               _hover={{
-                borderColor: "gray.600",
-                background: "gray.50",
+                background: "gray.800",
               }}
               transition="all ease 1s"
             >
-              Início
+              Start
             </Text>
             <HStack spacing="0px" alignItems="center" justifyContent="center">
               <PaginationItem
@@ -193,15 +203,15 @@ export const Pagination = ({
               borderWidth="2px"
               borderTopRightRadius="8px"
               borderBottomEndRadius="8px"
-              borderColor="white"
+              borderColor="gray.600"
               p="5px"
               background="gray.900"
               _hover={{
-                background: "gray.600",
+                background: "gray.800",
               }}
               transition="all ease 1s"
             >
-              Última
+              Last
             </Text>
           </Flex>
         </Flex>

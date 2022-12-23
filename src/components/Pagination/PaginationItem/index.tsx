@@ -15,13 +15,17 @@ export function PaginationItem({
       <Button
         size="sm"
         fontSize="xs"
+        color="white"
         width="4"
         borderRadius="0"
-        colorScheme="pink"
+        bg="gray.900"
         disabled
         _disabled={{
-          bgColor: "pink.500",
+          bgColor: "gray.600",
           cursor: "default",
+        }}
+        _hover={{
+          bgColor: "none",
         }}
       >
         {children}
@@ -34,13 +38,13 @@ export function PaginationItem({
       size="sm"
       fontSize="xs"
       width="4"
-      bg="white"
+      color="white"
+      bg="gray.900"
       borderRadius="0"
       _hover={{
-        bgColor: "gray.50",
-        borderWidth: "2px",
-        borderColor: "pink.600",
+        background: "gray.800",
       }}
+      transition="all ease 1s"
       onClick={onClick}
       isDisabled={isDisabled}
     >
