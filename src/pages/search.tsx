@@ -19,53 +19,20 @@ import { FiSearch } from "react-icons/fi";
 import { Pagination } from "components/Pagination";
 import { MdQueryBuilder } from "react-icons/md";
 
-import firebase, {
-  collection,
-  getFirestore,
-  onSnapshot,
-  query,
-} from "firebase/firestore";
-import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "services/firebase";
-
-type ListMusicProps = {
-  album: string;
-  author: string;
-  genere: string;
-  imageAlbum: string;
-  musicUrl: string;
-  nameMusic: string;
-};
+import { AiFillCaretRight, AiFillPauseCircle } from "react-icons/ai";
+import { ListMusicProps, useMusicContext } from "store/contextMusic";
 
 export default function Search() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
   const [page, setPage] = useState(1);
+  const [isMusicActive, setIsMusicActive] = useState(-1);
 
   const formMethods = useForm();
+  const { setSelectedMusic, listMusic } = useMusicContext();
 
-  const [listMusic, setListMusic] = useState<ListMusicProps[]>([]);
-
-  useEffect(() => {
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const q = query(collection(db, "music"));
-    onSnapshot(q, (snapshot) => {
-      snapshot.forEach((doc) => {
-        // @ts-ignore
-        const data: ListMusicProps = doc.data();
-        setListMusic((valueListMusic) => {
-          const musicIsAlreadyAdded = valueListMusic.some(
-            (validateValue) => validateValue.musicUrl === data.musicUrl
-          );
-
-          if (musicIsAlreadyAdded) {
-            return valueListMusic;
-          }
-          return [...valueListMusic, data];
-        });
-      });
-    });
-  }, []);
+  function handleMusicActive(index: number) {
+    setIsMusicActive(isMusicActive === index ? -1 : index);
+  }
 
   return (
     <FormProvider {...formMethods}>
@@ -110,9 +77,29 @@ export default function Search() {
             renderTableRows={listMusic.map((music, index) => {
               return (
                 <>
-                  <Tr key={music.nameMusic}>
+                  <Tr
+                    onClick={() => {
+                      handleMusicActive(index);
+                      setSelectedMusic(music);
+                    }}
+                    cursor="pointer"
+                    key={music.nameMusic}
+                  >
                     <Td fontSize="12px" pt="7px" pb="7px" pl="70px">
                       <Flex>
+                        <Flex justifyContent="center" alignItems="center">
+                          <Icon
+                            color="gray.300"
+                            boxSize="20px"
+                            ml="-30px"
+                            mr="15px"
+                            as={
+                              isMusicActive === index
+                                ? AiFillPauseCircle
+                                : AiFillCaretRight
+                            }
+                          />
+                        </Flex>
                         <Image
                           alt="image album music"
                           objectFit="cover"
