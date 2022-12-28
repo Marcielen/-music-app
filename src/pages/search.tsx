@@ -89,7 +89,7 @@ export default function Search() {
                       <Flex>
                         <Flex justifyContent="center" alignItems="center">
                           <Icon
-                            color="gray.300"
+                            color="white"
                             boxSize="20px"
                             ml="-30px"
                             mr="15px"
@@ -108,31 +108,19 @@ export default function Search() {
                           src={music.imageAlbum}
                         />
                         <Box ml="10px">
-                          <Text mt="5px" color="gray.300">
+                          <Text mt="5px" color="white">
                             {music.nameMusic}
                           </Text>
-                          <Text fontSize="10px" mt="-3px" color="gray.300">
+                          <Text fontSize="10px" mt="-3px" color="white">
                             {music.author}
                           </Text>
                         </Box>
                       </Flex>
                     </Td>
-                    <Td
-                      w="40%"
-                      color="gray.300"
-                      fontSize="12px"
-                      pt="0"
-                      pb="7px"
-                    >
+                    <Td w="40%" color="white" fontSize="12px" pt="0" pb="7px">
                       <Flex justifyContent="right">{music.album}</Flex>
                     </Td>
-                    <Td
-                      pr="40px"
-                      color="gray.300"
-                      fontSize="12px"
-                      pt="0"
-                      pb="7px"
-                    >
+                    <Td pr="40px" color="white" fontSize="12px" pt="0" pb="7px">
                       <Flex justifyContent="right">{music.genere}</Flex>
                     </Td>
                   </Tr>

@@ -110,7 +110,7 @@ export const Pagination = ({
                   <Th pb="10px" pt="0px" colSpan={4}>
                     <Flex
                       w="full"
-                      bg="gray.700"
+                      bg="white"
                       h="1px"
                       justifyContent="center"
                       alignItems="center"
@@ -134,7 +134,7 @@ export const Pagination = ({
           </Table>
         </Box>
         <Flex justifyContent="center" alignItems="center">
-          <Divider w="96.3%" />
+          <Divider color="white" w="96.3%" />
         </Flex>
         <Flex pt="20px" pb="15px" justifyContent="center" alignItems="center">
           <Flex justifyContent="center" alignItems="center">
