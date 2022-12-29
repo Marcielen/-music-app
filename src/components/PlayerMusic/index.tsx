@@ -56,6 +56,17 @@ export const PlayerMusic = () => {
     return progress / durationMusic;
   }, [durationMusic, progressMusic])();
 
+  function convertDurationToTimeString(duration: number) {
+    const minutes = Math.floor((duration % 3600) / 60);
+    const seconds = duration % 60;
+
+    const finalResult = [minutes, seconds]
+      .map((unit) => String(unit).padStart(2, "0"))
+      .join(":");
+
+    return finalResult;
+  }
+
   useEffect(() => {
     if (isMusicActive) {
       audioRef.current?.play();
@@ -146,7 +157,7 @@ export const PlayerMusic = () => {
           </HStack>
           <Flex ml="-10px" justifyContent="center" alignItems="center">
             <Text fontSize="10px" mr="5px" color="white">
-              {(durationMusic / 60).toFixed(2)}
+              {convertDurationToTimeString(durationMusic)}
             </Text>
             <Progress
               value={valueProgressMusic}
@@ -155,7 +166,7 @@ export const PlayerMusic = () => {
               colorScheme="gray"
             />
             <Text fontSize="10px" ml="5px" color="white">
-              {(progressMusic / 60).toFixed(2)}
+              {convertDurationToTimeString(progressMusic)}
             </Text>
           </Flex>
         </Box>
