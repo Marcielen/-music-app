@@ -12,7 +12,7 @@ import {
 import { InputDefault } from "components/Input";
 import { PlayerMusic } from "components/PlayerMusic";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Menu } from "../components/Menu";
 import { FiSearch } from "react-icons/fi";
@@ -34,6 +34,13 @@ export default function Search() {
     setIsMusicActive(isMusicActive === index ? -1 : index);
   }
 
+  const currentTableData = useCallback(() => {
+    const firstPageIndex = (page - 1) * 5;
+    const lastPageIndex = firstPageIndex + 5;
+
+    return listMusic.slice(firstPageIndex, lastPageIndex);
+  }, [listMusic, page])();
+
   return (
     <FormProvider {...formMethods}>
       <Flex justifyContent="space-between" bg="#0E0E0E" h="calc(100vh - 80px)">
@@ -51,9 +58,10 @@ export default function Search() {
             <InputDefault iconLeftElement={FiSearch} name="searchMusic" />
           </Box>
           <Pagination
-            nPages={20}
+            nPages={listMusic.length}
             currentPage={page}
             setCurrentPage={setPage}
+            itemsPerPage={5}
             tableHeaders={[
               {
                 key: "title",
@@ -74,7 +82,7 @@ export default function Search() {
                 pr: "20px",
               },
             ]}
-            renderTableRows={listMusic.map((music, index) => {
+            renderTableRows={currentTableData.map((music, index) => {
               return (
                 <>
                   <Tr

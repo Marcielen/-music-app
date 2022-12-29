@@ -14,7 +14,7 @@ import {
   Tr,
   useToken,
 } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { ReactNode, useCallback } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { PaginationItem } from "./PaginationItem";
 
@@ -23,7 +23,7 @@ interface PaginationProps {
   currentPage: number;
   nPages: number;
   asSiblingsCountFixed?: boolean;
-  isLoading?: boolean;
+  itemsPerPage: number;
   tableHeaders: TableHeader[];
   renderTableRows?: ReactNode;
   size?: ThemingProps["size"];
@@ -47,15 +47,19 @@ export const Pagination = ({
   nPages,
   currentPage,
   setCurrentPage,
-  isLoading,
   asSiblingsCountFixed,
   renderTableRows,
   tableHeaders,
+  itemsPerPage,
   size,
 }: PaginationProps) => {
   const formMethods = useForm();
 
-  const hasRows = nPages > 0;
+  const itemsTotalCount = useCallback(() => {
+    return Math.ceil(nPages / itemsPerPage);
+  }, [nPages, itemsPerPage])();
+
+  const hasRows = itemsTotalCount > 0;
   const lastPage = Math.floor(nPages / 10);
 
   let previousPagesFromSiblings = currentPage - 1 - siblingsCount;
@@ -78,8 +82,11 @@ export const Pagination = ({
       : [];
 
   const nextPages =
-    currentPage < lastPage
-      ? generatePagesArray(currentPage, Math.min(nextPagesToSiblings, lastPage))
+    currentPage < itemsTotalCount
+      ? generatePagesArray(
+          currentPage,
+          Math.min(nextPagesToSiblings, itemsTotalCount)
+        )
       : [];
 
   return (
@@ -187,7 +194,7 @@ export const Pagination = ({
                 ))}
 
               <PaginationItem
-                isDisabled={currentPage === nPages}
+                isDisabled={currentPage === itemsTotalCount}
                 onClick={() => setCurrentPage(currentPage + 1)}
               >
                 &raquo;
@@ -199,7 +206,7 @@ export const Pagination = ({
               h="32px"
               color="white"
               fontSize="11px"
-              onClick={() => setCurrentPage(nPages)}
+              onClick={() => setCurrentPage(itemsTotalCount)}
               borderWidth="2px"
               borderTopRightRadius="8px"
               borderBottomEndRadius="8px"
