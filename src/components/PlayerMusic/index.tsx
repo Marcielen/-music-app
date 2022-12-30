@@ -216,8 +216,9 @@ export const PlayerMusic = () => {
             alignItems="center"
           >
             <Text fontSize="10px" mr="15px" color="white">
-              {convertDurationToTimeString(durationMusic)}
+              {convertDurationToTimeString(progressMusic)}
             </Text>
+
             <Slider
               aria-label="player-slider"
               colorScheme="secondary"
@@ -226,8 +227,8 @@ export const PlayerMusic = () => {
               value={progressMusic}
               onChange={handleSeek}
             >
-              <SliderTrack borderRadius="full">
-                <SliderFilledTrack bg="gray.600" />
+              <SliderTrack bg="gray.600" borderRadius="full">
+                <SliderFilledTrack bg="white" />
               </SliderTrack>
               <SliderThumb
                 boxSize={4}
@@ -240,7 +241,7 @@ export const PlayerMusic = () => {
             </Slider>
 
             <Text fontSize="10px" ml="15px" color="white">
-              {convertDurationToTimeString(progressMusic)}
+              {convertDurationToTimeString(durationMusic)}
             </Text>
           </Flex>
         </Box>
