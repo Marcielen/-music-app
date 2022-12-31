@@ -1,58 +1,40 @@
 import {
   Box,
-  Button,
   Text,
-  Input,
   Image,
   Flex,
   Icon,
   HStack,
-  Progress,
-  RangeSlider,
-  RangeSliderTrack,
-  RangeSliderFilledTrack,
-  RangeSliderThumb,
   Slider,
   SliderTrack,
   SliderThumb,
   SliderFilledTrack,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useMusicContext } from "store/contextMusic";
-import {
-  AiFillCaretRight,
-  AiFillPauseCircle,
-  AiFillFastForward,
-  AiFillPlayCircle,
-  AiFillFastBackward,
-} from "react-icons/ai";
-
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill } from "react-icons/bs";
-import { AleatoryMusicIcon, RepeatMusicIcon } from "icons";
 import { MdGraphicEq } from "react-icons/md";
 
-export const PlayerMusic = () => {
-  const { selectedMusic } = useMusicContext();
+import { useMusicContext } from "store/contextMusic";
 
-  const [isMusicActive, setIsMusicActive] = useState(false);
-  const [isLoopMusic, setIsLoopMusic] = useState(false);
-  const [progressMusic, setProgressMusic] = useState(0);
-  const [durationMusic, setDurationMusic] = useState(0);
+import { ControlMusic } from "./ControlMusic";
+
+export const PlayerMusic = () => {
   const [musicHasSound, setMusicHasSound] = useState(true);
-  const [valueVolumeMusic, setValueVolumeMusic] = useState(1);
 
   const audioRef = useRef<HTMLAudioElement>(null);
+  const valueVolumeMusic = useRef(1);
 
-  const handleisMusicActive = useCallback(() => {
-    setIsMusicActive(!isMusicActive);
-  }, [isMusicActive]);
-
-  const handleisMusicLoop = useCallback(() => {
-    setIsLoopMusic(!isLoopMusic);
-  }, [isLoopMusic]);
+  const {
+    selectedMusic,
+    isLoopMusic,
+    isMusicActive,
+    setIsMusicActive,
+    setProgressMusic,
+    setDurationMusic,
+  } = useMusicContext();
 
   const handleVolumeMusic = useCallback((volume: number) => {
-    setValueVolumeMusic(volume);
+    valueVolumeMusic.current = volume;
     if (audioRef.current?.volume) {
       audioRef.current.volume = volume;
     }
@@ -61,6 +43,13 @@ export const PlayerMusic = () => {
   const handleMusicHasSound = useCallback(() => {
     setMusicHasSound(!musicHasSound);
   }, [musicHasSound]);
+
+  const handleSeek = (amount: number) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = amount;
+      setProgressMusic(amount);
+    }
+  };
 
   function progressMusicPlayer() {
     if (audioRef.current) {
@@ -72,25 +61,8 @@ export const PlayerMusic = () => {
     }
   }
 
-  function convertDurationToTimeString(duration: number) {
-    const minutes = Math.floor((duration % 3600) / 60);
-    const seconds = duration % 60;
-
-    const finalResult = [minutes, seconds]
-      .map((unit) => String(unit).padStart(2, "0"))
-      .join(":");
-
-    return finalResult;
-  }
-
-  function handleSeek(amount: number) {
-    if (audioRef.current) {
-      audioRef.current.currentTime = amount;
-      setProgressMusic(amount);
-    }
-  }
-
   useEffect(() => {
+    console.log("oi");
     if (isMusicActive) {
       audioRef.current?.play();
     } else {
@@ -99,10 +71,9 @@ export const PlayerMusic = () => {
   }, [isMusicActive]);
 
   useEffect(() => {
-    console.log(musicHasSound);
     if (audioRef.current?.volume || audioRef.current?.volume === 0) {
       if (musicHasSound) {
-        audioRef.current.volume = valueVolumeMusic;
+        audioRef.current.volume = valueVolumeMusic.current;
       } else {
         audioRef.current.volume = 0;
       }
@@ -154,97 +125,7 @@ export const PlayerMusic = () => {
             </Box>
           </Flex>
         )}
-        <Box>
-          <HStack
-            pr="20px"
-            mt="10px"
-            spacing="10px"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Icon
-              color="white"
-              boxSize="15px"
-              cursor="not-allowed"
-              as={AleatoryMusicIcon}
-            />
-            <Icon
-              color="white"
-              boxSize="20px"
-              cursor="not-allowed"
-              as={AiFillFastBackward}
-            />
-            <Icon
-              color="white"
-              boxSize="40px"
-              cursor="pointer"
-              onClick={() => handleisMusicActive()}
-              as={isMusicActive ? AiFillPauseCircle : AiFillPlayCircle}
-            />
-            <Icon
-              cursor="not-allowed"
-              color="white"
-              boxSize="20px"
-              as={AiFillFastForward}
-            />
-            <Box position="relative">
-              <Icon
-                color="white"
-                cursor="pointer"
-                onClick={() => handleisMusicLoop()}
-                boxSize="17px"
-                mt="-3px"
-                as={RepeatMusicIcon}
-              />
-              {isLoopMusic && (
-                <Text
-                  fontSize="5px"
-                  left="7px"
-                  top="8.8px"
-                  position="absolute"
-                  color="white"
-                >
-                  1
-                </Text>
-              )}
-            </Box>
-          </HStack>
-          <Flex
-            w="500px"
-            ml="-10px"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Text fontSize="10px" mr="15px" color="white">
-              {convertDurationToTimeString(progressMusic)}
-            </Text>
-
-            <Slider
-              aria-label="player-slider"
-              colorScheme="secondary"
-              max={durationMusic}
-              isDisabled={!selectedMusic.musicUrl}
-              value={progressMusic}
-              onChange={handleSeek}
-            >
-              <SliderTrack bg="gray.600" borderRadius="full">
-                <SliderFilledTrack bg="white" />
-              </SliderTrack>
-              <SliderThumb
-                boxSize={4}
-                borderWidth="3px"
-                borderColor="secondary.500"
-                _focus={{ boxShadow: "none" }}
-              >
-                <Box color="gray" as={MdGraphicEq} />
-              </SliderThumb>
-            </Slider>
-
-            <Text fontSize="10px" ml="15px" color="white">
-              {convertDurationToTimeString(durationMusic)}
-            </Text>
-          </Flex>
-        </Box>
+        <ControlMusic handleSeek={handleSeek} />
         {selectedMusic.musicUrl && (
           <HStack
             w="100px"
@@ -268,8 +149,8 @@ export const PlayerMusic = () => {
               min={1}
               defaultValue={100}
             >
-              <SliderTrack bg="gray.200">
-                <SliderFilledTrack bg="gray.600" />
+              <SliderTrack bg="gray.600">
+                <SliderFilledTrack bg="white" />
               </SliderTrack>
               <SliderThumb>
                 <Box color="gray" as={MdGraphicEq} />

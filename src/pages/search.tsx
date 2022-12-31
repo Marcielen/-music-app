@@ -148,8 +148,6 @@ export default function Search() {
           />
         </Box>
       </Flex>
-
-      <PlayerMusic />
     </FormProvider>
   );
 }

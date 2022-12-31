@@ -6,6 +6,7 @@ import { HeadNext } from "../components/Head";
 import theme from "../styles/theme";
 import "styles/style.css";
 import MusicProvider from "store/contextMusic";
+import { PlayerMusic } from "components/PlayerMusic";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -13,6 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <MusicProvider>
         <HeadNext />
         <Component {...pageProps} />
+        <PlayerMusic />
       </MusicProvider>
     </ChakraProvider>
   );
