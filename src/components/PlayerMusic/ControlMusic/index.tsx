@@ -35,6 +35,8 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
     handleIsMusicLoop,
     progressMusic,
     durationMusic,
+    handleNextMusic,
+    handlePreviousMusic,
   } = useMusicContext();
 
   return (
@@ -55,7 +57,11 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
         <Icon
           color="white"
           boxSize="20px"
-          cursor="not-allowed"
+          cursor="pointer"
+          _hover={{
+            color: "primary",
+          }}
+          onClick={() => handlePreviousMusic()}
           as={AiFillFastBackward}
         />
         <Icon
@@ -66,9 +72,13 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           as={isMusicActive ? AiFillPauseCircle : AiFillPlayCircle}
         />
         <Icon
-          cursor="not-allowed"
+          cursor="pointer"
           color="white"
           boxSize="20px"
+          _hover={{
+            color: "primary",
+          }}
+          onClick={() => handleNextMusic()}
           as={AiFillFastForward}
         />
         <Box position="relative">

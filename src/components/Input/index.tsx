@@ -64,7 +64,7 @@ export const InputDefault = ({
               h="40px"
               fontSize="md"
               onChange={onChange}
-              checked={value}
+              value={value}
               name={name}
               id={name}
             />

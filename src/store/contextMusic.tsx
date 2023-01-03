@@ -22,6 +22,7 @@ export type ListMusicProps = {
   imageAlbum: string;
   musicUrl: string;
   nameMusic: string;
+  isActive: boolean;
 };
 
 interface MusicContextProps {
@@ -39,6 +40,8 @@ interface MusicContextProps {
   isMusicActive: boolean;
   handleIsMusicLoop: () => void;
   handleIsMusicActive: () => void;
+  handleNextMusic: () => void;
+  handlePreviousMusic: () => void;
 }
 
 const MusicContext = createContext<MusicContextProps>({} as MusicContextProps);
@@ -67,14 +70,39 @@ export default function MusicProvider({
     setIsLoopMusic(!isLoopMusic);
   }, [isLoopMusic]);
 
+  const handleNextMusic = useCallback(() => {
+    const indexMusicSelected = listMusic.findIndex(
+      (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
+    );
+
+    if (indexMusicSelected + 1 === listMusic.length) {
+      setSelectedMusic(listMusic[0]);
+    } else {
+      setSelectedMusic(listMusic[indexMusicSelected + 1]);
+    }
+    setIsMusicActive(true);
+  }, [listMusic, selectedMusic]);
+
+  const handlePreviousMusic = useCallback(() => {
+    const indexMusicSelected = listMusic.findIndex(
+      (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
+    );
+
+    if (indexMusicSelected + 1 === 1) {
+      setSelectedMusic(listMusic[listMusic.length - 1]);
+    } else {
+      setSelectedMusic(listMusic[indexMusicSelected - 1]);
+    }
+    setIsMusicActive(true);
+  }, [listMusic, selectedMusic]);
+
   useEffect(() => {
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const q = query(collection(db, "music"));
     onSnapshot(q, (snapshot) => {
       snapshot.forEach((doc) => {
-        // @ts-ignore
-        const data: ListMusicProps = doc.data();
+        const data = doc.data() as ListMusicProps;
         setListMusic((valueListMusic) => {
           const musicIsAlreadyAdded = valueListMusic.some(
             (validateValue) => validateValue.musicUrl === data.musicUrl
@@ -106,6 +134,8 @@ export default function MusicProvider({
         setSelectedMusic,
         isLoopMusic,
         handleIsMusicLoop,
+        handleNextMusic,
+        handlePreviousMusic,
       }}
     >
       {children}

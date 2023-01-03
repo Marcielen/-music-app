@@ -20,18 +20,33 @@ import { Pagination } from "components/Pagination";
 import { MdQueryBuilder } from "react-icons/md";
 
 import { AiFillCaretRight, AiFillPauseCircle } from "react-icons/ai";
-import { ListMusicProps, useMusicContext } from "store/contextMusic";
+import { useMusicContext } from "store/contextMusic";
 
 export default function Search() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
   const [page, setPage] = useState(1);
-  const [isMusicActive, setIsMusicActive] = useState(-1);
 
-  const formMethods = useForm();
-  const { setSelectedMusic, listMusic } = useMusicContext();
+  const formMethods = useForm({
+    defaultValues: {
+      searchMusic: "",
+    },
+  });
+  const { watch } = formMethods;
 
-  function handleMusicActive(index: number) {
-    setIsMusicActive(isMusicActive === index ? -1 : index);
+  const searchMusicWatch = watch("searchMusic");
+
+  console.log(searchMusicWatch);
+
+  const { setSelectedMusic, listMusic, setListMusic, setIsMusicActive } =
+    useMusicContext();
+
+  function handleMusicActive(url: string) {
+    setListMusic((previousValue) => {
+      return previousValue.map((music) => ({
+        ...music,
+        isActive: music.musicUrl === url ? !music.isActive : false,
+      }));
+    });
   }
 
   const currentTableData = useCallback(() => {
@@ -41,9 +56,23 @@ export default function Search() {
     return listMusic.slice(firstPageIndex, lastPageIndex);
   }, [listMusic, page])();
 
+  const handleSearch = () =>
+    currentTableData.filter((obj) =>
+      Object.values(obj)
+        .flat()
+        .some((v) =>
+          `${v}`.toLowerCase().includes(`${searchMusicWatch}`.toLowerCase())
+        )
+    );
+  console.log(handleSearch());
   return (
     <FormProvider {...formMethods}>
-      <Flex justifyContent="space-between" bg="#0E0E0E" h="calc(100vh - 80px)">
+      <Flex
+        zIndex="2"
+        justifyContent="space-between"
+        bg="#0E0E0E"
+        h="calc(100vh - 80px)"
+      >
         <Box bg="red" h="full" maxWidth="200px">
           <Menu setMenuIsOpen={setMenuIsOpen} />
         </Box>
@@ -55,7 +84,11 @@ export default function Search() {
           w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
         >
           <Box w="350px">
-            <InputDefault iconLeftElement={FiSearch} name="searchMusic" />
+            <InputDefault
+              autoFocus
+              iconLeftElement={FiSearch}
+              name="searchMusic"
+            />
           </Box>
           <Pagination
             nPages={listMusic.length}
@@ -87,7 +120,8 @@ export default function Search() {
                 <>
                   <Tr
                     onClick={() => {
-                      handleMusicActive(index);
+                      handleMusicActive(music.musicUrl);
+                      setIsMusicActive(music.isActive ? !music.isActive : true);
                       setSelectedMusic(music);
                     }}
                     cursor="pointer"
@@ -102,7 +136,7 @@ export default function Search() {
                             ml="-30px"
                             mr="15px"
                             as={
-                              isMusicActive === index
+                              music.isActive
                                 ? AiFillPauseCircle
                                 : AiFillCaretRight
                             }

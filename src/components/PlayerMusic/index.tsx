@@ -29,8 +29,10 @@ export const PlayerMusic = () => {
     isLoopMusic,
     isMusicActive,
     setIsMusicActive,
+    setListMusic,
     setProgressMusic,
     setDurationMusic,
+    handleNextMusic,
   } = useMusicContext();
 
   const handleVolumeMusic = useCallback((volume: number) => {
@@ -62,13 +64,20 @@ export const PlayerMusic = () => {
   }
 
   useEffect(() => {
-    console.log("oi");
     if (isMusicActive) {
       audioRef.current?.play();
     } else {
       audioRef.current?.pause();
     }
-  }, [isMusicActive]);
+
+    setListMusic((previousValue) => {
+      return previousValue.map((music) => ({
+        ...music,
+        isActive:
+          music.musicUrl === selectedMusic.musicUrl ? isMusicActive : false,
+      }));
+    });
+  }, [isMusicActive, selectedMusic, setListMusic]);
 
   useEffect(() => {
     if (audioRef.current?.volume || audioRef.current?.volume === 0) {
@@ -95,9 +104,7 @@ export const PlayerMusic = () => {
           setIsMusicActive(false);
         }}
         onLoadedMetadata={progressMusicPlayer}
-
-        /*  onEnded={}
-            onLoadedMetadata={} */
+        onEnded={() => handleNextMusic()}
       />
       <Flex
         h="full"
