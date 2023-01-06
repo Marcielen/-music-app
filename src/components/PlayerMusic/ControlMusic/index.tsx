@@ -115,6 +115,7 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           isDisabled={!selectedMusic.musicUrl}
           value={progressMusic}
           onChange={handleSeek}
+          focusThumbOnChange={false}
         >
           <SliderTrack bg="gray.600" borderRadius="full">
             <SliderFilledTrack

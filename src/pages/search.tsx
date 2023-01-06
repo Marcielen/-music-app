@@ -35,8 +35,6 @@ export default function Search() {
 
   const searchMusicWatch = watch("searchMusic");
 
-  console.log(searchMusicWatch);
-
   const { setSelectedMusic, listMusic, setListMusic, setIsMusicActive } =
     useMusicContext();
 
@@ -65,6 +63,7 @@ export default function Search() {
         )
     );
   console.log(handleSearch());
+
   return (
     <FormProvider {...formMethods}>
       <Flex

@@ -1,8 +1,8 @@
-import { Box, Button, Flex, Icon } from "@chakra-ui/react";
+import { useState } from "react";
+import { Box, Flex } from "@chakra-ui/react";
 import { GenresMusic } from "components/GenresMusic";
 import { PlayerMusic } from "components/PlayerMusic";
 
-import { useState } from "react";
 import { Menu } from "../components/Menu";
 
 export default function Home() {
