@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Divider,
   Flex,
   Icon,
@@ -10,14 +9,11 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { InputDefault } from "components/Input";
-import { PlayerMusic } from "components/PlayerMusic";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Menu } from "../components/Menu";
 import { FiSearch } from "react-icons/fi";
 import { Pagination } from "components/Pagination";
-import { MdQueryBuilder } from "react-icons/md";
 
 import { AiFillCaretRight, AiFillPauseCircle } from "react-icons/ai";
 import { useMusicContext } from "store/contextMusic";
@@ -54,15 +50,17 @@ export default function Search() {
     return listMusic.slice(firstPageIndex, lastPageIndex);
   }, [listMusic, page])();
 
-  const handleSearch = () =>
-    currentTableData.filter((obj) =>
-      Object.values(obj)
+  const filterMusic = () =>
+    currentTableData.filter((valueMusic) =>
+      Object.values(valueMusic)
         .flat()
-        .some((v) =>
-          `${v}`.toLowerCase().includes(`${searchMusicWatch}`.toLowerCase())
+        .some((nameMusic) =>
+          `${nameMusic}`
+            .toLowerCase()
+            .includes(`${searchMusicWatch}`.toLowerCase())
         )
     );
-  console.log(handleSearch());
+  const ListMusic = filterMusic();
 
   return (
     <FormProvider {...formMethods}>
@@ -82,7 +80,7 @@ export default function Search() {
           transition="all ease 1.5s"
           w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
         >
-          <Box w="350px">
+          <Box w={["full", "full", "350px"]}>
             <InputDefault
               autoFocus
               iconLeftElement={FiSearch}
@@ -114,7 +112,7 @@ export default function Search() {
                 pr: "20px",
               },
             ]}
-            renderTableRows={currentTableData.map((music, index) => {
+            renderTableRows={ListMusic.map((music, index) => {
               return (
                 <>
                   <Tr
