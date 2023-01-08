@@ -1,21 +1,34 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { GetStaticProps } from "next";
+import { GetStaticProps, NextPage } from "next";
 import type { AppProps } from "next/app";
+import { AppLayout } from "components/Layout/App/index";
 
 import { HeadNext } from "../components/Head";
 import theme from "../styles/theme";
 import "styles/style.css";
-import MusicProvider from "store/contextMusic";
-import { PlayerMusic } from "components/PlayerMusic";
+import { Auth } from "components/Layout/Auth";
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageLayout = NextPage & {
+  layout: "auth" | "app";
+};
+
+type AppPropsLayout = AppProps & {
+  Component: NextPageLayout;
+};
+
+const AppLayouts = {
+  app: AppLayout,
+  auth: Auth,
+};
+
+export default function App({ Component, pageProps }: AppPropsLayout) {
+  const Layout = AppLayouts[Component.layout || "app"];
   return (
     <ChakraProvider theme={theme}>
-      <MusicProvider>
-        <HeadNext />
+      <HeadNext />
+      <Layout>
         <Component {...pageProps} />
-        <PlayerMusic />
-      </MusicProvider>
+      </Layout>
     </ChakraProvider>
   );
 }

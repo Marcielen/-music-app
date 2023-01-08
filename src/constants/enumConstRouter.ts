@@ -1,4 +1,5 @@
 export const EnumConstRouter = {
-  HOME: "/",
+  LOGIN: "/",
+  HOME: "/home",
   SEARCH: "/search",
 };
