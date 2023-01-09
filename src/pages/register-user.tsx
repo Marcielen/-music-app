@@ -6,7 +6,7 @@ import { InputDefault } from "components/Input";
 import { useRouter } from "next/router";
 import { EnumConstRouter } from "constants/enumConstRouter";
 
-const Login: NextPageLayout = () => {
+const RegisterUser: NextPageLayout = () => {
   const formMethods = useForm();
 
   const router = useRouter();
@@ -15,7 +15,7 @@ const Login: NextPageLayout = () => {
     <Box w="full">
       <FormProvider {...formMethods}>
         <Text mb="10px" color="white" fontSize="12px">
-          Enter the information you entered while registering
+          Inform your records and register!
         </Text>
         <VStack spacing="20px" w="320px">
           <InputDefault
@@ -39,12 +39,12 @@ const Login: NextPageLayout = () => {
         </VStack>
         <Button
           mt="10px"
+          onClick={() => router.push(EnumConstRouter.LOGIN)}
           fontSize="12px"
           color="white"
-          onClick={() => router.push(EnumConstRouter.REGISTER_USER)}
           variant="link"
         >
-          Register here!
+          Back to login
         </Button>
         <Button
           bgGradient="linear(to-r, secondary.500, primary.900)"
@@ -55,14 +55,13 @@ const Login: NextPageLayout = () => {
           color="white"
           variant=""
           w="full"
-          onClick={() => router.push(EnumConstRouter.HOME)}
         >
-          Login
+          Register
         </Button>
       </FormProvider>
     </Box>
   );
 };
 
-Login.layout = "auth";
-export default Login;
+RegisterUser.layout = "auth";
+export default RegisterUser;

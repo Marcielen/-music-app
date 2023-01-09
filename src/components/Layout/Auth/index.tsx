@@ -26,9 +26,6 @@ export const Auth = ({ children }: AuthProps) => {
         <Text color="white" fontWeight="black" fontSize="16px">
           Hey, hello 👋
         </Text>
-        <Text mb="20px" color="white" fontSize="12px">
-          Enter the information you entered while registering
-        </Text>
         {children}
       </Box>
     </Flex>

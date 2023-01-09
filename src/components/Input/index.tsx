@@ -28,6 +28,7 @@ export const InputDefault = ({
   placeholder,
   borderRadius = "50px",
   bg = "white",
+  color = "black",
   iconLeftElement,
 }: InputDefaultProps) => {
   return (
@@ -71,7 +72,7 @@ export const InputDefault = ({
                 }}
                 borderColor="primary.100"
                 borderWidth="2px"
-                color="black"
+                color={color}
                 h="40px"
                 fontSize="md"
                 onChange={onChange}
