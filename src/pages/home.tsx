@@ -14,6 +14,7 @@ export default function Home() {
       setTeste((valorAnterior) => valorAnterior + 1);
     };
   }, []);
+  console.log(teste);
 
   return (
     <>
