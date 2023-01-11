@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 import { GenresMusic } from "components/GenresMusic";
 import { PlayerMusic } from "components/PlayerMusic";
@@ -7,6 +7,10 @@ import { Menu } from "../components/Menu";
 
 export default function Home() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
+
+  useEffect(() => {
+    console.log("09");
+  }, []);
 
   return (
     <>
