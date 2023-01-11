@@ -7,10 +7,13 @@ import { Menu } from "../components/Menu";
 
 export default function Home() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
+  const [teste, setTeste] = useState(0);
 
   useEffect(() => {
-    console.log("09");
+    setTeste((valorAnterior) => valorAnterior + 1);
   }, []);
+
+  console.log(teste);
 
   return (
     <>
