@@ -10,6 +10,9 @@ export default function Home() {
   const [teste, setTeste] = useState(0);
 
   useEffect(() => {
+    if (process.env.NODE_ENV !== "development") {
+      setTeste((valorAnterior) => valorAnterior + 1);
+    }
     return () => {
       setTeste((valorAnterior) => valorAnterior + 1);
     };
