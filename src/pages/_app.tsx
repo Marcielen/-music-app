@@ -1,12 +1,15 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import "react-toastify/dist/ReactToastify.css";
 import { GetStaticProps, NextPage } from "next";
 import type { AppProps } from "next/app";
-import { AppLayout } from "components/Layout/App/index";
+import { ToastContainer } from "react-toastify";
 
+import { AppLayout } from "components/Layout/App/index";
 import { HeadNext } from "../components/Head";
+import { Auth } from "components/Layout/Auth";
+
 import theme from "../styles/theme";
 import "styles/style.css";
-import { Auth } from "components/Layout/Auth";
 
 export type NextPageLayout = NextPage & {
   layout: "auth" | "app";
@@ -29,6 +32,7 @@ export default function App({ Component, pageProps }: AppPropsLayout) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
+      <ToastContainer />
     </ChakraProvider>
   );
 }

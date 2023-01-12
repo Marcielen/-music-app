@@ -5,11 +5,29 @@ import { FormProvider, useForm } from "react-hook-form";
 import { InputDefault } from "components/Input";
 import { useRouter } from "next/router";
 import { EnumConstRouter } from "constants/enumConstRouter";
+import * as firebase from "firebase/auth";
+import { firebaseAuth } from "services/firebase";
+import { toast } from "react-toastify";
 
 const Login: NextPageLayout = () => {
   const formMethods = useForm();
 
+  const { handleSubmit } = formMethods;
+
   const router = useRouter();
+
+  const handleSignIn = handleSubmit((data) => {
+    const { email, password } = data;
+
+    firebase
+      .signInWithEmailAndPassword(firebaseAuth, email, password)
+      .then(() => {
+        router.push(EnumConstRouter.SEARCH);
+      })
+      .catch(() => {
+        toast.warning("error");
+      });
+  });
 
   return (
     <Box w="full">
@@ -34,7 +52,7 @@ const Login: NextPageLayout = () => {
             placeholder="Type your password"
             color="white"
             borderRadius="10px"
-            name="senha"
+            name="password"
           />
         </VStack>
         <Button
@@ -55,7 +73,7 @@ const Login: NextPageLayout = () => {
           color="white"
           variant=""
           w="full"
-          onClick={() => router.push(EnumConstRouter.HOME)}
+          onClick={() => handleSignIn()}
         >
           Login
         </Button>

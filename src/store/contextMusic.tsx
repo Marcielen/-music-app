@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { initializeApp } from "firebase/app";
 import {
   collection,
   getFirestore,
@@ -13,7 +12,7 @@ import {
   query,
 } from "firebase/firestore";
 
-import { firebaseConfig } from "services/firebase";
+import { firebaseApp } from "services/firebase";
 
 export type ListMusicProps = {
   album: string;
@@ -97,8 +96,7 @@ export default function MusicProvider({
   }, [listMusic, selectedMusic]);
 
   useEffect(() => {
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const db = getFirestore(firebaseApp);
     const q = query(collection(db, "music"));
     onSnapshot(q, (snapshot) => {
       snapshot.forEach((doc) => {

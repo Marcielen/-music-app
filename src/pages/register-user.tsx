@@ -1,15 +1,35 @@
 import { Box, VStack, Button, Text } from "@chakra-ui/react";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 import { NextPageLayout } from "./_app";
 import { FormProvider, useForm } from "react-hook-form";
 import { InputDefault } from "components/Input";
 import { useRouter } from "next/router";
 import { EnumConstRouter } from "constants/enumConstRouter";
+import { toast } from "react-toastify";
+import { firebaseAuth } from "services/firebase";
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 const RegisterUser: NextPageLayout = () => {
-  const formMethods = useForm();
+  const formMethods = useForm<FormData>();
+  const { handleSubmit } = formMethods;
 
   const router = useRouter();
+
+  const [createUserWithEmailAndPassword] =
+    useCreateUserWithEmailAndPassword(firebaseAuth);
+
+  const handleSignOut = handleSubmit((data) => {
+    const { email, password } = data;
+
+    createUserWithEmailAndPassword(email, password);
+    router.push(EnumConstRouter.LOGIN);
+    toast.success("Your records have been saved successfully");
+  });
 
   return (
     <Box w="full">
@@ -34,7 +54,7 @@ const RegisterUser: NextPageLayout = () => {
             placeholder="Type your password"
             color="white"
             borderRadius="10px"
-            name="senha"
+            name="password"
           />
         </VStack>
         <Button
@@ -55,6 +75,7 @@ const RegisterUser: NextPageLayout = () => {
           color="white"
           variant=""
           w="full"
+          onClick={() => handleSignOut()}
         >
           Register
         </Button>

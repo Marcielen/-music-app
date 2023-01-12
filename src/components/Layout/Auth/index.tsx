@@ -1,4 +1,5 @@
 import { Flex, Icon, Box, Text } from "@chakra-ui/react";
+
 import { LogoIcon } from "icons";
 
 type AuthProps = {
