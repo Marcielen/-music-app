@@ -1,13 +1,15 @@
 import { Box, VStack, Button, Text } from "@chakra-ui/react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { FormProvider, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { firebaseAuth } from "services/firebase";
+
+import { InputDefault } from "components/Input";
 
 import { NextPageLayout } from "./_app";
-import { FormProvider, useForm } from "react-hook-form";
-import { InputDefault } from "components/Input";
-import { useRouter } from "next/router";
-import { EnumConstRouter } from "constants/enumConstRouter";
-import { toast } from "react-toastify";
-import { firebaseAuth } from "services/firebase";
 
 type FormData = {
   email: string;

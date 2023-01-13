@@ -1,11 +1,11 @@
+import { ToastContainer } from "react-toastify";
 import { ChakraProvider } from "@chakra-ui/react";
-import "react-toastify/dist/ReactToastify.css";
 import { GetStaticProps, NextPage } from "next";
 import type { AppProps } from "next/app";
-import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { AppLayout } from "components/Layout/App/index";
-import { HeadNext } from "../components/Head";
+import { HeadNext } from "components/Head";
 import { Auth } from "components/Layout/Auth";
 
 import theme from "../styles/theme";

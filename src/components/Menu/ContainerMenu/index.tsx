@@ -1,12 +1,4 @@
-import {
-  Box,
-  ComponentWithAs,
-  Flex,
-  FlexProps,
-  Icon,
-  IconProps,
-  BoxProps,
-} from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 
 interface ContainerMenuProps extends BoxProps {
   transform: string;

@@ -8,15 +8,16 @@ import {
   Text,
   Tr,
 } from "@chakra-ui/react";
-import { InputDefault } from "components/Input";
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { Menu } from "../components/Menu";
 import { FiSearch } from "react-icons/fi";
-import { Pagination } from "components/Pagination";
-
 import { AiFillCaretRight, AiFillPauseCircle } from "react-icons/ai";
+
 import { useMusicContext } from "store/contextMusic";
+
+import { InputDefault } from "components/Input";
+import { Menu } from "components/Menu";
+import { Pagination } from "components/Pagination";
 
 export default function Search() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);

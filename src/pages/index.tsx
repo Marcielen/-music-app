@@ -1,13 +1,15 @@
 import { Box, VStack, Button, Text } from "@chakra-ui/react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import * as firebase from "firebase/auth";
+
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { firebaseAuth } from "services/firebase";
+
+import { InputDefault } from "components/Input";
 
 import { NextPageLayout } from "./_app";
-import { FormProvider, useForm } from "react-hook-form";
-import { InputDefault } from "components/Input";
-import { useRouter } from "next/router";
-import { EnumConstRouter } from "constants/enumConstRouter";
-import * as firebase from "firebase/auth";
-import { firebaseAuth } from "services/firebase";
-import { toast } from "react-toastify";
 
 const Login: NextPageLayout = () => {
   const formMethods = useForm();
