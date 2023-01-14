@@ -1,6 +1,7 @@
 export const EnumConstRouter = {
   LOGIN: "/",
   HOME: "/home",
-  SEARCH: "/search",
+  COLLECTIONS: "/collections",
   REGISTER_USER: "/register-user",
+  CREATE_MUSIC: "/create-music",
 };

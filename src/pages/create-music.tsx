@@ -1,12 +1,9 @@
-import { useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
-
-import { GenresMusic } from "components/GenresMusic";
 import { Menu } from "components/Menu";
+import { useState } from "react";
 
-export default function Home() {
+export default function CreateMusic() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
-
   return (
     <Flex justifyContent="space-between" bg="#0E0E0E" h="calc(100vh - 80px)">
       <Menu setMenuIsOpen={setMenuIsOpen} />
@@ -17,7 +14,7 @@ export default function Home() {
         transition="all ease 1.5s"
         w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
       >
-        <GenresMusic />
+        hi
       </Box>
     </Flex>
   );

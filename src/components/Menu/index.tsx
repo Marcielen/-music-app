@@ -6,6 +6,7 @@ import { HomeIcon, LogoIcon, LogoIconSmall, SearchIcon } from "icons";
 import { ContainerMenu } from "./ContainerMenu";
 import { useRouter } from "next/router";
 import { EnumConstRouter } from "constants/enumConstRouter";
+import { FiMusic } from "react-icons/fi";
 
 type MenuProps = {
   setMenuIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -34,7 +35,13 @@ export const Menu = ({ setMenuIsOpen }: MenuProps) => {
           justifyContent="center"
           alignItems="center"
         >
-          <Icon cursor="pointer" w="38px" h="50px" as={LogoIconSmall} />
+          <Icon
+            cursor="pointer"
+            w="38px"
+            h="50px"
+            /*  color="#FBB6CE" */
+            as={LogoIconSmall}
+          />
         </Flex>
         <Flex
           _hover={{
@@ -61,10 +68,17 @@ export const Menu = ({ setMenuIsOpen }: MenuProps) => {
           pt="10px"
           pb="10px"
           pl="10px"
-          onClick={() => router.push(EnumConstRouter.SEARCH)}
+          onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
           justifyContent="center"
         >
-          <Icon mr="15px" cursor="pointer" w="30px" h="25px" as={SearchIcon} />
+          <Icon
+            mr="15px"
+            cursor="pointer"
+            w="30px"
+            h="25px"
+            color="white"
+            as={FiMusic}
+          />
         </Flex>
       </ContainerMenu>
 
@@ -110,11 +124,18 @@ export const Menu = ({ setMenuIsOpen }: MenuProps) => {
           pt="10px"
           pb="10px"
           pl="15px"
-          onClick={() => router.push(EnumConstRouter.SEARCH)}
+          onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
         >
-          <Icon mr="15px" cursor="pointer" w="30px" h="25px" as={SearchIcon} />
+          <Icon
+            mr="15px"
+            cursor="pointer"
+            w="30px"
+            h="25px"
+            color="white"
+            as={FiMusic}
+          />
           <Text color="white" fontSize="14px" fontWeight="bold">
-            Search
+            Collections
           </Text>
         </Flex>
       </ContainerMenu>

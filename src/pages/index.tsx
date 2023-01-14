@@ -24,7 +24,7 @@ const Login: NextPageLayout = () => {
     firebase
       .signInWithEmailAndPassword(firebaseAuth, email, password)
       .then(() => {
-        router.push(EnumConstRouter.SEARCH);
+        router.push(EnumConstRouter.COLLECTIONS);
       })
       .catch(() => {
         toast.warning("error");
@@ -54,6 +54,7 @@ const Login: NextPageLayout = () => {
             placeholder="Type your password"
             color="white"
             borderRadius="10px"
+            isPassword
             name="password"
           />
         </VStack>
@@ -67,7 +68,7 @@ const Login: NextPageLayout = () => {
           Register here!
         </Button>
         <Button
-          bgGradient="linear(to-r, secondary.500, primary.900)"
+          bg="#ed64a6"
           _hover={{
             opacity: "0.8",
           }}

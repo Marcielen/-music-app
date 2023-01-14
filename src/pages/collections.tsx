@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   Flex,
   Icon,
@@ -11,6 +12,7 @@ import {
 import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
+import { RiPlayListFill } from "react-icons/ri";
 import { AiFillCaretRight, AiFillPauseCircle } from "react-icons/ai";
 
 import { useMusicContext } from "store/contextMusic";
@@ -18,6 +20,8 @@ import { useMusicContext } from "store/contextMusic";
 import { InputDefault } from "components/Input";
 import { Menu } from "components/Menu";
 import { Pagination } from "components/Pagination";
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { useRouter } from "next/router";
 
 export default function Search() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
@@ -31,6 +35,7 @@ export default function Search() {
   const { watch } = formMethods;
 
   const searchMusicWatch = watch("searchMusic");
+  const router = useRouter();
 
   const { setSelectedMusic, listMusic, setListMusic, setIsMusicActive } =
     useMusicContext();
@@ -81,13 +86,28 @@ export default function Search() {
           transition="all ease 1.5s"
           w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
         >
-          <Box w={["full", "full", "350px"]}>
-            <InputDefault
-              autoFocus
-              iconLeftElement={FiSearch}
-              name="searchMusic"
-            />
-          </Box>
+          <Flex pl="15px" pr="15px" w="full" justifyContent="space-between">
+            <Box w={["full", "full", "350px"]}>
+              <InputDefault
+                autoFocus
+                borderRadius="10px"
+                iconLeftElement={FiSearch}
+                name="searchMusic"
+              />
+            </Box>
+            <Button
+              leftIcon={<Icon as={RiPlayListFill} />}
+              variant="solid"
+              bg="#ed64a6"
+              _hover={{
+                background: "ed64a6",
+              }}
+              w="200px"
+              onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
+            >
+              Create music
+            </Button>
+          </Flex>
           <Pagination
             nPages={listMusic.length}
             currentPage={page}
@@ -110,7 +130,7 @@ export default function Search() {
                 key: "timer",
                 content: "Genere",
                 justifyContent: "right",
-                pr: "20px",
+                pr: "10px",
               },
             ]}
             renderTableRows={ListMusic.map((music, index) => {

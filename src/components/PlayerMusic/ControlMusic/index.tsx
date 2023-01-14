@@ -65,8 +65,8 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           as={AiFillFastBackward}
         />
         <Icon
-          color="white"
           boxSize="40px"
+          color="white"
           cursor="pointer"
           onClick={() => handleIsMusicActive()}
           as={isMusicActive ? AiFillPauseCircle : AiFillPlayCircle}

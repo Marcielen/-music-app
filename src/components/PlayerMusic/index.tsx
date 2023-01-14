@@ -90,7 +90,7 @@ export const PlayerMusic = () => {
   }, [musicHasSound]);
 
   return (
-    <Box bg="#181818" h="80px">
+    <Box bg="#212121" h="80px">
       <audio
         src={`https://docs.google.com/uc?export=download&id=${selectedMusic.musicUrl}`}
         ref={audioRef}

@@ -56,6 +56,7 @@ const RegisterUser: NextPageLayout = () => {
             placeholder="Type your password"
             color="white"
             borderRadius="10px"
+            isPassword
             name="password"
           />
         </VStack>
@@ -69,7 +70,7 @@ const RegisterUser: NextPageLayout = () => {
           Back to login
         </Button>
         <Button
-          bgGradient="linear(to-r, secondary.500, primary.900)"
+          bg="#ed64a6"
           _hover={{
             opacity: "0.8",
           }}
