@@ -50,7 +50,7 @@ const Login: NextPageLayout = () => {
           <InputDefault
             colorLabel="white"
             label="Password"
-            bg="transparent"
+            background="transparent"
             placeholder="Type your password"
             color="white"
             borderRadius="10px"
