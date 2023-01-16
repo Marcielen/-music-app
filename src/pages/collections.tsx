@@ -98,7 +98,8 @@ export default function Search() {
             <Button
               leftIcon={<Icon as={RiPlayListFill} />}
               variant="solid"
-              bg="#ed64a6"
+              color="white"
+              bg="primary.500"
               _hover={{
                 background: "ed64a6",
               }}

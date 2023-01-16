@@ -10,6 +10,7 @@ import { firebaseAuth } from "services/firebase";
 import { InputDefault } from "components/Input";
 
 import { NextPageLayout } from "./_app";
+import { auth } from "Modules/auth";
 
 const Login: NextPageLayout = () => {
   const formMethods = useForm();
@@ -23,7 +24,8 @@ const Login: NextPageLayout = () => {
 
     firebase
       .signInWithEmailAndPassword(firebaseAuth, email, password)
-      .then(() => {
+      .then((value) => {
+        auth.setToken(value.user.getIdToken);
         router.push(EnumConstRouter.COLLECTIONS);
       })
       .catch(() => {
@@ -50,7 +52,7 @@ const Login: NextPageLayout = () => {
           <InputDefault
             colorLabel="white"
             label="Password"
-            background="transparent"
+            bg="transparent"
             placeholder="Type your password"
             color="white"
             borderRadius="10px"

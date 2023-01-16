@@ -32,7 +32,7 @@ export const InputDefault = ({
   colorLabel = "black",
   isRequired,
   placeholder,
-  borderRadius = "50px",
+  borderRadius = "10px",
   bg = "white",
   color = "black",
   iconLeftElement,
