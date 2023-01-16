@@ -5,14 +5,8 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import {
-  collection,
-  getFirestore,
-  onSnapshot,
-  query,
-} from "firebase/firestore";
-
-import { firebaseApp } from "services/firebase";
+import { onSnapshot } from "firebase/firestore";
+import { collectionMusic } from "services/firebase";
 
 export type ListMusicProps = {
   album: string;
@@ -96,11 +90,10 @@ export default function MusicProvider({
   }, [listMusic, selectedMusic]);
 
   useEffect(() => {
-    const db = getFirestore(firebaseApp);
-    const q = query(collection(db, "music"));
-    onSnapshot(q, (snapshot) => {
+    onSnapshot(collectionMusic, (snapshot) => {
       snapshot.forEach((doc) => {
         const data = doc.data() as ListMusicProps;
+
         setListMusic((valueListMusic) => {
           const musicIsAlreadyAdded = valueListMusic.some(
             (validateValue) => validateValue.musicUrl === data.musicUrl

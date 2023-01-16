@@ -1,4 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { collection, getFirestore, query } from "firebase/firestore";
+
 import { getAuth } from "firebase/auth";
 
 export const firebaseConfig = {
@@ -10,3 +12,6 @@ export const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 
 export const firebaseAuth = getAuth(firebaseApp);
+
+const db = getFirestore(firebaseApp);
+export const collectionMusic = query(collection(db, "music"));
