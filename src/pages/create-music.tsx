@@ -22,11 +22,13 @@ type FormData = {
 
 export default function CreateMusic() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
+  const [valueUrlMusic, setValueUrlMusic] = useState("");
 
   const formMethods = useForm<FormData>();
   const { handleSubmit } = formMethods;
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const id = auth.getToken();
 
   function handleOpenInput() {
     if (inputRef.current) {
@@ -35,8 +37,6 @@ export default function CreateMusic() {
   }
 
   const handleCreateMusic = handleSubmit((data) => {
-    const id = auth.getToken();
-
     const docRef = doc(db, "music", id);
 
     setDoc(docRef, data)
@@ -49,7 +49,7 @@ export default function CreateMusic() {
   });
 
   const handleSubmit2 = (event: any) => {
-    const storageRef = ref(storage, `idTeste${event.name}`);
+    const storageRef = ref(storage, `${id}${event.name}`);
     const uploadTask = uploadBytesResumable(storageRef, event);
 
     uploadTask.on(
@@ -65,7 +65,7 @@ export default function CreateMusic() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log(downloadURL);
+          setValueUrlMusic(downloadURL);
         });
       }
     );
@@ -105,9 +105,22 @@ export default function CreateMusic() {
               />
             </GridItem>
             <GridItem colSpan={4}>
+              <Button
+                variant="solid"
+                color="white"
+                bg="primary.500"
+                onClick={() => handleOpenInput()}
+                _hover={{
+                  background: "ed64a6",
+                }}
+                w="full"
+              >
+                Music url
+              </Button>
               <Input
+                display="none"
                 type="file"
-                accept="Mp3"
+                accept=".mp3,audio/*"
                 ref={inputRef}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const { files } = e.target;
@@ -119,7 +132,6 @@ export default function CreateMusic() {
 
                   if (newFile) {
                     handleSubmit2(newFile);
-                    console.log(newFile);
                   }
                 }}
               />
@@ -137,7 +149,7 @@ export default function CreateMusic() {
               variant="solid"
               color="white"
               bg="primary.500"
-              onClick={() => handleOpenInput()}
+              onClick={() => handleCreateMusic()}
               _hover={{
                 background: "ed64a6",
               }}
