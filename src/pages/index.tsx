@@ -24,8 +24,9 @@ const Login: NextPageLayout = () => {
 
     firebase
       .signInWithEmailAndPassword(firebaseAuth, email, password)
-      .then((value) => {
-        auth.setToken(value.user.getIdToken);
+      .then(async (value) => {
+        // @ts-ignore
+        await auth.setToken(value.user.reloadUserInfo.localId);
         router.push(EnumConstRouter.COLLECTIONS);
       })
       .catch(() => {
