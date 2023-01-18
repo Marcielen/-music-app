@@ -92,7 +92,7 @@ export const PlayerMusic = () => {
   return (
     <Box bg="#212121" h="80px">
       <audio
-        src={`https://docs.google.com/uc?export=download&id=${selectedMusic.musicUrl}`}
+        src={selectedMusic.musicUrl}
         ref={audioRef}
         id="audioMusic"
         loop={isLoopMusic}

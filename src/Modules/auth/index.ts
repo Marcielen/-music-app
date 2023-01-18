@@ -6,6 +6,10 @@ export const auth = {
   },
 
   getToken(): any {
-    return localStorage.getItem(TOKEN);
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(TOKEN);
+    } else {
+      return "";
+    }
   },
 };

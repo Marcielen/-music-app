@@ -2,10 +2,10 @@ import { Box, Button, Flex, GridItem, Input } from "@chakra-ui/react";
 import { InputDefault } from "components/Input";
 import { Menu } from "components/Menu";
 import { SimpleGridForm } from "components/SimpleGridForm";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { auth } from "Modules/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db, storage } from "services/firebase";
 import { SelectDefault } from "components/Select/SelectDefault";
 import { EnumGenere } from "constants/enumGenere";
@@ -22,13 +22,15 @@ type FormData = {
 
 export default function CreateMusic() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
-  const [valueUrlMusic, setValueUrlMusic] = useState("");
+  const [valueUrlMusic, setValueUrlMusic] = useState<File>({} as File);
 
   const formMethods = useForm<FormData>();
-  const { handleSubmit } = formMethods;
+  const { watch } = formMethods;
+  const id = auth.getToken();
+
+  const author = watch("author");
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const id = auth.getToken();
 
   function handleOpenInput() {
     if (inputRef.current) {
@@ -36,21 +38,11 @@ export default function CreateMusic() {
     }
   }
 
-  const handleCreateMusic = handleSubmit((data) => {
-    const docRef = doc(db, "music", id);
+  const handleCreateMusic = formMethods.handleSubmit(async (data) => {
+    const storageRef = ref(storage, `${id}${valueUrlMusic.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, valueUrlMusic);
 
-    setDoc(docRef, data)
-      .then(() => {
-        console.log("Document has been added successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
-
-  const handleSubmit2 = (event: any) => {
-    const storageRef = ref(storage, `${id}${event.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, event);
+    const docRef = collection(db, "music");
 
     uploadTask.on(
       "state_changed",
@@ -64,12 +56,25 @@ export default function CreateMusic() {
         alert(error);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setValueUrlMusic(downloadURL);
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          const dados = {
+            ...data,
+            musicUrl: downloadURL,
+            genere: "Punk",
+            id: id || "teste",
+          };
+
+          await addDoc(docRef, dados)
+            .then(() => {
+              console.log("Document has been added successfully", dados);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         });
       }
     );
-  };
+  });
 
   return (
     <Flex justifyContent="space-between" bg="#0E0E0E" h="calc(100vh - 80px)">
@@ -131,7 +136,7 @@ export default function CreateMusic() {
                   const newFile = files[0];
 
                   if (newFile) {
-                    handleSubmit2(newFile);
+                    setValueUrlMusic(newFile);
                   }
                 }}
               />

@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { onSnapshot } from "firebase/firestore";
 import { collectionMusic } from "services/firebase";
+import { auth } from "Modules/auth";
 
 export type ListMusicProps = {
   album: string;
@@ -16,6 +17,7 @@ export type ListMusicProps = {
   musicUrl: string;
   nameMusic: string;
   isActive: boolean;
+  id: string;
 };
 
 interface MusicContextProps {
@@ -63,6 +65,8 @@ export default function MusicProvider({
     setIsLoopMusic(!isLoopMusic);
   }, [isLoopMusic]);
 
+  const id = auth.getToken();
+
   const handleNextMusic = useCallback(() => {
     const indexMusicSelected = listMusic.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
@@ -100,13 +104,15 @@ export default function MusicProvider({
           );
 
           if (musicIsAlreadyAdded) {
-            return valueListMusic;
+            return valueListMusic.filter((listUser) => listUser.id === id);
           }
-          return [...valueListMusic, data];
+
+          const values = [...valueListMusic, data];
+          return values.filter((listUser) => listUser.id === id);
         });
       });
     });
-  }, []);
+  }, [id]);
 
   return (
     <MusicContext.Provider
