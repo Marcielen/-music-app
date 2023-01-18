@@ -2,33 +2,33 @@ import { Box, Button, Flex, GridItem, Input } from "@chakra-ui/react";
 import { InputDefault } from "components/Input";
 import { Menu } from "components/Menu";
 import { SimpleGridForm } from "components/SimpleGridForm";
-import { ChangeEvent, useCallback, useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { auth } from "Modules/auth";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db, storage } from "services/firebase";
 import { SelectDefault } from "components/Select/SelectDefault";
 import { EnumGenere } from "constants/enumGenere";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-
-type FormData = {
-  author: string;
-  nameMusic: string;
-  album: string;
-  genere: string;
-  musicUrl: string;
-  imageUrl: string;
-};
+import {
+  formDefaultValues,
+  FormData,
+  yupResolver,
+} from "validation/validationCreateMusic";
 
 export default function CreateMusic() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
   const [valueUrlMusic, setValueUrlMusic] = useState<File>({} as File);
+  const [valueUrlImageAlbum, setValueUrlImageAlbum] = useState<File>(
+    {} as File
+  );
 
-  const formMethods = useForm<FormData>();
-  const { watch } = formMethods;
+  const formMethods = useForm<FormData>({
+    defaultValues: formDefaultValues,
+    resolver: yupResolver,
+  });
+
   const id = auth.getToken();
-
-  const author = watch("author");
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -111,16 +111,17 @@ export default function CreateMusic() {
             </GridItem>
             <GridItem colSpan={4}>
               <Button
-                variant="solid"
-                color="white"
-                bg="primary.500"
+                mt="25px"
+                variant=""
+                color="black"
+                bg="white"
                 onClick={() => handleOpenInput()}
                 _hover={{
                   background: "ed64a6",
                 }}
                 w="full"
               >
-                Music url
+                Upload music
               </Button>
               <Input
                 display="none"
@@ -142,10 +143,36 @@ export default function CreateMusic() {
               />
             </GridItem>
             <GridItem colSpan={4}>
-              <InputDefault
-                name="imageUrl"
-                colorLabel="white"
-                label="Image url"
+              <Button
+                mt="25px"
+                variant=""
+                color="black"
+                bg="white"
+                onClick={() => handleOpenInput()}
+                _hover={{
+                  background: "ed64a6",
+                }}
+                w="full"
+              >
+                Upload image album
+              </Button>
+              <Input
+                display="none"
+                type="file"
+                accept=".mp3,audio/*"
+                ref={inputRef}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                  const { files } = e.target;
+                  if (!files || files.length === 0) {
+                    return;
+                  }
+
+                  const newFile = files[0];
+
+                  if (newFile) {
+                    setValueUrlImageAlbum(newFile);
+                  }
+                }}
               />
             </GridItem>
           </SimpleGridForm>
