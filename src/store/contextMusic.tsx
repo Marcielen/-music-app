@@ -18,6 +18,7 @@ export type ListMusicProps = {
   nameMusic: string;
   isActive: boolean;
   id: string;
+  musicDefault: boolean;
 };
 
 interface MusicContextProps {
@@ -104,11 +105,15 @@ export default function MusicProvider({
           );
 
           if (musicIsAlreadyAdded) {
-            return valueListMusic.filter((listUser) => listUser.id === id);
+            return valueListMusic.filter(
+              (listUser) => listUser.id === id || listUser.musicDefault
+            );
           }
 
           const values = [...valueListMusic, data];
-          return values.filter((listUser) => listUser.id === id);
+          return values.filter(
+            (listUser) => listUser.id === id || listUser.musicDefault
+          );
         });
       });
     });

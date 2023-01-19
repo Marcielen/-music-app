@@ -99,6 +99,7 @@ export default function CreateMusic() {
               musicUrl: downloadURLMusic,
               imageAlbum: image,
               genere: "Punk",
+              musicDefault: false,
               id: id || "teste",
             };
 
@@ -194,11 +195,12 @@ export default function CreateMusic() {
                 }}
                 w="full"
               >
-                Upload image album
+                Upload image from album
               </Button>
               <Input
                 display="none"
                 type="file"
+                accept="image/png, image/gif, image/jpeg"
                 ref={inputImageRef}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const { files } = e.target;
