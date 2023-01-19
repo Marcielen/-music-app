@@ -75,7 +75,7 @@ export const InputDefault = ({
               }}
               _autofill={{
                 border: "2px solid white",
-                textFillColor: "white",
+                textFillColor: "black",
                 boxShadow: "0 0 0px 1000px transparent inset",
                 transition: "background-color 5000s ease-in-out 0s",
               }}

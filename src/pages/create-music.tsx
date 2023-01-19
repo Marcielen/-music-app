@@ -31,6 +31,7 @@ export default function CreateMusic() {
   const id = auth.getToken();
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const inputImageRef = useRef<HTMLInputElement>(null);
 
   function handleOpenInput() {
     if (inputRef.current) {
@@ -38,11 +39,46 @@ export default function CreateMusic() {
     }
   }
 
+  function handleOpenInputImage() {
+    if (inputImageRef.current) {
+      inputImageRef.current.click();
+    }
+  }
+
   const handleCreateMusic = formMethods.handleSubmit(async (data) => {
     const storageRef = ref(storage, `${id}${valueUrlMusic.name}`);
+    const storageRefImage = ref(storage, `${id}${valueUrlImageAlbum.name}`);
+
     const uploadTask = uploadBytesResumable(storageRef, valueUrlMusic);
+    const uploadTaskImage = uploadBytesResumable(
+      storageRefImage,
+      valueUrlImageAlbum
+    );
 
     const docRef = collection(db, "music");
+    let image = "url";
+
+    uploadTaskImage.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log(progress, "image");
+      },
+      (error) => {
+        alert(error);
+      },
+      () => {
+        getDownloadURL(uploadTaskImage.snapshot.ref).then(
+          async (downloadURLImage) => {
+            console.log("entrou");
+            console.log(downloadURLImage);
+            image = downloadURLImage;
+          }
+        );
+      }
+    );
 
     uploadTask.on(
       "state_changed",
@@ -50,28 +86,31 @@ export default function CreateMusic() {
         const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        console.log(progress);
+        console.log(progress, "music");
       },
       (error) => {
         alert(error);
       },
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          const dados = {
-            ...data,
-            musicUrl: downloadURL,
-            genere: "Punk",
-            id: id || "teste",
-          };
+        getDownloadURL(uploadTask.snapshot.ref).then(
+          async (downloadURLMusic) => {
+            const dados = {
+              ...data,
+              musicUrl: downloadURLMusic,
+              imageAlbum: image,
+              genere: "Punk",
+              id: id || "teste",
+            };
 
-          await addDoc(docRef, dados)
-            .then(() => {
-              console.log("Document has been added successfully", dados);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
+            await addDoc(docRef, dados)
+              .then(() => {
+                console.log("Document has been added successfully", dados);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+        );
       }
     );
   });
@@ -123,10 +162,11 @@ export default function CreateMusic() {
               >
                 Upload music
               </Button>
+
               <Input
-                display="none"
                 type="file"
                 accept=".mp3,audio/*"
+                display="none"
                 ref={inputRef}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const { files } = e.target;
@@ -135,7 +175,7 @@ export default function CreateMusic() {
                   }
 
                   const newFile = files[0];
-
+                  console.log(files);
                   if (newFile) {
                     setValueUrlMusic(newFile);
                   }
@@ -148,7 +188,7 @@ export default function CreateMusic() {
                 variant=""
                 color="black"
                 bg="white"
-                onClick={() => handleOpenInput()}
+                onClick={() => handleOpenInputImage()}
                 _hover={{
                   background: "ed64a6",
                 }}
@@ -159,8 +199,7 @@ export default function CreateMusic() {
               <Input
                 display="none"
                 type="file"
-                accept=".mp3,audio/*"
-                ref={inputRef}
+                ref={inputImageRef}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => {
                   const { files } = e.target;
                   if (!files || files.length === 0) {
