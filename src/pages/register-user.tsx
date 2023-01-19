@@ -42,6 +42,7 @@ const RegisterUser: NextPageLayout = () => {
         <VStack spacing="20px" w="320px">
           <InputDefault
             colorLabel="white"
+            textFillColor="white"
             label="E-mail"
             color="white"
             placeholder="Type your e-mail"
@@ -52,6 +53,7 @@ const RegisterUser: NextPageLayout = () => {
           <InputDefault
             colorLabel="white"
             label="Password"
+            textFillColor="white"
             bg="transparent"
             placeholder="Type your password"
             color="white"
@@ -70,13 +72,9 @@ const RegisterUser: NextPageLayout = () => {
           Back to login
         </Button>
         <Button
-          bg="#ed64a6"
-          _hover={{
-            opacity: "0.8",
-          }}
           mt="20px"
-          color="white"
-          variant=""
+          variant="solid"
+          bg="white"
           w="full"
           onClick={() => handleSignOut()}
         >

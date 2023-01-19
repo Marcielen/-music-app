@@ -103,102 +103,114 @@ export default function Search() {
               _hover={{
                 background: "ed64a6",
               }}
-              w="200px"
               onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
             >
               Create music
             </Button>
           </Flex>
-          <Pagination
-            nPages={listMusic.length}
-            currentPage={page}
-            setCurrentPage={setPage}
-            itemsPerPage={5}
-            tableHeaders={[
-              {
-                key: "title",
-                content: "Title",
-                width: "40%",
-                justifyContent: "left",
-              },
-              {
-                key: "album",
-                content: "Album",
-                width: "40%",
-                justifyContent: "right",
-              },
-              {
-                key: "timer",
-                content: "Genere",
-                justifyContent: "right",
-                pr: "10px",
-              },
-            ]}
-            renderTableRows={ListMusic.map((music, index) => {
-              return (
-                <>
-                  <Tr
-                    onClick={() => {
-                      handleMusicActive(music.musicUrl);
-                      setIsMusicActive(music.isActive ? !music.isActive : true);
-                      setSelectedMusic(music);
-                    }}
-                    cursor="pointer"
-                    key={music.nameMusic}
-                  >
-                    <Td fontSize="12px" pt="7px" pb="7px" pl="70px">
-                      <Flex>
-                        <Flex justifyContent="center" alignItems="center">
-                          <Icon
-                            color="white"
-                            boxSize="20px"
-                            ml="-30px"
-                            mr="15px"
-                            as={
-                              music.isActive
-                                ? AiFillPauseCircle
-                                : AiFillCaretRight
-                            }
+          <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
+            Collection of musics
+          </Text>
+          <Box bg="gray.800" p="4" borderRadius="md" mt="4">
+            <Pagination
+              nPages={listMusic.length}
+              currentPage={page}
+              setCurrentPage={setPage}
+              itemsPerPage={5}
+              tableHeaders={[
+                {
+                  key: "title",
+                  content: "Title",
+                  width: "40%",
+                  justifyContent: "left",
+                },
+                {
+                  key: "album",
+                  content: "Album",
+                  width: "40%",
+                  justifyContent: "right",
+                },
+                {
+                  key: "timer",
+                  content: "Genere",
+                  justifyContent: "right",
+                  pr: "10px",
+                },
+              ]}
+              renderTableRows={ListMusic.map((music, index) => {
+                return (
+                  <>
+                    <Tr
+                      onClick={() => {
+                        handleMusicActive(music.musicUrl);
+                        setIsMusicActive(
+                          music.isActive ? !music.isActive : true
+                        );
+                        setSelectedMusic(music);
+                      }}
+                      cursor="pointer"
+                      key={music.nameMusic}
+                    >
+                      <Td fontSize="12px" pt="7px" pb="7px" pl="70px">
+                        <Flex>
+                          <Flex justifyContent="center" alignItems="center">
+                            <Icon
+                              color="white"
+                              boxSize="20px"
+                              ml="-30px"
+                              mr="15px"
+                              as={
+                                music.isActive
+                                  ? AiFillPauseCircle
+                                  : AiFillCaretRight
+                              }
+                            />
+                          </Flex>
+                          <Image
+                            alt="image album music"
+                            objectFit="cover"
+                            h="40px"
+                            w="40px"
+                            src={music.imageAlbum}
                           />
-                        </Flex>
-                        <Image
-                          alt="image album music"
-                          objectFit="cover"
-                          h="40px"
-                          w="40px"
-                          src={music.imageAlbum}
-                        />
-                        <Box ml="10px">
-                          <Text mt="5px" color="white">
-                            {music.nameMusic}
-                          </Text>
-                          <Text fontSize="10px" mt="-3px" color="white">
-                            {music.author}
-                          </Text>
-                        </Box>
-                      </Flex>
-                    </Td>
-                    <Td w="40%" color="white" fontSize="12px" pt="0" pb="7px">
-                      <Flex justifyContent="right">{music.album}</Flex>
-                    </Td>
-                    <Td pr="40px" color="white" fontSize="12px" pt="0" pb="7px">
-                      <Flex justifyContent="right">{music.genere}</Flex>
-                    </Td>
-                  </Tr>
-
-                  {index + 1 !== listMusic.length && (
-                    <Tr>
-                      <Td pt="0" pb="0" colSpan={4}>
-                        <Flex w="full">
-                          <Divider w="full" />
+                          <Box ml="10px">
+                            <Text mt="5px" color="white">
+                              {music.nameMusic}
+                            </Text>
+                            <Text fontSize="10px" mt="-3px" color="white">
+                              {music.author}
+                            </Text>
+                          </Box>
                         </Flex>
                       </Td>
+                      <Td w="40%" color="white" fontSize="12px" pt="0" pb="7px">
+                        <Flex justifyContent="right">{music.album}</Flex>
+                      </Td>
+                      <Td
+                        pr="40px"
+                        color="white"
+                        fontSize="12px"
+                        pt="0"
+                        pb="7px"
+                      >
+                        <Flex justifyContent="right">{music.genere}</Flex>
+                      </Td>
                     </Tr>
-                  )}
-                </>
-              );
-            })}
-          />
+
+                    {index + 1 !== listMusic.length && (
+                      <Tr>
+                        <Td pt="0" pb="0" colSpan={4}>
+                          <Flex w="full">
+                            <Divider w="full" />
+                          </Flex>
+                        </Td>
+                      </Tr>
+                    )}
+                  </>
+                );
+              })}
+            />
+          </Box>
         </Box>
       </Flex>
     </FormProvider>

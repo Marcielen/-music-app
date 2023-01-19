@@ -47,6 +47,7 @@ const Login: NextPageLayout = () => {
             color="white"
             placeholder="Type your e-mail"
             bg="transparent"
+            textFillColor="white"
             borderRadius="10px"
             name="email"
           />
@@ -54,6 +55,7 @@ const Login: NextPageLayout = () => {
             colorLabel="white"
             label="Password"
             bg="transparent"
+            textFillColor="white"
             placeholder="Type your password"
             color="white"
             borderRadius="10px"

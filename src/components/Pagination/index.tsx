@@ -88,7 +88,7 @@ export const Pagination = ({
       : [];
 
   return (
-    <Box mt="20px" w="full" color="white">
+    <Box w="full" color="white">
       <Box borderTopRadius="4px" w="full" overflow="auto">
         <Table variant="" size={size}>
           <Thead>

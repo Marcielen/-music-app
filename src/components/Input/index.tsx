@@ -22,6 +22,7 @@ interface InputDefaultProps extends InputProps {
   colorLabel?: string;
   iconLeftElement?: IconType;
   isPassword?: boolean;
+  textFillColor?: string;
 }
 
 export const InputDefault = ({
@@ -35,6 +36,7 @@ export const InputDefault = ({
   borderRadius = "10px",
   bg = "white",
   color = "black",
+  textFillColor = "black",
   iconLeftElement,
 }: InputDefaultProps) => {
   const [textIsShowing, setTextIsShowing] = useState(true);
@@ -75,7 +77,7 @@ export const InputDefault = ({
               }}
               _autofill={{
                 border: "2px solid white",
-                textFillColor: "black",
+                textFillColor: textFillColor,
                 boxShadow: "0 0 0px 1000px transparent inset",
                 transition: "background-color 5000s ease-in-out 0s",
               }}
