@@ -30,6 +30,8 @@ import CreateMusicProvider from "store/contextCreateMusic";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { EnumConstRouter } from "constants/enumConstRouter";
+import { useSteps } from "chakra-ui-steps";
+import { toast } from "react-toastify";
 
 export default function CreateMusic() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
@@ -37,11 +39,14 @@ export default function CreateMusic() {
   const [valueUrlImageAlbum, setValueUrlImageAlbum] = useState<File>(
     {} as File
   );
+  const [activeStep, setActiveStep] = useState(0);
 
   const formMethods = useForm<FormData>({
     defaultValues: formDefaultValues,
     resolver: yupResolver,
   });
+
+  const { handleSubmit } = formMethods;
 
   const id = auth.getToken();
 
@@ -131,6 +136,28 @@ export default function CreateMusic() {
     );
   });
 
+  const prevStep = () => {
+    setActiveStep((prev) => prev - 1);
+  };
+
+  const nextStep = handleSubmit(() => {
+    if (activeStep === 1) {
+      if (valueUrlMusic.name) {
+        setActiveStep((prev) => prev + 1);
+      } else {
+        toast.warning("Add music file!");
+      }
+    } else if (activeStep === 2) {
+      if (valueUrlImageAlbum.name) {
+        setActiveStep((prev) => prev + 1);
+      } else {
+        toast.warning("Add photo from album");
+      }
+    } else {
+      setActiveStep((prev) => prev + 1);
+    }
+  });
+
   return (
     <CreateMusicProvider>
       <Flex
@@ -171,6 +198,9 @@ export default function CreateMusic() {
               </Flex>
               <Box pt="25px" pr="25px" pl="25px">
                 <Steps
+                  activeStep={activeStep}
+                  nextStep={nextStep}
+                  prevStep={prevStep}
                   key="step"
                   steps={[
                     {
