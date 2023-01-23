@@ -73,7 +73,7 @@ export default function Search() {
       <Flex
         zIndex="2"
         justifyContent="space-between"
-        bg="#0E0E0E"
+        bg="primary.700"
         h="calc(100vh - 80px)"
       >
         <Box bg="red" h="full" maxWidth="200px">

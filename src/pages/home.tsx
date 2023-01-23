@@ -8,7 +8,11 @@ export default function Home() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
 
   return (
-    <Flex justifyContent="space-between" bg="#0E0E0E" h="calc(100vh - 80px)">
+    <Flex
+      justifyContent="space-between"
+      bg="primary.700"
+      h="calc(100vh - 80px)"
+    >
       <Menu setMenuIsOpen={setMenuIsOpen} />
       <Box
         pt="35px"

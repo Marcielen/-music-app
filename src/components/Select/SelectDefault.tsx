@@ -53,7 +53,7 @@ export const SelectDefault = ({
 }: SelectDefaultProps) => {
   const [gray200, secondary600] = useToken("colors", [
     "primary.200",
-    "primary.600",
+    "secondary.400",
   ]);
 
   const Control = ({ children, ...props }: ControlProps) => {
@@ -64,7 +64,7 @@ export const SelectDefault = ({
     control: (css, state: StyleProps) => {
       return {
         ...css,
-        borderRadius: "7px",
+        borderRadius: "10px",
         height: "34px !important",
         border: state?.isFocused
           ? state?.menuIsOpen

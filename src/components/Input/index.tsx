@@ -81,15 +81,19 @@ export const InputDefault = ({
                 boxShadow: "0 0 0px 1000px transparent inset",
                 transition: "background-color 5000s ease-in-out 0s",
               }}
+              _hover={{
+                borderColor: textFillColor,
+                borderWidth: "2px",
+              }}
               placeholder={placeholder}
               _focusVisible={{
-                borderColor: "white",
+                borderColor: textFillColor,
                 borderWidth: "2px",
               }}
               borderColor="white"
               borderWidth="2px"
               color={color}
-              h="40px"
+              h="37px"
               fontSize="md"
               onChange={onChange}
               value={value}
