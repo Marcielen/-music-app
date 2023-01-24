@@ -21,7 +21,7 @@ export const formDefaultValues = {
 
 const schema = yup.object().shape({
   nameMusic: yup.string().required(EnumValidation.REQUIRED_FIELD),
-  album: yup.string().required(EnumValidation.REQUIRED_FIELD),
+  album: yup.string(),
   author: yup.string().required(EnumValidation.REQUIRED_FIELD),
   genere: yup
     .object()

@@ -34,7 +34,7 @@ export const InputDefault = ({
   isRequired,
   placeholder,
   borderRadius = "10px",
-  bg = "white",
+  bg = "primary.50",
   color = "black",
   textFillColor = "black",
   iconLeftElement,
@@ -50,7 +50,12 @@ export const InputDefault = ({
         field: { onChange, onBlur, value, name },
         fieldState: { error },
       }) => (
-        <FormControl isInvalid={!!error} isRequired={isRequired}>
+        <FormControl
+          borderColor="none"
+          boxShadow="none"
+          isInvalid={!!error}
+          isRequired={isRequired}
+        >
           <InputGroup
             borderRadius={borderRadius}
             display="column"
@@ -68,6 +73,7 @@ export const InputDefault = ({
             )}
             <Input
               isDisabled={isDisabled}
+              _invalid={{ backgroundColor: "none" }}
               onBlur={onBlur}
               type={textIsShowing && isPassword ? "password" : undefined}
               borderRadius={borderRadius}
@@ -76,7 +82,7 @@ export const InputDefault = ({
                 color: "gray.300",
               }}
               _autofill={{
-                border: "2px solid white",
+                border: "2px solid primary.50",
                 textFillColor: textFillColor,
                 boxShadow: "0 0 0px 1000px transparent inset",
                 transition: "background-color 5000s ease-in-out 0s",
@@ -90,7 +96,7 @@ export const InputDefault = ({
                 borderColor: textFillColor,
                 borderWidth: "2px",
               }}
-              borderColor="white"
+              borderColor="primary.50"
               borderWidth="2px"
               color={color}
               h="37px"
@@ -127,7 +133,11 @@ export const InputDefault = ({
               </Box>
             )}
           </InputGroup>
-          {!!error && <FormErrorMessage>{error.message}</FormErrorMessage>}
+          {!!error && (
+            <FormErrorMessage fontWeight="bold" color="white">
+              {error.message}
+            </FormErrorMessage>
+          )}
         </FormControl>
       )}
     />

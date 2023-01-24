@@ -1,5 +1,5 @@
-import { Box, Button, Divider, Flex } from "@chakra-ui/react";
-import { Step, Steps as ChakraSteps, useSteps } from "chakra-ui-steps";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import { Step, Steps as ChakraSteps } from "chakra-ui-steps";
 
 type StepsContent = {
   keyStep: string;

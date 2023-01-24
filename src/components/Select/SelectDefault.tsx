@@ -51,9 +51,10 @@ export const SelectDefault = ({
   id,
   isMulti = false,
 }: SelectDefaultProps) => {
-  const [gray200, secondary600] = useToken("colors", [
+  const [gray200, secondary600, primary100] = useToken("colors", [
     "primary.200",
     "secondary.400",
+    "primary.50",
   ]);
 
   const Control = ({ children, ...props }: ControlProps) => {
@@ -65,6 +66,7 @@ export const SelectDefault = ({
       return {
         ...css,
         borderRadius: "10px",
+        background: primary100,
         height: "34px !important",
         border: state?.isFocused
           ? state?.menuIsOpen
@@ -121,7 +123,11 @@ export const SelectDefault = ({
               name={name}
             />
 
-            {!!error && <FormErrorMessage>{error.message}</FormErrorMessage>}
+            {!!error && (
+              <FormErrorMessage fontWeight="bold" color="white">
+                {error.message}
+              </FormErrorMessage>
+            )}
           </FormControl>
         );
       }}

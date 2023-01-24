@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   GridItem,
   Icon,
@@ -9,15 +8,15 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { InputDefault } from "components/Input";
-import { Menu } from "components/Menu";
-import { SimpleGridForm } from "components/SimpleGridForm";
 import { ChangeEvent, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+
 import { auth } from "Modules/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { db, storage } from "services/firebase";
-import { SelectDefault } from "components/Select/SelectDefault";
 import { EnumGenere } from "constants/enumGenere";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import {
@@ -25,20 +24,24 @@ import {
   FormData,
   yupResolver,
 } from "validation/validationCreateMusic";
-import { Steps } from "components/Steps";
 import CreateMusicProvider from "store/contextCreateMusic";
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-import { useRouter } from "next/router";
 import { EnumConstRouter } from "constants/enumConstRouter";
-import { useSteps } from "chakra-ui-steps";
-import { toast } from "react-toastify";
+
+import { InputDefault } from "components/Input";
+import { Menu } from "components/Menu";
+import { SimpleGridForm } from "components/SimpleGridForm";
+import { SelectDefault } from "components/Select/SelectDefault";
+import { Steps } from "components/Steps";
+import { Loading } from "components/Loading";
+
+const imageAlbum =
+  "https://firebasestorage.googleapis.com/v0/b/music-player-1d182.appspot.com/o/N2GI8Pzid4cbAviWoIqtkFDTsxx2photo-1586114237262-7bf106986e8a.jpg?alt=media&token=bedf1163-30e3-42e6-a62f-4f58bdebac2e";
 
 export default function CreateMusic() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
-  const [valueUrlMusic, setValueUrlMusic] = useState<File>({} as File);
-  const [valueUrlImageAlbum, setValueUrlImageAlbum] = useState<File>(
-    {} as File
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [fileMusic, setFileMusic] = useState<File>({} as File);
+  const [fileAlbumMusic, setFileAlbumMusic] = useState<File>({} as File);
   const [activeStep, setActiveStep] = useState(0);
 
   const formMethods = useForm<FormData>({
@@ -50,122 +53,120 @@ export default function CreateMusic() {
 
   const id = auth.getToken();
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const inputImageRef = useRef<HTMLInputElement>(null);
+  const inputFileMusicRef = useRef<HTMLInputElement>(null);
+  const inputFileImageAlbumRef = useRef<HTMLInputElement>(null);
 
-  function handleOpenInput() {
-    if (inputRef.current) {
-      inputRef.current.click();
+  function handleChooseMusic() {
+    if (inputFileMusicRef.current) {
+      inputFileMusicRef.current.click();
     }
   }
 
-  function handleOpenInputImage() {
-    if (inputImageRef.current) {
-      inputImageRef.current.click();
+  function handleChooseImageAlbum() {
+    if (inputFileImageAlbumRef.current) {
+      inputFileImageAlbumRef.current.click();
     }
   }
+
+  const storageFileMusicRef = ref(storage, `${id}${fileMusic.name}`);
+  const storageFileImageAlbumRef = ref(storage, `${id}${fileAlbumMusic.name}`);
+
   const router = useRouter();
-  const handleCreateMusic = formMethods.handleSubmit(async (data) => {
-    const storageRef = ref(storage, `${id}${valueUrlMusic.name}`);
-    const storageRefImage = ref(storage, `${id}${valueUrlImageAlbum.name}`);
 
-    const uploadTask = uploadBytesResumable(storageRef, valueUrlMusic);
-    const uploadTaskImage = uploadBytesResumable(
-      storageRefImage,
-      valueUrlImageAlbum
-    );
+  const handleCreateMusic = formMethods.handleSubmit(async (data) => {
+    setIsLoading(true);
+    const uploadTask = uploadBytesResumable(storageFileMusicRef, fileMusic);
 
     const docRef = collection(db, "music");
-    let image = "url";
+    let fileImageAlbum = "";
 
-    uploadTaskImage.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        console.log(progress, "image");
-      },
-      (error) => {
-        alert(error);
-      },
-      () => {
-        getDownloadURL(uploadTaskImage.snapshot.ref).then(
-          async (downloadURLImage) => {
-            console.log("entrou");
-            console.log(downloadURLImage);
-            image = downloadURLImage;
-          }
-        );
-      }
-    );
+    if (fileAlbumMusic.name) {
+      const uploadTaskImage = uploadBytesResumable(
+        storageFileImageAlbumRef,
+        fileAlbumMusic
+      );
+      uploadTaskImage.on(
+        "state_changed",
+        () => {},
+        (error) => {
+          toast.warning(error.message);
+        },
+        () => {
+          getDownloadURL(uploadTaskImage.snapshot.ref).then(
+            async (downloadURLImage) => {
+              fileImageAlbum = downloadURLImage;
+            }
+          );
+        }
+      );
+    }
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-        console.log(progress, "music");
-      },
+      () => {},
       (error) => {
-        alert(error);
+        setIsLoading(false);
+        toast.warning(error.message);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(
           async (downloadURLMusic) => {
             const dados = {
               ...data,
+              author: data.album ? data.album : "---",
               musicUrl: downloadURLMusic,
-              imageAlbum: image,
-              genere: "Punk",
+              imageAlbum: fileImageAlbum === "" ? imageAlbum : fileImageAlbum,
+              genere: data.genere?.label,
               musicDefault: false,
-              id: id || "teste",
+              id: id || "",
             };
-
             await addDoc(docRef, dados)
               .then(() => {
-                console.log("Document has been added successfully", dados);
+                toast.success("Music successfully added");
+                router.push(EnumConstRouter.COLLECTIONS);
+                setIsLoading(false);
               })
               .catch((error) => {
-                console.log(error);
+                setIsLoading(false);
+                toast.warning(error.message);
               });
           }
         );
       }
     );
   });
-
   const prevStep = () => {
     setActiveStep((prev) => prev - 1);
   };
 
+  const updateValueStep = () => {
+    setActiveStep((prev) => prev + 1);
+  };
+
   const nextStep = handleSubmit(() => {
     if (activeStep === 1) {
-      if (valueUrlMusic.name) {
-        setActiveStep((prev) => prev + 1);
+      if (fileMusic.name) {
+        updateValueStep();
       } else {
         toast.warning("Add music file!");
       }
     } else if (activeStep === 2) {
-      if (valueUrlImageAlbum.name) {
-        setActiveStep((prev) => prev + 1);
-      } else {
-        toast.warning("Add photo from album");
-      }
+      handleCreateMusic();
     } else {
-      setActiveStep((prev) => prev + 1);
+      updateValueStep();
     }
   });
 
   return (
     <CreateMusicProvider>
       <Flex
+        position="relative"
         justifyContent="space-between"
         bg="primary.700"
         h="calc(100vh - 80px)"
       >
         <Menu setMenuIsOpen={setMenuIsOpen} />
+
         <Box
           pt="35px"
           pl={menuIsOpen ? "40px" : "20px"}
@@ -173,6 +174,7 @@ export default function CreateMusic() {
           transition="all ease 1.5s"
           w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
         >
+          {isLoading && <Loading />}
           <FormProvider {...formMethods}>
             <Box bg="primary.600" pb="30px" borderRadius="10px">
               <Flex
@@ -249,7 +251,7 @@ export default function CreateMusic() {
                       content: (
                         <Box>
                           <Button
-                            onClick={() => handleOpenInput()}
+                            onClick={() => handleChooseMusic()}
                             color="secondary.600"
                             w="240px"
                             mb="10px"
@@ -257,13 +259,13 @@ export default function CreateMusic() {
                             Upload
                           </Button>
                           <Text fontSize="xs" color="white">
-                            {valueUrlMusic.name || ""}
+                            {fileMusic.name || ""}
                           </Text>
                           <Input
                             type="file"
                             accept=".mp3,audio/*"
                             display="none"
-                            ref={inputRef}
+                            ref={inputFileMusicRef}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => {
                               const { files } = e.target;
                               if (!files || files.length === 0) {
@@ -273,7 +275,7 @@ export default function CreateMusic() {
                               const newFile = files[0];
                               console.log(files);
                               if (newFile) {
-                                setValueUrlMusic(newFile);
+                                setFileMusic(newFile);
                               }
                             }}
                           />
@@ -288,7 +290,7 @@ export default function CreateMusic() {
                           <Flex w="100%" justifyContent="space-between">
                             <Box>
                               <Button
-                                onClick={() => handleOpenInputImage()}
+                                onClick={() => handleChooseImageAlbum()}
                                 color="secondary.600"
                                 w="240px"
                                 mb="10px"
@@ -296,10 +298,10 @@ export default function CreateMusic() {
                                 Upload
                               </Button>
                               <Text fontSize="xs" color="white">
-                                {valueUrlImageAlbum.name || ""}
+                                {fileAlbumMusic.name || ""}
                               </Text>
                             </Box>
-                            {valueUrlImageAlbum.name && (
+                            {fileAlbumMusic.name && (
                               <Box
                                 w="70px"
                                 border="1px"
@@ -310,8 +312,8 @@ export default function CreateMusic() {
                               >
                                 <Image
                                   objectFit="cover"
-                                  alt={valueUrlImageAlbum.name}
-                                  src={URL.createObjectURL(valueUrlImageAlbum)}
+                                  alt={fileAlbumMusic.name}
+                                  src={URL.createObjectURL(fileAlbumMusic)}
                                 />
                               </Box>
                             )}
@@ -321,7 +323,7 @@ export default function CreateMusic() {
                             display="none"
                             type="file"
                             accept="image/png, image/gif, image/jpeg"
-                            ref={inputImageRef}
+                            ref={inputFileImageAlbumRef}
                             onChange={(e: ChangeEvent<HTMLInputElement>) => {
                               const { files } = e.target;
                               if (!files || files.length === 0) {
@@ -331,7 +333,7 @@ export default function CreateMusic() {
                               const newFile = files[0];
 
                               if (newFile) {
-                                setValueUrlImageAlbum(newFile);
+                                setFileAlbumMusic(newFile);
                               }
                             }}
                           />
