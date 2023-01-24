@@ -22,6 +22,7 @@ import { Menu } from "components/Menu";
 import { Pagination } from "components/Pagination";
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { useRouter } from "next/router";
+import { VirtualizedInfinite } from "components/VirtualizedInfinite";
 
 export default function Search() {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
@@ -111,7 +112,8 @@ export default function Search() {
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             Collection of musics
           </Text>
-          <Box bg="gray.800" p="4" borderRadius="md" mt="4">
+          <Box bg="gray.800" p="4" color="white" borderRadius="md" mt="4">
+            {/* <VirtualizedInfinite /> */}
             <Pagination
               nPages={listMusic.length}
               currentPage={page}
