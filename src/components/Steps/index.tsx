@@ -45,7 +45,7 @@ export const Steps = ({
             w="140px"
             isDisabled={activeStep === 0}
             mr={4}
-            colorScheme="secondary"
+            bg="secondary"
             onClick={prevStep}
           >
             Prev

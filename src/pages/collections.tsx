@@ -31,7 +31,6 @@ import { useRouter } from "next/router";
 import { VirtualizedInfinite } from "components/VirtualizedInfinite";
 
 export default function Search() {
-  const [menuIsOpen, setMenuIsOpen] = useState(true);
   const [page, setPage] = useState(1);
 
   const formMethods = useForm({
@@ -61,15 +60,8 @@ export default function Search() {
     });
   }
 
-  const currentTableData = useCallback(() => {
-    const firstPageIndex = (page - 1) * 5;
-    const lastPageIndex = firstPageIndex + 5;
-
-    return listMusic.slice(firstPageIndex, lastPageIndex);
-  }, [listMusic, page])();
-
   const filterMusic = () =>
-    currentTableData.filter((valueMusic) =>
+    listMusic.filter((valueMusic) =>
       Object.values(valueMusic)
         .flat()
         .some((nameMusic) =>
@@ -78,7 +70,7 @@ export default function Search() {
             .includes(`${searchMusicWatch}`.toLowerCase())
         )
     );
-  const ListMusic = filterMusic();
+  const dataMusic = filterMusic();
 
   return (
     <FormProvider {...formMethods}>
@@ -86,18 +78,23 @@ export default function Search() {
         zIndex="2"
         justifyContent="space-between"
         bg="black"
-        h="calc(100vh - 80px)"
+        overflow="auto"
+        sx={{
+          "&::-webkit-scrollbar": {
+            height: "0",
+            width: "0",
+          },
+          "& .virtualized_List::-webkit-scrollbar": {
+            height: "0",
+            width: "0",
+          },
+        }}
+        maxH="calc(100vh - 80px)"
       >
-        <Box bg="red" h="full" maxWidth="200px">
-          <Menu setMenuIsOpen={setMenuIsOpen} />
+        <Box h="full" mr="60px">
+          <Menu />
         </Box>
-        <Box
-          pt="35px"
-          pl={menuIsOpen ? "40px" : "20px"}
-          pr="40px"
-          transition="all ease 1.5s"
-          w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
-        >
+        <Box w="full" pt="35px" pr="40px">
           <Flex pr="15px" w="full" justifyContent="space-between">
             <Box w={["full", "full", "350px"]}>
               <InputDefault
@@ -130,115 +127,16 @@ export default function Search() {
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             Collection of musics
           </Text>
-          {/*  <Box bg="gray.800" p="4" color="white" borderRadius="md" mt="4"> */}
-          {/* <VirtualizedInfinite /> */}
-          {/* <Pagination
-              nPages={listMusic.length}
-              currentPage={page}
-              setCurrentPage={setPage}
-              itemsPerPage={5}
-              tableHeaders={[
-                {
-                  key: "title",
-                  content: "Title",
-                  width: "40%",
-                  justifyContent: "left",
-                },
-                {
-                  key: "album",
-                  content: "Album",
-                  width: "40%",
-                  justifyContent: "right",
-                },
-                {
-                  key: "timer",
-                  content: "Genere",
-                  justifyContent: "right",
-                  pr: "10px",
-                },
-              ]}
-              renderTableRows={ListMusic.map((music, index) => {
-                return (
-                  <>
-                    <Tr
-                      onClick={() => {
-                        handleMusicActive(music.musicUrl);
-                        setIsMusicActive(
-                          music.isActive ? !music.isActive : true
-                        );
-                        setSelectedMusic(music);
-                      }}
-                      cursor="pointer"
-                      key={music.nameMusic}
-                    >
-                      <Td fontSize="12px" pt="7px" pb="7px" pl="70px">
-                        <Flex>
-                          <Flex justifyContent="center" alignItems="center">
-                            <Icon
-                              color="white"
-                              boxSize="20px"
-                              ml="-30px"
-                              mr="15px"
-                              as={
-                                music.isActive
-                                  ? AiFillPauseCircle
-                                  : AiFillCaretRight
-                              }
-                            />
-                          </Flex>
-                          <Image
-                            alt="image album music"
-                            objectFit="cover"
-                            h="40px"
-                            w="40px"
-                            src={music.imageAlbum}
-                          />
-                          <Box ml="10px">
-                            <Text mt="5px" color="white">
-                              {music.nameMusic}
-                            </Text>
-                            <Text fontSize="10px" mt="-3px" color="white">
-                              {music.author}
-                            </Text>
-                          </Box>
-                        </Flex>
-                      </Td>
-                      <Td w="40%" color="white" fontSize="12px" pt="0" pb="7px">
-                        <Flex justifyContent="right">{music.album}</Flex>
-                      </Td>
-                      <Td
-                        pr="40px"
-                        color="white"
-                        fontSize="12px"
-                        pt="0"
-                        pb="7px"
-                      >
-                        <Flex justifyContent="right">{music.genere}</Flex>
-                      </Td>
-                    </Tr>
 
-                    {index + 1 !== listMusic.length && (
-                      <Tr>
-                        <Td pt="0" pb="0" colSpan={4}>
-                          <Flex w="full">
-                            <Divider w="full" />
-                          </Flex>
-                        </Td>
-                      </Tr>
-                    )}
-                  </>
-                );
-              })}
-            /> */}
-          {/* </Box> */}
           <Grid
             mt="20px"
             templateColumns="repeat(5, 1fr)"
-            gap={6}
             position="relative"
+            rowGap="50px"
+            gap={1}
             color="white"
           >
-            {listMusic.map((music, index) => (
+            {dataMusic.map((music) => (
               <GridItem key={music.musicUrl}>
                 <Box
                   backgroundImage={music.imageAlbum}
@@ -250,13 +148,7 @@ export default function Search() {
                   w="210px"
                   opacity="0.2"
                 ></Box>
-                <Box
-                  h="290px"
-                  top="0"
-                  w="210px"
-                  zIndex="9999"
-                  position="absolute"
-                >
+                <Box h="290px" mt="-300px" w="210px" position="absolute">
                   <Image
                     w="210px"
                     borderTopEndRadius="6px"
@@ -288,7 +180,7 @@ export default function Search() {
                     />
                   </Flex>
 
-                  <Box mt="10px">
+                  <Box pl="15px" mt="10px">
                     <Text
                       fontSize="12px"
                       fontWeight="bold"
@@ -296,15 +188,16 @@ export default function Search() {
                     >
                       {music.album}
                     </Text>
-                    <Text fontSize="14px" fontWeight="bold">
+                    <Text fontSize="14px" mt="3px" fontWeight="bold">
                       {music.nameMusic}
                     </Text>
-                    <Text>{music.author}</Text>
+                    <Text mt="3px">{music.author}</Text>
                   </Box>
                 </Box>
               </GridItem>
             ))}
           </Grid>
+          <Box h="40px" />
         </Box>
       </Flex>
     </FormProvider>

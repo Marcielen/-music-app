@@ -15,7 +15,7 @@ export const GenresMusic = () => {
       <Slide>
         <Image
           style={{
-            height: "190px",
+            height: "230px",
             objectFit: "cover",
             borderRadius: "10px",
           }}
@@ -26,7 +26,7 @@ export const GenresMusic = () => {
       <Slide>
         <Image
           style={{
-            height: "190px",
+            height: "230px",
             objectFit: "cover",
             borderRadius: "10px",
           }}
@@ -37,7 +37,7 @@ export const GenresMusic = () => {
       <Slide>
         <Image
           style={{
-            height: "190px",
+            height: "230px",
             objectFit: "cover",
             borderRadius: "10px",
           }}
@@ -48,7 +48,7 @@ export const GenresMusic = () => {
       <Slide>
         <Image
           style={{
-            height: "190px",
+            height: "230px",
             objectFit: "cover",
             borderRadius: "10px",
           }}
@@ -59,7 +59,7 @@ export const GenresMusic = () => {
       <Slide>
         <Image
           style={{
-            height: "190px",
+            height: "230px",
             objectFit: "cover",
             borderRadius: "10px",
           }}

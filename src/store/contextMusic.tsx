@@ -113,7 +113,7 @@ export default function MusicProvider({
       collection(db, "music"),
       orderBy("nameMusic"),
       startAfter(latestDoc || 0),
-      limit(5)
+      limit(10)
     );
 
     const testando = await getDocs(dataMusic);

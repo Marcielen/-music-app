@@ -38,7 +38,6 @@ const imageAlbum =
   "https://firebasestorage.googleapis.com/v0/b/music-player-1d182.appspot.com/o/N2GI8Pzid4cbAviWoIqtkFDTsxx2photo-1586114237262-7bf106986e8a.jpg?alt=media&token=bedf1163-30e3-42e6-a62f-4f58bdebac2e";
 
 export default function CreateMusic() {
-  const [menuIsOpen, setMenuIsOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [fileMusic, setFileMusic] = useState<File>({} as File);
   const [fileAlbumMusic, setFileAlbumMusic] = useState<File>({} as File);
@@ -165,18 +164,11 @@ export default function CreateMusic() {
         bg="black"
         h="calc(100vh - 80px)"
       >
-        <Menu setMenuIsOpen={setMenuIsOpen} />
-
-        <Box
-          pt="35px"
-          pl={menuIsOpen ? "40px" : "20px"}
-          pr="40px"
-          transition="all ease 1.5s"
-          w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
-        >
+        <Menu />
+        <Box ml="60px" w="full" pt="35px" pr="55px">
           {isLoading && <Loading />}
           <FormProvider {...formMethods}>
-            <Box bg="primary.600" pb="30px" borderRadius="10px">
+            <Box bg="primary.800" pb="30px" borderRadius="10px">
               <Flex
                 mb="10px"
                 borderTopRightRadius="10px"
@@ -185,18 +177,18 @@ export default function CreateMusic() {
                 alignItems="center"
                 pl="25px"
                 pb="12px"
-                bg="secondary.500"
+                bg="secondary.800"
                 color="white"
               >
                 <Icon
-                  color="primary.100"
+                  color="primary.200"
                   cursor="pointer"
                   onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
                   mr="15px"
                   boxSize="22px"
                   as={BsFillArrowLeftCircleFill}
                 />
-                <Text>Music info</Text>
+                <Text fontSize="18px">Music info</Text>
               </Flex>
               <Box pt="25px" pr="25px" pl="25px">
                 <Steps

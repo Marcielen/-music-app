@@ -1,25 +1,18 @@
-import { useState } from "react";
 import { Box, Flex } from "@chakra-ui/react";
 
 import { GenresMusic } from "components/GenresMusic";
 import { Menu } from "components/Menu";
 
 export default function Home() {
-  const [menuIsOpen, setMenuIsOpen] = useState(true);
-
   return (
-    <Flex
-      justifyContent="space-between"
-      bg="primary.700"
-      h="calc(100vh - 80px)"
-    >
-      <Menu setMenuIsOpen={setMenuIsOpen} />
+    <Flex justifyContent="space-between" bg="black" h="calc(100vh - 80px)">
+      <Menu />
       <Box
         pt="35px"
-        pl={menuIsOpen ? "40px" : "20px"}
-        pr="40px"
+        pl="40px"
+        pr="50px"
         transition="all ease 1.5s"
-        w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
+        w={`calc(100vw - 70px)`}
       >
         <GenresMusic />
       </Box>
