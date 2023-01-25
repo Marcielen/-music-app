@@ -37,6 +37,7 @@ export const InputDefault = ({
   bg = "primary.50",
   color = "black",
   textFillColor = "black",
+  borderColor = "primary.50",
   iconLeftElement,
 }: InputDefaultProps) => {
   const [textIsShowing, setTextIsShowing] = useState(true);
@@ -68,7 +69,7 @@ export const InputDefault = ({
             )}
             {iconLeftElement && (
               <InputLeftElement pointerEvents="none">
-                <Icon as={iconLeftElement} color="gray.700" fontSize="20px" />{" "}
+                <Icon as={iconLeftElement} color={color} fontSize="20px" />{" "}
               </InputLeftElement>
             )}
             <Input
@@ -79,7 +80,7 @@ export const InputDefault = ({
               borderRadius={borderRadius}
               bg={bg}
               _placeholder={{
-                color: "gray.300",
+                color: "white",
               }}
               _autofill={{
                 border: "2px solid primary.50",
@@ -96,7 +97,7 @@ export const InputDefault = ({
                 borderColor: textFillColor,
                 borderWidth: "2px",
               }}
-              borderColor="primary.50"
+              borderColor={borderColor}
               borderWidth="2px"
               color={color}
               h="37px"

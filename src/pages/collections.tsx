@@ -3,6 +3,8 @@ import {
   Button,
   Divider,
   Flex,
+  Grid,
+  GridItem,
   Icon,
   Image,
   Td,
@@ -13,7 +15,11 @@ import { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { RiPlayListFill } from "react-icons/ri";
-import { AiFillCaretRight, AiFillPauseCircle } from "react-icons/ai";
+import {
+  AiFillCaretRight,
+  AiFillPauseCircle,
+  AiFillPlayCircle,
+} from "react-icons/ai";
 
 import { useMusicContext } from "store/contextMusic";
 
@@ -97,17 +103,22 @@ export default function Search() {
               <InputDefault
                 autoFocus
                 bg="primary.850"
+                color="white"
+                textFillColor="primary.600"
                 borderColor="primary.600"
+                placeholder="Search"
                 borderRadius="10px"
                 iconLeftElement={FiSearch}
                 name="searchMusic"
               />
             </Box>
             <Button
-              leftIcon={<Icon as={RiPlayListFill} />}
+              leftIcon={<Icon as={RiPlayListFill} mr="10px" />}
               variant="solid"
               color="white"
-              bg="primary.500"
+              borderWidth="2px"
+              borderColor="primary.600"
+              bg="primary.850"
               _hover={{
                 background: "ed64a6",
               }}
@@ -220,24 +231,80 @@ export default function Search() {
               })}
             /> */}
           {/* </Box> */}
-          <Flex position="relative" color="white">
+          <Grid
+            mt="20px"
+            templateColumns="repeat(5, 1fr)"
+            gap={6}
+            position="relative"
+            color="white"
+          >
             {listMusic.map((music, index) => (
-              <>
+              <GridItem key={music.musicUrl}>
                 <Box
                   backgroundImage={music.imageAlbum}
                   backgroundPosition="bottom"
                   backgroundRepeat="no-repeat"
+                  borderRadius="6px"
                   backgroundSize="cover"
-                  h="200px"
-                  w="200px"
-                  style={{ filter: "blur(5px)" }}
+                  h="290px"
+                  w="210px"
+                  opacity="0.2"
                 ></Box>
-                <Box h="200px" zIndex="9999" position="absolute">
-                  {music.author}
+                <Box
+                  h="290px"
+                  top="0"
+                  w="210px"
+                  zIndex="9999"
+                  position="absolute"
+                >
+                  <Image
+                    w="210px"
+                    borderTopEndRadius="6px"
+                    borderTopStartRadius="6px"
+                    objectFit="cover"
+                    h="200"
+                    alt={music.nameMusic}
+                    src={music.imageAlbum}
+                  />
+
+                  <Flex alignItems="center" justifyContent="flex-end" w="full">
+                    <Icon
+                      boxSize="40px"
+                      position="absolute"
+                      top="180"
+                      bg="white"
+                      borderRadius="100px"
+                      right="2"
+                      color="secondary.200"
+                      cursor="pointer"
+                      onClick={() => {
+                        handleMusicActive(music.musicUrl);
+                        setIsMusicActive(
+                          music.isActive ? !music.isActive : true
+                        );
+                        setSelectedMusic(music);
+                      }}
+                      as={music.isActive ? AiFillPauseCircle : AiFillPlayCircle}
+                    />
+                  </Flex>
+
+                  <Box mt="10px">
+                    <Text
+                      fontSize="12px"
+                      fontWeight="bold"
+                      color="secondary.200"
+                    >
+                      {music.album}
+                    </Text>
+                    <Text fontSize="14px" fontWeight="bold">
+                      {music.nameMusic}
+                    </Text>
+                    <Text>{music.author}</Text>
+                  </Box>
                 </Box>
-              </>
+              </GridItem>
             ))}
-          </Flex>
+          </Grid>
         </Box>
       </Flex>
     </FormProvider>
