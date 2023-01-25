@@ -11,7 +11,7 @@ export const Menu = () => {
   const router = useRouter();
 
   return (
-    <Box position="relative" w="60px" height="full">
+    <Box position="relative" w="60px" h="calc(100vh - 80px)">
       <ContainerMenu width="60px" pt="20px">
         <Flex pb="15px" justifyContent="center" alignItems="center">
           <Icon cursor="pointer" w="30px" h="50px" as={LogoIconSmall} />
