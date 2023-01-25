@@ -162,7 +162,7 @@ export default function CreateMusic() {
       <Flex
         position="relative"
         justifyContent="space-between"
-        bg="primary.700"
+        bg="black"
         h="calc(100vh - 80px)"
       >
         <Menu setMenuIsOpen={setMenuIsOpen} />
@@ -185,7 +185,7 @@ export default function CreateMusic() {
                 alignItems="center"
                 pl="25px"
                 pb="12px"
-                bg="secondary.600"
+                bg="secondary.500"
                 color="white"
               >
                 <Icon

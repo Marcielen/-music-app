@@ -15,7 +15,7 @@ export const ContainerMenu = ({
     <Box
       display="flex"
       flexDirection="column"
-      bg="black"
+      bg="primary.900"
       transform={transform}
       height="full"
       position="absolute"

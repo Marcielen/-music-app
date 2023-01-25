@@ -5,8 +5,19 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { onSnapshot } from "firebase/firestore";
-import { collectionMusic } from "services/firebase";
+import {
+  collection,
+  DocumentData,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  startAfter,
+  where,
+} from "firebase/firestore";
+import { collectionMusic, db } from "services/firebase";
 import { auth } from "Modules/auth";
 
 export type ListMusicProps = {
@@ -38,9 +49,12 @@ interface MusicContextProps {
   handleIsMusicActive: () => void;
   handleNextMusic: () => void;
   handlePreviousMusic: () => void;
+  handleDataMusic: () => Promise<void>;
 }
 
 const MusicContext = createContext<MusicContextProps>({} as MusicContextProps);
+
+let latestDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 
 interface MusicProviderProps {
   children: React.ReactNode;
@@ -67,7 +81,7 @@ export default function MusicProvider({
   }, [isLoopMusic]);
 
   const id = auth.getToken();
-
+  console.log(listMusic);
   const handleNextMusic = useCallback(() => {
     const indexMusicSelected = listMusic.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
@@ -94,8 +108,17 @@ export default function MusicProvider({
     setIsMusicActive(true);
   }, [listMusic, selectedMusic]);
 
-  useEffect(() => {
-    onSnapshot(collectionMusic, (snapshot) => {
+  const handleDataMusic = useCallback(async () => {
+    const dataMusic = query(
+      collection(db, "music"),
+      orderBy("nameMusic"),
+      startAfter(latestDoc || 0),
+      limit(5)
+    );
+
+    const testando = await getDocs(dataMusic);
+
+    onSnapshot(dataMusic, (snapshot) => {
       snapshot.forEach((doc) => {
         const data = doc.data() as ListMusicProps;
 
@@ -117,13 +140,20 @@ export default function MusicProvider({
         });
       });
     });
+
+    latestDoc = testando.docs[testando.docs.length - 1];
   }, [id]);
+
+  useEffect(() => {
+    handleDataMusic();
+  }, [handleDataMusic]);
 
   return (
     <MusicContext.Provider
       value={{
         setListMusic,
         setIsLoopMusic,
+        handleDataMusic,
         setIsMusicActive,
         durationMusic,
         setDurationMusic,

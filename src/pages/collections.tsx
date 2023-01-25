@@ -38,8 +38,13 @@ export default function Search() {
   const searchMusicWatch = watch("searchMusic");
   const router = useRouter();
 
-  const { setSelectedMusic, listMusic, setListMusic, setIsMusicActive } =
-    useMusicContext();
+  const {
+    setSelectedMusic,
+    listMusic,
+    handleDataMusic,
+    setListMusic,
+    setIsMusicActive,
+  } = useMusicContext();
 
   function handleMusicActive(url: string) {
     setListMusic((previousValue) => {
@@ -74,7 +79,7 @@ export default function Search() {
       <Flex
         zIndex="2"
         justifyContent="space-between"
-        bg="primary.700"
+        bg="black"
         h="calc(100vh - 80px)"
       >
         <Box bg="red" h="full" maxWidth="200px">
@@ -87,10 +92,12 @@ export default function Search() {
           transition="all ease 1.5s"
           w={`calc(100vw - ${menuIsOpen ? "200px" : "80px"})`}
         >
-          <Flex pl="15px" pr="15px" w="full" justifyContent="space-between">
+          <Flex pr="15px" w="full" justifyContent="space-between">
             <Box w={["full", "full", "350px"]}>
               <InputDefault
                 autoFocus
+                bg="primary.850"
+                borderColor="primary.600"
                 borderRadius="10px"
                 iconLeftElement={FiSearch}
                 name="searchMusic"
@@ -112,9 +119,9 @@ export default function Search() {
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             Collection of musics
           </Text>
-          <Box bg="gray.800" p="4" color="white" borderRadius="md" mt="4">
-            {/* <VirtualizedInfinite /> */}
-            <Pagination
+          {/*  <Box bg="gray.800" p="4" color="white" borderRadius="md" mt="4"> */}
+          {/* <VirtualizedInfinite /> */}
+          {/* <Pagination
               nPages={listMusic.length}
               currentPage={page}
               setCurrentPage={setPage}
@@ -211,8 +218,26 @@ export default function Search() {
                   </>
                 );
               })}
-            />
-          </Box>
+            /> */}
+          {/* </Box> */}
+          <Flex position="relative" color="white">
+            {listMusic.map((music, index) => (
+              <>
+                <Box
+                  backgroundImage={music.imageAlbum}
+                  backgroundPosition="bottom"
+                  backgroundRepeat="no-repeat"
+                  backgroundSize="cover"
+                  h="200px"
+                  w="200px"
+                  style={{ filter: "blur(5px)" }}
+                ></Box>
+                <Box h="200px" zIndex="9999" position="absolute">
+                  {music.author}
+                </Box>
+              </>
+            ))}
+          </Flex>
         </Box>
       </Flex>
     </FormProvider>
