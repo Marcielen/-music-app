@@ -6,11 +6,11 @@ import * as firebase from "firebase/auth";
 
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { firebaseAuth } from "services/firebase";
+import { auth } from "modules/auth";
 
 import { InputDefault } from "components/Input";
 
 import { NextPageLayout } from "./_app";
-import { auth } from "Modules/auth";
 
 const Login: NextPageLayout = () => {
   const formMethods = useForm();
@@ -25,8 +25,7 @@ const Login: NextPageLayout = () => {
     firebase
       .signInWithEmailAndPassword(firebaseAuth, email, password)
       .then(async (value) => {
-        // @ts-ignore
-        await auth.setToken(value.user.reloadUserInfo.localId);
+        await auth.setToken(value.user.uid);
         router.push(EnumConstRouter.COLLECTIONS);
       })
       .catch(() => {

@@ -1,5 +1,6 @@
-import { PlayerMusic } from "components/PlayerMusic";
 import MusicProvider from "store/contextMusic";
+
+import { PlayerMusic } from "components/PlayerMusic";
 
 type AppLayoutProps = {
   children: React.ReactNode;

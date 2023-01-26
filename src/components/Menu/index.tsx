@@ -1,11 +1,12 @@
 import { Box, Flex, Icon, Tooltip } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { FiMusic } from "react-icons/fi";
+
+import { EnumConstRouter } from "constants/enumConstRouter";
 
 import { HomeIcon, LogoIconSmall } from "icons";
 
 import { ContainerMenu } from "./ContainerMenu";
-import { useRouter } from "next/router";
-import { EnumConstRouter } from "constants/enumConstRouter";
-import { FiMusic } from "react-icons/fi";
 
 export const Menu = () => {
   const router = useRouter();

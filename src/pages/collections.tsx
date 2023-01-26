@@ -1,38 +1,27 @@
 import {
   Box,
   Button,
-  Divider,
   Flex,
   Grid,
   GridItem,
   Icon,
   Image,
-  Td,
   Text,
-  Tr,
 } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { RiPlayListFill } from "react-icons/ri";
-import {
-  AiFillCaretRight,
-  AiFillPauseCircle,
-  AiFillPlayCircle,
-} from "react-icons/ai";
+import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 import { useMusicContext } from "store/contextMusic";
 
 import { InputDefault } from "components/Input";
 import { Menu } from "components/Menu";
-import { Pagination } from "components/Pagination";
 import { EnumConstRouter } from "constants/enumConstRouter";
-import { useRouter } from "next/router";
-import { VirtualizedInfinite } from "components/VirtualizedInfinite";
 
 export default function Search() {
-  const [page, setPage] = useState(1);
-
   const formMethods = useForm({
     defaultValues: {
       searchMusic: "",

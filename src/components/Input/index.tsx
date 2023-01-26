@@ -8,7 +8,6 @@ import {
   FormErrorMessage,
   InputLeftElement,
   Box,
-  InputRightAddon,
   IconButton,
 } from "@chakra-ui/react";
 import { useState } from "react";
