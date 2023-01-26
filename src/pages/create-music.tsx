@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
-import { auth } from "modules/auth";
+import { auth } from "Modules/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { db, storage } from "services/firebase";
 import { EnumGenere } from "constants/enumGenere";
@@ -50,7 +50,7 @@ export default function CreateMusic() {
 
   const { handleSubmit } = formMethods;
 
-  const id = auth.getToken();
+  const userId = auth.getToken();
 
   const inputFileMusicRef = useRef<HTMLInputElement>(null);
   const inputFileImageAlbumRef = useRef<HTMLInputElement>(null);
@@ -67,8 +67,11 @@ export default function CreateMusic() {
     }
   }
 
-  const storageFileMusicRef = ref(storage, `${id}${fileMusic.name}`);
-  const storageFileImageAlbumRef = ref(storage, `${id}${fileAlbumMusic.name}`);
+  const storageFileMusicRef = ref(storage, `${userId}${fileMusic.name}`);
+  const storageFileImageAlbumRef = ref(
+    storage,
+    `${userId}${fileAlbumMusic.name}`
+  );
 
   const router = useRouter();
 
@@ -112,12 +115,12 @@ export default function CreateMusic() {
           async (downloadURLMusic) => {
             const dados = {
               ...data,
-              author: data.album ? data.album : "---",
+              album: data.album ? data.album : "---",
               musicUrl: downloadURLMusic,
               imageAlbum: fileImageAlbum === "" ? imageAlbum : fileImageAlbum,
               genere: data.genere?.label,
               musicDefault: false,
-              id: id || "",
+              id: userId || "",
             };
             await addDoc(docRef, dados)
               .then(() => {
@@ -265,7 +268,7 @@ export default function CreateMusic() {
                               }
 
                               const newFile = files[0];
-                              console.log(files);
+
                               if (newFile) {
                                 setFileMusic(newFile);
                               }

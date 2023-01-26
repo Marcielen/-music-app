@@ -8,7 +8,6 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { FiSearch } from "react-icons/fi";
 import { RiPlayListFill } from "react-icons/ri";
@@ -16,10 +15,11 @@ import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
 import { useRouter } from "next/router";
 
 import { useMusicContext } from "store/contextMusic";
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
 import { InputDefault } from "components/Input";
 import { Menu } from "components/Menu";
-import { EnumConstRouter } from "constants/enumConstRouter";
 
 export default function Search() {
   const formMethods = useForm({
@@ -61,6 +61,10 @@ export default function Search() {
     );
   const dataMusic = filterMusic();
 
+  const { elementRef } = useIntersectionObserver({
+    onIntersecting: handleDataMusic,
+  });
+
   return (
     <FormProvider {...formMethods}>
       <Flex
@@ -68,22 +72,27 @@ export default function Search() {
         justifyContent="space-between"
         bg="black"
         overflow="auto"
-        sx={{
-          "&::-webkit-scrollbar": {
-            height: "0",
-            width: "0",
-          },
-          "& .virtualized_List::-webkit-scrollbar": {
-            height: "0",
-            width: "0",
-          },
-        }}
-        maxH="calc(100vh - 80px)"
       >
         <Box h="full" mr="60px">
           <Menu />
         </Box>
-        <Box w="full" pt="35px" pr="40px">
+        <Box
+          sx={{
+            "&::-webkit-scrollbar": {
+              height: "0",
+              width: "0",
+            },
+            "& .virtualized_List::-webkit-scrollbar": {
+              height: "0",
+              width: "0",
+            },
+          }}
+          w="full"
+          pt="35px"
+          pr="40px"
+          maxH="calc(100vh - 80px)"
+          overflow="auto"
+        >
           <Flex pr="15px" w="full" justifyContent="space-between">
             <Box w={["full", "full", "350px"]}>
               <InputDefault
@@ -119,10 +128,10 @@ export default function Search() {
 
           <Grid
             mt="20px"
-            templateColumns="repeat(5, 1fr)"
+            templateColumns="repeat(5, 210px)"
             position="relative"
             rowGap="50px"
-            gap={1}
+            columnGap="25px"
             color="white"
           >
             {dataMusic.map((music) => (
@@ -186,7 +195,7 @@ export default function Search() {
               </GridItem>
             ))}
           </Grid>
-          <Box h="40px" />
+          <Box h="40px" ref={elementRef} />
         </Box>
       </Flex>
     </FormProvider>

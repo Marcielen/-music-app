@@ -15,10 +15,9 @@ import {
   query,
   QueryDocumentSnapshot,
   startAfter,
-  where,
 } from "firebase/firestore";
-import { collectionMusic, db } from "services/firebase";
-import { auth } from "modules/auth";
+import { db } from "services/firebase";
+import { auth } from "Modules/auth";
 
 export type ListMusicProps = {
   album: string;
@@ -81,7 +80,7 @@ export default function MusicProvider({
   }, [isLoopMusic]);
 
   const id = auth.getToken();
-  console.log(listMusic);
+
   const handleNextMusic = useCallback(() => {
     const indexMusicSelected = listMusic.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
