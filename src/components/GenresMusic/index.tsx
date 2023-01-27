@@ -1,11 +1,11 @@
 import { SwiperSlide as Slide } from "swiper/react";
 import Image from "next/image";
 
-import GenresMusicPopImage from "assets/pop.png";
-import GenresMusicIndieImage from "assets/indie.png";
-import GenresMusicHipHopImage from "assets/hipHop.png";
-import GenresMusicRockImage from "assets/rock.png";
-import GenresMusicPunkImage from "assets/punk.png";
+import GenresMusicPopImage from "Assets/pop.png";
+import GenresMusicIndieImage from "Assets/indie.png";
+import GenresMusicHipHopImage from "Assets/hipHop.png";
+import GenresMusicRockImage from "Assets/rock.png";
+import GenresMusicPunkImage from "Assets/punk.png";
 
 import { Carousel } from "components/Carousel";
 

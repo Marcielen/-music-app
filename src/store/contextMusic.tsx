@@ -18,7 +18,7 @@ import {
   where,
 } from "firebase/firestore";
 import { collectionMusic, db } from "services/firebase";
-import { auth } from "modules/auth";
+import { auth } from "Modules/auth";
 
 export type ListMusicProps = {
   album: string;

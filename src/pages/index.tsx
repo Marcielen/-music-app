@@ -6,7 +6,7 @@ import * as firebase from "firebase/auth";
 
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { firebaseAuth } from "services/firebase";
-import { auth } from "modules/auth";
+import { auth } from "Modules/auth";
 
 import { InputDefault } from "components/Input";
 
