@@ -265,7 +265,6 @@ export default function CreateMusic() {
                               }
 
                               const newFile = files[0];
-                              console.log(files);
                               if (newFile) {
                                 setFileMusic(newFile);
                               }

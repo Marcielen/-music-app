@@ -81,7 +81,6 @@ export default function MusicProvider({
   }, [isLoopMusic]);
 
   const id = auth.getToken();
-  console.log(listMusic);
   const handleNextMusic = useCallback(() => {
     const indexMusicSelected = listMusic.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
