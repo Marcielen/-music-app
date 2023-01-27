@@ -17,7 +17,7 @@ import {
 } from "react-icons/ai";
 import { MdGraphicEq } from "react-icons/md";
 
-import { convertDurationToTimeString } from "Format/FormatTimeDurationMusic";
+import { convertDurationToTimeString } from "Format/formatTimeMusic";
 import { useMusicContext } from "store/contextMusic";
 
 import { AleatoryMusicIcon, RepeatMusicIcon } from "icons";
