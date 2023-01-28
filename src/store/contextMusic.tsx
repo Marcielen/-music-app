@@ -48,7 +48,7 @@ interface MusicContextProps {
   handleIsMusicActive: () => void;
   handleNextMusic: () => void;
   handlePreviousMusic: () => void;
-  handleMusicdata: () => Promise<void>;
+  handleDataMusic: () => Promise<void>;
 }
 
 const MusicContext = createContext<MusicContextProps>({} as MusicContextProps);
@@ -106,7 +106,7 @@ export default function MusicProvider({
     setIsMusicActive(true);
   }, [listMusic, selectedMusic]);
 
-  const handleMusicdata = useCallback(async () => {
+  const handleDataMusic = useCallback(async () => {
     const dataMusic = query(
       collection(db, "music"),
       orderBy("nameMusic"),
@@ -143,15 +143,15 @@ export default function MusicProvider({
   }, [id]);
 
   useEffect(() => {
-    handleMusicdata();
-  }, [handleMusicdata]);
+    handleDataMusic();
+  }, [handleDataMusic]);
 
   return (
     <MusicContext.Provider
       value={{
         setListMusic,
         setIsLoopMusic,
-        handleMusicdata,
+        handleDataMusic,
         setIsMusicActive,
         durationMusic,
         setDurationMusic,
