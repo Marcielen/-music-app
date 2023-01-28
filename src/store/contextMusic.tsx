@@ -17,7 +17,7 @@ import {
   startAfter,
 } from "firebase/firestore";
 import { db } from "services/firebase";
-import { auth } from "Modules/auth";
+import { auth } from "modules/auth";
 
 export type ListMusicProps = {
   album: string;
@@ -48,7 +48,7 @@ interface MusicContextProps {
   handleIsMusicActive: () => void;
   handleNextMusic: () => void;
   handlePreviousMusic: () => void;
-  handleDataMusic: () => Promise<void>;
+  handleMusicdata: () => Promise<void>;
 }
 
 const MusicContext = createContext<MusicContextProps>({} as MusicContextProps);
@@ -80,7 +80,6 @@ export default function MusicProvider({
   }, [isLoopMusic]);
 
   const id = auth.getToken();
-
   const handleNextMusic = useCallback(() => {
     const indexMusicSelected = listMusic.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
@@ -107,7 +106,7 @@ export default function MusicProvider({
     setIsMusicActive(true);
   }, [listMusic, selectedMusic]);
 
-  const handleDataMusic = useCallback(async () => {
+  const handleMusicdata = useCallback(async () => {
     const dataMusic = query(
       collection(db, "music"),
       orderBy("nameMusic"),
@@ -144,15 +143,15 @@ export default function MusicProvider({
   }, [id]);
 
   useEffect(() => {
-    handleDataMusic();
-  }, [handleDataMusic]);
+    handleMusicdata();
+  }, [handleMusicdata]);
 
   return (
     <MusicContext.Provider
       value={{
         setListMusic,
         setIsLoopMusic,
-        handleDataMusic,
+        handleMusicdata,
         setIsMusicActive,
         durationMusic,
         setDurationMusic,

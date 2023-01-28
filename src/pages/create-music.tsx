@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 
-import { auth } from "Modules/auth";
+import { auth } from "modules/auth";
 import { addDoc, collection } from "firebase/firestore";
 import { db, storage } from "services/firebase";
 import { EnumGenere } from "constants/enumGenere";
@@ -268,7 +268,6 @@ export default function CreateMusic() {
                               }
 
                               const newFile = files[0];
-
                               if (newFile) {
                                 setFileMusic(newFile);
                               }
