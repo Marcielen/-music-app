@@ -59,15 +59,18 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           boxSize="20px"
           cursor="pointer"
           _hover={{
-            color: "primary",
+            color: "secondary.200",
           }}
           onClick={() => handlePreviousMusic()}
           as={AiFillFastBackward}
         />
         <Icon
           boxSize="40px"
-          color="white"
           cursor="pointer"
+          color={isMusicActive ? "secondary.200" : "white"}
+          _hover={{
+            color: "secondary.200",
+          }}
           onClick={() => handleIsMusicActive()}
           as={isMusicActive ? AiFillPauseCircle : AiFillPlayCircle}
         />
@@ -76,15 +79,18 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           color="white"
           boxSize="20px"
           _hover={{
-            color: "primary",
+            color: "secondary.200",
           }}
           onClick={() => handleNextMusic()}
           as={AiFillFastForward}
         />
         <Box position="relative">
           <Icon
-            color={isLoopMusic ? "primary" : "white"}
+            color={isLoopMusic ? "secondary.200" : "white"}
             cursor="pointer"
+            _hover={{
+              color: "secondary.200",
+            }}
             onClick={() => handleIsMusicLoop()}
             boxSize="17px"
             mt="-3px"

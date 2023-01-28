@@ -5,15 +5,14 @@ import { Menu } from "components/Menu";
 
 export default function Home() {
   return (
-    <Flex justifyContent="space-between" bg="black" h="calc(100vh - 80px)">
-      <Menu />
-      <Box
-        pt="35px"
-        pl="40px"
-        pr="50px"
-        transition="all ease 1.5s"
-        w={`calc(100vw - 70px)`}
-      >
+    <Flex
+      w="full"
+      position="relative"
+      justifyContent="space-between"
+      h="calc(100vh - 80px)"
+      pr="11%"
+    >
+      <Box w="full" pt="35px">
         <GenresMusic />
       </Box>
     </Flex>

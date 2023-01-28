@@ -19,7 +19,7 @@ import { EnumConstRouter } from "constants/enumConstRouter";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
 import { InputDefault } from "components/Input";
-import { Menu } from "components/Menu";
+import { Loading } from "components/Loading";
 
 export default function Search() {
   const formMethods = useForm({
@@ -35,6 +35,7 @@ export default function Search() {
   const {
     setSelectedMusic,
     listMusic,
+    isLoading,
     handleDataMusic,
     setListMusic,
     setIsMusicActive,
@@ -68,14 +69,12 @@ export default function Search() {
   return (
     <FormProvider {...formMethods}>
       <Flex
+        w="full"
         zIndex="2"
         justifyContent="space-between"
         bg="black"
         overflow="auto"
       >
-        <Box h="full" mr="60px">
-          <Menu />
-        </Box>
         <Box
           sx={{
             "&::-webkit-scrollbar": {
@@ -125,13 +124,16 @@ export default function Search() {
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             Collection of musics
           </Text>
-
+          <Text fontSize="xs" color="white" mb="8">
+            Here you can find all your music collections
+          </Text>
+          {isLoading && <Loading />}
           <Grid
             mt="20px"
-            templateColumns="repeat(5, 210px)"
+            templateColumns="repeat(auto-fill, 210px)"
             position="relative"
             rowGap="50px"
-            columnGap="25px"
+            columnGap="5.6%"
             color="white"
           >
             {dataMusic.map((music) => (
@@ -162,9 +164,9 @@ export default function Search() {
                       boxSize="40px"
                       position="absolute"
                       top="180"
-                      bg="white"
-                      borderRadius="100px"
                       right="2"
+                      borderRadius="100px"
+                      bg="white"
                       color="secondary.200"
                       cursor="pointer"
                       onClick={() => {

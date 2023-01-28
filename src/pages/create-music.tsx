@@ -162,13 +162,13 @@ export default function CreateMusic() {
   return (
     <CreateMusicProvider>
       <Flex
+        w="full"
         position="relative"
         justifyContent="space-between"
         bg="black"
         h="calc(100vh - 80px)"
       >
-        <Menu />
-        <Box ml="60px" w="full" pt="35px" pr="55px">
+        <Box w="full" pt="35px" pr="3%">
           {isLoading && <Loading />}
           <FormProvider {...formMethods}>
             <Box bg="primary.800" pb="30px" borderRadius="10px">

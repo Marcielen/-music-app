@@ -7,6 +7,7 @@ import { EnumConstRouter } from "constants/enumConstRouter";
 import { HomeIcon, LogoIconSmall } from "icons";
 
 import { ContainerMenu } from "./ContainerMenu";
+import { MdOutlineLibraryMusic } from "react-icons/md";
 
 export const Menu = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ export const Menu = () => {
           hasArrow
           color="secondary.100"
           placement="right"
-          label="Collection"
+          label="Your collections"
         >
           <Flex
             _hover={{
@@ -61,6 +62,35 @@ export const Menu = () => {
               h="25px"
               color="white"
               as={FiMusic}
+            />
+          </Flex>
+        </Tooltip>
+        <Tooltip
+          hasArrow
+          color="secondary.100"
+          placement="right"
+          label="All collections"
+        >
+          <Flex
+            _hover={{
+              background: "#282828",
+            }}
+            mb="5px"
+            cursor="pointer"
+            alignItems="center"
+            pt="10px"
+            pb="10px"
+            pl="10px"
+            onClick={() => router.push(EnumConstRouter.ALL_COLLECTIONS)}
+            justifyContent="center"
+          >
+            <Icon
+              mr="15px"
+              cursor="pointer"
+              w="30px"
+              h="25px"
+              color="white"
+              as={MdOutlineLibraryMusic}
             />
           </Flex>
         </Tooltip>

@@ -48,7 +48,9 @@ interface MusicContextProps {
   handleIsMusicActive: () => void;
   handleNextMusic: () => void;
   handlePreviousMusic: () => void;
+  isLoading: boolean;
   handleDataMusic: () => Promise<void>;
+  handleMusicActive(url: string): void;
 }
 
 const MusicContext = createContext<MusicContextProps>({} as MusicContextProps);
@@ -68,6 +70,7 @@ export default function MusicProvider({
   const [listMusic, setListMusic] = useState<ListMusicProps[]>([]);
   const [isLoopMusic, setIsLoopMusic] = useState(false);
   const [isMusicActive, setIsMusicActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [progressMusic, setProgressMusic] = useState(0);
   const [durationMusic, setDurationMusic] = useState(0);
 
@@ -107,6 +110,7 @@ export default function MusicProvider({
   }, [listMusic, selectedMusic]);
 
   const handleDataMusic = useCallback(async () => {
+    setIsLoading(true);
     const dataMusic = query(
       collection(db, "music"),
       orderBy("nameMusic"),
@@ -140,7 +144,17 @@ export default function MusicProvider({
     });
 
     latestDoc = testando.docs[testando.docs.length - 1];
+    setIsLoading(false);
   }, [id]);
+
+  function handleMusicActive(url: string) {
+    setListMusic((previousValue) => {
+      return previousValue.map((music) => ({
+        ...music,
+        isActive: music.musicUrl === url ? !music.isActive : false,
+      }));
+    });
+  }
 
   useEffect(() => {
     handleDataMusic();
@@ -152,6 +166,7 @@ export default function MusicProvider({
         setListMusic,
         setIsLoopMusic,
         handleDataMusic,
+        handleMusicActive,
         setIsMusicActive,
         durationMusic,
         setDurationMusic,
@@ -160,6 +175,7 @@ export default function MusicProvider({
         isMusicActive,
         listMusic,
         handleIsMusicActive,
+        isLoading,
         selectedMusic,
         setSelectedMusic,
         isLoopMusic,
