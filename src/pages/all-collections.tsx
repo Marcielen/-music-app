@@ -89,7 +89,7 @@ export default function AllCollections() {
               borderColor="primary.600"
               bg="primary.850"
               _hover={{
-                background: "ed64a6",
+                background: "pink.400",
               }}
               onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
             >

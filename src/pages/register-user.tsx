@@ -72,9 +72,13 @@ const RegisterUser: NextPageLayout = () => {
           Back to login
         </Button>
         <Button
-          mt="20px"
-          variant="solid"
-          bg="white"
+          bg="secondary.400"
+          _hover={{
+            opacity: "0.8",
+          }}
+          mt="25px"
+          color="white"
+          variant=""
           w="full"
           onClick={() => handleSignOut()}
         >

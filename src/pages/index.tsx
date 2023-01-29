@@ -72,11 +72,11 @@ const Login: NextPageLayout = () => {
           Register here!
         </Button>
         <Button
-          bg="#ed64a6"
+          bg="secondary.400"
           _hover={{
             opacity: "0.8",
           }}
-          mt="20px"
+          mt="25px"
           color="white"
           variant=""
           w="full"

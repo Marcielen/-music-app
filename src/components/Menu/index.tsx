@@ -16,7 +16,13 @@ export const Menu = () => {
     <Box position="relative" w="60px" h="calc(100vh - 80px)">
       <ContainerMenu width="60px" pt="20px">
         <Flex pb="15px" justifyContent="center" alignItems="center">
-          <Icon cursor="pointer" w="30px" h="50px" as={LogoIconSmall} />
+          <Icon
+            cursor="pointer"
+            color="white"
+            w="30px"
+            h="50px"
+            as={LogoIconSmall}
+          />
         </Flex>
 
         <Tooltip placement="right" color="secondary.100" hasArrow label="Home">
