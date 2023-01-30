@@ -1,7 +1,9 @@
-import { Flex, Icon, Box, Text, keyframes } from "@chakra-ui/react";
-
-import { LogoIcon } from "icons";
 import { useEffect, useState } from "react";
+import { GiMusicalNotes, GiMusicalScore } from "react-icons/gi";
+import { Flex, Icon, Box, Text, keyframes, HStack } from "@chakra-ui/react";
+
+import { CardAnimation } from "components/CardAnimation";
+import { LogoIcon } from "icons";
 
 type AuthProps = {
   children: React.ReactNode;
@@ -27,12 +29,56 @@ export const Auth = ({ children }: AuthProps) => {
     };
   }, [colorIndex, colors.length]);
 
-  const animationKeyframes = keyframes`
+  const animationKeyframesStart = keyframes`
   0% { transform: translateY(0); }
   100% { transform: translateY(-800px);}
 `;
 
-  const animation = `${animationKeyframes} 4s ease-in-out infinite`;
+  const animationKeyframesEnd = keyframes`
+  0% { transform: translateY(-800px); }
+  100% { transform: translateY(0);}
+`;
+
+  const animation4s = `${animationKeyframesStart} 4s ease-in-out infinite`; //
+  const animation41s = `${animationKeyframesStart} 4.1s ease-in-out infinite`; //
+  const animation46s = `${animationKeyframesStart} 4.6s ease-in-out infinite`; //
+  const animationEnd4s = `${animationKeyframesEnd} 4s ease-in-out infinite`; //
+  const animationEnd41s = `${animationKeyframesEnd} 4.1s ease-in-out infinite`;
+  const animationEnd46 = `${animationKeyframesEnd} 4.6s ease-in-out infinite`;
+
+  const itensAnimation = [
+    {
+      animation: animation4s,
+      color: "#f1a0c9",
+      icon: GiMusicalNotes,
+    },
+    {
+      animation: animation41s,
+      color: "#9961c3",
+      icon: GiMusicalScore,
+    },
+    {
+      animation: animationEnd41s,
+      color: "white",
+      icon: GiMusicalNotes,
+    },
+    {
+      animation: animationEnd4s,
+      color: "#373448",
+      icon: GiMusicalNotes,
+    },
+    {
+      animation: animation46s,
+      color: "#f1a0c9",
+      icon: GiMusicalScore,
+    },
+
+    {
+      animation: animationEnd46,
+      color: "white",
+      icon: GiMusicalScore,
+    },
+  ];
 
   return (
     <Flex
@@ -42,17 +88,18 @@ export const Auth = ({ children }: AuthProps) => {
       alignItems="center"
       bgGradient={`${colors[colorIndex]}, #fbb6ce, #f1a0c9, #e28bc8, #ce79ca, #b369ce, #9961c3, #7f58b6, #6550a9, #544788, #453e68, #373448, #2a2a2a);`}
     >
-      <Flex
-        justifyContent="flex-end"
+      <HStack
         position="absolute"
+        justifyContent="space-between"
+        pr="5%"
+        pl="5%"
         zIndex="2"
         w="full"
+        spacing="20px"
         bottom="0"
-        animation={animation}
       >
-        <Box ml="30px" w="30px" h="30px" />
-        <Box w="30px" bottom="20px" h="30px" />
-      </Flex>
+        <CardAnimation itensAnimation={itensAnimation} />
+      </HStack>
       <Box
         bg="primary.850"
         borderRadius="10px"
