@@ -18,6 +18,8 @@ import {
 } from "firebase/firestore";
 import { db } from "services/firebase";
 import { auth } from "modules/auth";
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { useRouter } from "next/router";
 
 export type ListMusicProps = {
   album: string;
@@ -36,6 +38,7 @@ interface MusicContextProps {
   setSelectedMusic: React.Dispatch<React.SetStateAction<ListMusicProps>>;
   listMusic: ListMusicProps[];
   setListMusic: React.Dispatch<React.SetStateAction<ListMusicProps[]>>;
+  setListAllMusic: React.Dispatch<React.SetStateAction<ListMusicProps[]>>;
   setIsLoopMusic: React.Dispatch<React.SetStateAction<boolean>>;
   setIsMusicActive: React.Dispatch<React.SetStateAction<boolean>>;
   setProgressMusic: React.Dispatch<React.SetStateAction<number>>;
@@ -51,6 +54,7 @@ interface MusicContextProps {
   isLoading: boolean;
   handleDataMusic: () => Promise<void>;
   handleMusicActive(url: string): void;
+  listAllMusic: ListMusicProps[];
 }
 
 const MusicContext = createContext<MusicContextProps>({} as MusicContextProps);
@@ -68,11 +72,18 @@ export default function MusicProvider({
     {} as ListMusicProps
   );
   const [listMusic, setListMusic] = useState<ListMusicProps[]>([]);
+  const [listAllMusic, setListAllMusic] = useState<ListMusicProps[]>([]);
   const [isLoopMusic, setIsLoopMusic] = useState(false);
   const [isMusicActive, setIsMusicActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progressMusic, setProgressMusic] = useState(0);
   const [durationMusic, setDurationMusic] = useState(0);
+
+  const { pathname } = useRouter();
+
+  const routeAllCollection = pathname.includes(EnumConstRouter.ALL_COLLECTIONS);
+
+  const isAllCollection = routeAllCollection;
 
   const handleIsMusicActive = useCallback(() => {
     setIsMusicActive(!isMusicActive);
@@ -84,30 +95,32 @@ export default function MusicProvider({
 
   const id = auth.getToken();
   const handleNextMusic = useCallback(() => {
-    const indexMusicSelected = listMusic.findIndex(
+    const data = isAllCollection ? listAllMusic : listMusic;
+    const indexMusicSelected = data.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
     );
 
-    if (indexMusicSelected + 1 === listMusic.length) {
-      setSelectedMusic(listMusic[0]);
+    if (indexMusicSelected + 1 === data.length) {
+      setSelectedMusic(data[0]);
     } else {
-      setSelectedMusic(listMusic[indexMusicSelected + 1]);
+      setSelectedMusic(data[indexMusicSelected + 1]);
     }
     setIsMusicActive(true);
-  }, [listMusic, selectedMusic]);
+  }, [isAllCollection, listAllMusic, listMusic, selectedMusic]);
 
   const handlePreviousMusic = useCallback(() => {
-    const indexMusicSelected = listMusic.findIndex(
+    const data = isAllCollection ? listAllMusic : listMusic;
+    const indexMusicSelected = data.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
     );
 
     if (indexMusicSelected + 1 === 1) {
-      setSelectedMusic(listMusic[listMusic.length - 1]);
+      setSelectedMusic(data[data.length - 1]);
     } else {
-      setSelectedMusic(listMusic[indexMusicSelected - 1]);
+      setSelectedMusic(data[indexMusicSelected - 1]);
     }
     setIsMusicActive(true);
-  }, [listMusic, selectedMusic]);
+  }, [isAllCollection, listAllMusic, listMusic, selectedMusic.musicUrl]);
 
   const handleDataMusic = useCallback(async () => {
     setIsLoading(true);
@@ -130,15 +143,22 @@ export default function MusicProvider({
           );
 
           if (musicIsAlreadyAdded) {
-            return valueListMusic.filter(
-              (listUser) => listUser.id === id || listUser.musicDefault
-            );
+            return valueListMusic.filter((listUser) => listUser.id === id);
           }
 
           const values = [...valueListMusic, data];
-          return values.filter(
-            (listUser) => listUser.id === id || listUser.musicDefault
+          return values.filter((listUser) => listUser.id === id);
+        });
+        setListAllMusic((valueListMusic) => {
+          const musicIsAlreadyAdded = valueListMusic.some(
+            (validateValue) => validateValue.musicUrl === data.musicUrl
           );
+
+          if (musicIsAlreadyAdded) {
+            return valueListMusic;
+          }
+
+          return [...valueListMusic, data];
         });
       });
     });
@@ -148,12 +168,21 @@ export default function MusicProvider({
   }, [id]);
 
   function handleMusicActive(url: string) {
-    setListMusic((previousValue) => {
-      return previousValue.map((music) => ({
-        ...music,
-        isActive: music.musicUrl === url ? !music.isActive : false,
-      }));
-    });
+    if (isAllCollection) {
+      setListAllMusic((previousValue) => {
+        return previousValue.map((music) => ({
+          ...music,
+          isActive: music.musicUrl === url ? !music.isActive : false,
+        }));
+      });
+    } else {
+      setListMusic((previousValue) => {
+        return previousValue.map((music) => ({
+          ...music,
+          isActive: music.musicUrl === url ? !music.isActive : false,
+        }));
+      });
+    }
   }
 
   useEffect(() => {
@@ -166,6 +195,8 @@ export default function MusicProvider({
         setListMusic,
         setIsLoopMusic,
         handleDataMusic,
+        setListAllMusic,
+        listAllMusic,
         handleMusicActive,
         setIsMusicActive,
         durationMusic,

@@ -23,10 +23,10 @@ export default function AllCollections() {
   const searchMusicWatch = watch("searchMusic");
   const router = useRouter();
 
-  const { listMusic, isLoading, handleDataMusic } = useMusicContext();
+  const { listAllMusic, isLoading, handleDataMusic } = useMusicContext();
 
   const filterMusic = () =>
-    listMusic.filter((valueMusic) =>
+    listAllMusic.filter((valueMusic) =>
       Object.values(valueMusic)
         .flat()
         .some((nameMusic) =>

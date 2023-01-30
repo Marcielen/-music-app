@@ -10,6 +10,8 @@ import {
   SliderThumb,
   SliderFilledTrack,
 } from "@chakra-ui/react";
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill } from "react-icons/bs";
 import { MdGraphicEq } from "react-icons/md";
@@ -30,10 +32,17 @@ export const PlayerMusic = () => {
     isMusicActive,
     setIsMusicActive,
     setListMusic,
+    setListAllMusic,
     setProgressMusic,
     setDurationMusic,
     handleNextMusic,
   } = useMusicContext();
+
+  const { pathname } = useRouter();
+
+  const routeAllCollection = pathname.includes(EnumConstRouter.ALL_COLLECTIONS);
+
+  const isAllCollection = routeAllCollection;
 
   const handleVolumeMusic = useCallback((volume: number) => {
     valueVolumeMusic.current = volume;
@@ -70,14 +79,30 @@ export const PlayerMusic = () => {
       audioRef.current?.pause();
     }
 
-    setListMusic((previousValue) => {
-      return previousValue.map((music) => ({
-        ...music,
-        isActive:
-          music.musicUrl === selectedMusic.musicUrl ? isMusicActive : false,
-      }));
-    });
-  }, [isMusicActive, selectedMusic, setListMusic]);
+    if (isAllCollection) {
+      setListAllMusic((previousValue) => {
+        return previousValue.map((music) => ({
+          ...music,
+          isActive:
+            music.musicUrl === selectedMusic.musicUrl ? isMusicActive : false,
+        }));
+      });
+    } else {
+      setListMusic((previousValue) => {
+        return previousValue.map((music) => ({
+          ...music,
+          isActive:
+            music.musicUrl === selectedMusic.musicUrl ? isMusicActive : false,
+        }));
+      });
+    }
+  }, [
+    isMusicActive,
+    selectedMusic,
+    isAllCollection,
+    setListAllMusic,
+    setListMusic,
+  ]);
 
   useEffect(() => {
     if (audioRef.current?.volume || audioRef.current?.volume === 0) {

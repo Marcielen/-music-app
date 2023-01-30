@@ -6,6 +6,7 @@ import {
   GridItem,
   Icon,
   Image,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -19,7 +20,6 @@ import { EnumConstRouter } from "constants/enumConstRouter";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
 import { InputDefault } from "components/Input";
-import { Loading } from "components/Loading";
 
 export default function Search() {
   const formMethods = useForm({
@@ -38,16 +38,32 @@ export default function Search() {
     isLoading,
     handleDataMusic,
     setListMusic,
+    setListAllMusic,
     setIsMusicActive,
   } = useMusicContext();
 
+  const routeAllCollection = router.pathname.includes(
+    EnumConstRouter.ALL_COLLECTIONS
+  );
+
+  const isAllCollection = routeAllCollection;
+
   function handleMusicActive(url: string) {
-    setListMusic((previousValue) => {
-      return previousValue.map((music) => ({
-        ...music,
-        isActive: music.musicUrl === url ? !music.isActive : false,
-      }));
-    });
+    if (isAllCollection) {
+      setListAllMusic((previousValue) => {
+        return previousValue.map((music) => ({
+          ...music,
+          isActive: music.musicUrl === url ? !music.isActive : false,
+        }));
+      });
+    } else {
+      setListMusic((previousValue) => {
+        return previousValue.map((music) => ({
+          ...music,
+          isActive: music.musicUrl === url ? !music.isActive : false,
+        }));
+      });
+    }
   }
 
   const filterMusic = () =>
@@ -127,7 +143,7 @@ export default function Search() {
           <Text fontSize="xs" color="white" mb="8">
             Here you can find all your music collections
           </Text>
-          {isLoading && <Loading />}
+
           <Grid
             mt="20px"
             templateColumns="repeat(auto-fill, 210px)"
@@ -197,6 +213,18 @@ export default function Search() {
               </GridItem>
             ))}
           </Grid>
+          <Flex justifyContent="center" alignItems="center">
+            {isLoading && (
+              <Spinner
+                thickness="3px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="secondary.500"
+                h="30px"
+                w="30px"
+              />
+            )}
+          </Flex>
           <Box h="40px" ref={elementRef} />
         </Box>
       </Flex>
