@@ -1,16 +1,12 @@
-import { Box, Button, Flex, Icon, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { FiSearch } from "react-icons/fi";
-import { RiPlayListFill } from "react-icons/ri";
-import { useRouter } from "next/router";
 
 import { useMusicContext } from "store/contextMusic";
-import { EnumConstRouter } from "constants/enumConstRouter";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
-import { InputDefault } from "components/Input";
 import { Loading } from "components/Loading";
 import { CardsMusic } from "components/CardsMusic";
+import { HeaderCollection } from "components/HeaderCollection";
 
 export default function AllCollections() {
   const formMethods = useForm({
@@ -21,19 +17,12 @@ export default function AllCollections() {
   const { watch } = formMethods;
 
   const searchMusicWatch = watch("searchMusic");
-  const router = useRouter();
 
   const { listAllMusic, isLoading, handleDataMusic } = useMusicContext();
 
   const filterMusic = () =>
-    listAllMusic.filter((valueMusic) =>
-      Object.values(valueMusic)
-        .flat()
-        .some((nameMusic) =>
-          `${nameMusic}`
-            .toLowerCase()
-            .includes(`${searchMusicWatch}`.toLowerCase())
-        )
+    listAllMusic.filter((repos) =>
+      repos.nameMusic.toLowerCase().includes(searchMusicWatch.toLowerCase())
     );
   const dataMusic = filterMusic();
 
@@ -67,35 +56,7 @@ export default function AllCollections() {
           maxH="calc(100vh - 80px)"
           overflow="auto"
         >
-          <Flex pr="15px" w="full" justifyContent="space-between">
-            <Box w={["full", "full", "350px"]}>
-              <InputDefault
-                autoFocus
-                bg="primary.850"
-                color="white"
-                textFillColor="primary.600"
-                borderColor="primary.600"
-                placeholder="Search"
-                borderRadius="10px"
-                iconLeftElement={FiSearch}
-                name="searchMusic"
-              />
-            </Box>
-            <Button
-              leftIcon={<Icon as={RiPlayListFill} mr="10px" />}
-              variant="solid"
-              color="white"
-              borderWidth="2px"
-              borderColor="primary.600"
-              bg="primary.850"
-              _hover={{
-                background: "pink.400",
-              }}
-              onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
-            >
-              Create music
-            </Button>
-          </Flex>
+          <HeaderCollection />
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             All collections
           </Text>

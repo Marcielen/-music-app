@@ -26,7 +26,7 @@ const Login: NextPageLayout = () => {
       .signInWithEmailAndPassword(firebaseAuth, email, password)
       .then(async (value) => {
         await auth.setToken(value.user.uid);
-        router.push(EnumConstRouter.COLLECTIONS);
+        router.push(EnumConstRouter.HOME);
       })
       .catch(() => {
         toast.warning("error");

@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   Grid,
   GridItem,
@@ -10,8 +9,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { FiSearch } from "react-icons/fi";
-import { RiPlayListFill } from "react-icons/ri";
 import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
 import { useRouter } from "next/router";
 
@@ -19,7 +16,7 @@ import { useMusicContext } from "store/contextMusic";
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
-import { InputDefault } from "components/Input";
+import { HeaderCollection } from "components/HeaderCollection";
 
 export default function Search() {
   const formMethods = useForm({
@@ -67,14 +64,8 @@ export default function Search() {
   }
 
   const filterMusic = () =>
-    listMusic.filter((valueMusic) =>
-      Object.values(valueMusic)
-        .flat()
-        .some((nameMusic) =>
-          `${nameMusic}`
-            .toLowerCase()
-            .includes(`${searchMusicWatch}`.toLowerCase())
-        )
+    listMusic.filter((repos) =>
+      repos.nameMusic.toLowerCase().includes(searchMusicWatch.toLowerCase())
     );
   const dataMusic = filterMusic();
 
@@ -108,35 +99,7 @@ export default function Search() {
           maxH="calc(100vh - 80px)"
           overflow="auto"
         >
-          <Flex pr="15px" w="full" justifyContent="space-between">
-            <Box w={["full", "full", "350px"]}>
-              <InputDefault
-                autoFocus
-                bg="primary.850"
-                color="white"
-                textFillColor="primary.600"
-                borderColor="primary.600"
-                placeholder="Search"
-                borderRadius="10px"
-                iconLeftElement={FiSearch}
-                name="searchMusic"
-              />
-            </Box>
-            <Button
-              leftIcon={<Icon as={RiPlayListFill} mr="10px" />}
-              variant="solid"
-              color="white"
-              borderWidth="2px"
-              borderColor="primary.600"
-              bg="primary.850"
-              _hover={{
-                background: "pink.400",
-              }}
-              onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
-            >
-              Create music
-            </Button>
-          </Flex>
+          <HeaderCollection />
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             Collection of musics
           </Text>

@@ -8,6 +8,7 @@ import { HomeIcon, LogoIconSmall } from "icons";
 
 import { ContainerMenu } from "./ContainerMenu";
 import { MdOutlineLibraryMusic } from "react-icons/md";
+import { RiPlayListFill } from "react-icons/ri";
 
 export const Menu = () => {
   const router = useRouter();
@@ -97,6 +98,35 @@ export const Menu = () => {
               h="25px"
               color="white"
               as={MdOutlineLibraryMusic}
+            />
+          </Flex>
+        </Tooltip>
+        <Tooltip
+          hasArrow
+          color="secondary.100"
+          placement="right"
+          label="Create music"
+        >
+          <Flex
+            _hover={{
+              background: "#282828",
+            }}
+            mb="5px"
+            cursor="pointer"
+            alignItems="center"
+            pt="10px"
+            pb="10px"
+            pl="10px"
+            onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
+            justifyContent="center"
+          >
+            <Icon
+              mr="15px"
+              cursor="pointer"
+              w="30px"
+              h="25px"
+              color="white"
+              as={RiPlayListFill}
             />
           </Flex>
         </Tooltip>

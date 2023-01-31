@@ -12,4 +12,8 @@ export const auth = {
       return "";
     }
   },
+
+  clearToken(): any {
+    localStorage.clear();
+  },
 };
