@@ -1,4 +1,5 @@
-import { Box, VStack, Button, Text } from "@chakra-ui/react";
+import { useState } from "react";
+import { Box, VStack, Button, Text, Flex, Icon } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
@@ -11,8 +12,11 @@ import { auth } from "modules/auth";
 import { InputDefault } from "components/Input";
 
 import { NextPageLayout } from "./_app";
+import { BsGithub } from "react-icons/bs";
 
 const Login: NextPageLayout = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formMethods = useForm();
 
   const { handleSubmit } = formMethods;
@@ -20,12 +24,14 @@ const Login: NextPageLayout = () => {
   const router = useRouter();
 
   const handleSignIn = handleSubmit((data) => {
+    setIsLoading(true);
     const { email, password } = data;
 
     firebase
       .signInWithEmailAndPassword(firebaseAuth, email, password)
       .then(async (value) => {
         await auth.setToken(value.user.uid);
+
         router.push(EnumConstRouter.HOME);
       })
       .catch(() => {
@@ -78,12 +84,16 @@ const Login: NextPageLayout = () => {
           }}
           mt="25px"
           color="white"
+          isLoading={isLoading}
           variant=""
           w="full"
           onClick={() => handleSignIn()}
         >
           Login
         </Button>
+        <Flex>
+          <Icon color="white" boxSize="40px" as={BsGithub} />
+        </Flex>
       </FormProvider>
     </Box>
   );

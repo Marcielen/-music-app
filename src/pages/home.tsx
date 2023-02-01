@@ -1,20 +1,17 @@
 import { Box, Flex } from "@chakra-ui/react";
 
 import { GenresMusic } from "components/GenresMusic";
-import { Menu } from "components/Menu";
+import { Header } from "components/HeaderCollection";
 
 export default function Home() {
   return (
-    <Flex
-      w="full"
-      position="relative"
-      justifyContent="space-between"
-      h="calc(100vh - 80px)"
-      pr="11%"
-    >
+    <Box w="full" position="relative" pr="2%" h="calc(100vh - 80px)">
+      <Box w="full" mt="20px">
+        <Header isCollection={false} />
+      </Box>
       <Box w="full" pt="35px">
         <GenresMusic />
       </Box>
-    </Flex>
+    </Box>
   );
 }

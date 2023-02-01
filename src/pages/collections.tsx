@@ -1,22 +1,11 @@
-import {
-  Box,
-  Flex,
-  Grid,
-  GridItem,
-  Icon,
-  Image,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
-import { AiFillPauseCircle, AiFillPlayCircle } from "react-icons/ai";
-import { useRouter } from "next/router";
 
 import { useMusicContext } from "store/contextMusic";
-import { EnumConstRouter } from "constants/enumConstRouter";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
-import { HeaderCollection } from "components/HeaderCollection";
+import { Header } from "components/HeaderCollection";
+import { CardsMusic } from "components/CardsMusic";
 
 export default function Search() {
   const formMethods = useForm({
@@ -27,41 +16,7 @@ export default function Search() {
   const { watch } = formMethods;
 
   const searchMusicWatch = watch("searchMusic");
-  const router = useRouter();
-
-  const {
-    setSelectedMusic,
-    listMusic,
-    isLoading,
-    handleDataMusic,
-    setListMusic,
-    setListAllMusic,
-    setIsMusicActive,
-  } = useMusicContext();
-
-  const routeAllCollection = router.pathname.includes(
-    EnumConstRouter.ALL_COLLECTIONS
-  );
-
-  const isAllCollection = routeAllCollection;
-
-  function handleMusicActive(url: string) {
-    if (isAllCollection) {
-      setListAllMusic((previousValue) => {
-        return previousValue.map((music) => ({
-          ...music,
-          isActive: music.musicUrl === url ? !music.isActive : false,
-        }));
-      });
-    } else {
-      setListMusic((previousValue) => {
-        return previousValue.map((music) => ({
-          ...music,
-          isActive: music.musicUrl === url ? !music.isActive : false,
-        }));
-      });
-    }
-  }
+  const { listMusic, isLoading, handleDataMusic } = useMusicContext();
 
   const filterMusic = () =>
     listMusic.filter((repos) =>
@@ -99,7 +54,7 @@ export default function Search() {
           maxH="calc(100vh - 80px)"
           overflow="auto"
         >
-          <HeaderCollection />
+          <Header />
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             Collection of musics
           </Text>
@@ -107,75 +62,7 @@ export default function Search() {
             Here you can find all your music collections
           </Text>
 
-          <Grid
-            mt="20px"
-            templateColumns="repeat(auto-fill, 210px)"
-            position="relative"
-            rowGap="50px"
-            columnGap="5.6%"
-            color="white"
-          >
-            {dataMusic.map((music) => (
-              <GridItem key={music.musicUrl}>
-                <Box
-                  backgroundImage={music.imageAlbum}
-                  backgroundPosition="bottom"
-                  backgroundRepeat="no-repeat"
-                  borderRadius="6px"
-                  backgroundSize="cover"
-                  h="290px"
-                  w="210px"
-                  opacity="0.2"
-                ></Box>
-                <Box h="290px" mt="-300px" w="210px" position="absolute">
-                  <Image
-                    w="210px"
-                    borderTopEndRadius="6px"
-                    borderTopStartRadius="6px"
-                    objectFit="cover"
-                    h="200"
-                    alt={music.nameMusic}
-                    src={music.imageAlbum}
-                  />
-
-                  <Flex alignItems="center" justifyContent="flex-end" w="full">
-                    <Icon
-                      boxSize="40px"
-                      position="absolute"
-                      top="180"
-                      right="2"
-                      borderRadius="100px"
-                      bg="white"
-                      color="secondary.200"
-                      cursor="pointer"
-                      onClick={() => {
-                        handleMusicActive(music.musicUrl);
-                        setIsMusicActive(
-                          music.isActive ? !music.isActive : true
-                        );
-                        setSelectedMusic(music);
-                      }}
-                      as={music.isActive ? AiFillPauseCircle : AiFillPlayCircle}
-                    />
-                  </Flex>
-
-                  <Box pl="15px" mt="10px">
-                    <Text
-                      fontSize="12px"
-                      fontWeight="bold"
-                      color="secondary.200"
-                    >
-                      {music.album}
-                    </Text>
-                    <Text fontSize="14px" mt="3px" fontWeight="bold">
-                      {music.nameMusic}
-                    </Text>
-                    <Text mt="3px">{music.author}</Text>
-                  </Box>
-                </Box>
-              </GridItem>
-            ))}
-          </Grid>
+          <CardsMusic dataMusic={dataMusic} />
           <Flex justifyContent="center" alignItems="center">
             {isLoading && (
               <Spinner

@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { useMusicContext } from "store/contextMusic";
@@ -6,7 +6,7 @@ import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
 import { Loading } from "components/Loading";
 import { CardsMusic } from "components/CardsMusic";
-import { HeaderCollection } from "components/HeaderCollection";
+import { Header } from "components/HeaderCollection";
 
 export default function AllCollections() {
   const formMethods = useForm({
@@ -56,15 +56,27 @@ export default function AllCollections() {
           maxH="calc(100vh - 80px)"
           overflow="auto"
         >
-          <HeaderCollection />
+          <Header />
           <Text fontWeight="bold" fontSize="lg" color="white" mt="8">
             All collections
           </Text>
           <Text fontSize="xs" color="white" mb="8">
             Here you will find all the applications music collections
           </Text>
-          {isLoading && <Loading />}
+
           <CardsMusic dataMusic={dataMusic} />
+          <Flex justifyContent="center" alignItems="center">
+            {isLoading && (
+              <Spinner
+                thickness="3px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="secondary.500"
+                h="30px"
+                w="30px"
+              />
+            )}
+          </Flex>
           <Box h="40px" ref={elementRef} />
         </Box>
       </Flex>

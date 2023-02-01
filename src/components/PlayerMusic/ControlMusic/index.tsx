@@ -67,7 +67,7 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
         <Icon
           boxSize="40px"
           cursor="pointer"
-          color={isMusicActive ? "secondary.200" : "white"}
+          color="white"
           _hover={{
             color: "secondary.200",
           }}
@@ -102,14 +102,20 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
               left="7px"
               top="8.8px"
               position="absolute"
-              color="primary"
+              color="secondary.200"
             >
               1
             </Text>
           )}
         </Box>
       </HStack>
-      <Flex w="500px" ml="-10px" justifyContent="center" alignItems="center">
+      <Flex
+        w="500px"
+        ml="-10px"
+        mt="2px"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Text fontSize="10px" mr="15px" color="white">
           {convertDurationToTimeString(progressMusic)}
         </Text>
@@ -128,7 +134,7 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
               _hover={{
                 background: "primary",
               }}
-              bg="white"
+              bg="secondary.300"
             />
           </SliderTrack>
           <SliderThumb

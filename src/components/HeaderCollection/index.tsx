@@ -16,7 +16,11 @@ import { auth } from "modules/auth";
 
 import { InputDefault } from "components/Input";
 
-export const HeaderCollection = () => {
+type HeaderCollectionProps = {
+  isCollection?: boolean;
+};
+
+export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
   const router = useRouter();
   const clearDataUser = auth.clearToken;
 
@@ -28,17 +32,19 @@ export const HeaderCollection = () => {
   return (
     <Flex pr="15px" w="full" justifyContent="space-between">
       <Box w={["full", "full", "350px"]}>
-        <InputDefault
-          autoFocus
-          bg="primary.850"
-          color="white"
-          textFillColor="primary.600"
-          borderColor="primary.600"
-          placeholder="Search"
-          borderRadius="10px"
-          iconLeftElement={FiSearch}
-          name="searchMusic"
-        />
+        {isCollection && (
+          <InputDefault
+            autoFocus
+            bg="primary.850"
+            color="white"
+            textFillColor="primary.600"
+            borderColor="primary.600"
+            placeholder="Search"
+            borderRadius="10px"
+            iconLeftElement={FiSearch}
+            name="searchMusic"
+          />
+        )}
       </Box>
       <Menu>
         <MenuButton
@@ -61,6 +67,7 @@ export const HeaderCollection = () => {
           borderRadius="10px"
           borderColor="primary.600"
           bg="primary.850"
+          zIndex="9999"
         >
           <MenuItem
             bg="none"
