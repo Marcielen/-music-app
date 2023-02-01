@@ -1,7 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 
 import { GenresMusic } from "components/GenresMusic";
-import { Header } from "components/HeaderCollection";
+import { Header } from "components/Header";
 
 export default function Home() {
   return (

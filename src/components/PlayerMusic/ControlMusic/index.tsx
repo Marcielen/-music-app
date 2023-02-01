@@ -122,7 +122,7 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
 
         <Slider
           aria-label="player-slider"
-          colorScheme="secondary"
+          colorScheme="primary"
           max={durationMusic}
           isDisabled={!selectedMusic.musicUrl}
           value={progressMusic}
@@ -130,12 +130,7 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           focusThumbOnChange={false}
         >
           <SliderTrack bg="gray.600" borderRadius="full">
-            <SliderFilledTrack
-              _hover={{
-                background: "primary",
-              }}
-              bg="secondary.300"
-            />
+            <SliderFilledTrack bg="secondary.200" />
           </SliderTrack>
           <SliderThumb
             boxSize={4}

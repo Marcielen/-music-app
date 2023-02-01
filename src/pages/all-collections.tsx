@@ -6,7 +6,7 @@ import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
 import { Loading } from "components/Loading";
 import { CardsMusic } from "components/CardsMusic";
-import { Header } from "components/HeaderCollection";
+import { Header } from "components/Header";
 
 export default function AllCollections() {
   const formMethods = useForm({

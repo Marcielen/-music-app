@@ -134,7 +134,7 @@ export const InputDefault = ({
             )}
           </InputGroup>
           {!!error && (
-            <FormErrorMessage fontWeight="bold" color="white">
+            <FormErrorMessage fontWeight="bold" color="red.200">
               {error.message}
             </FormErrorMessage>
           )}

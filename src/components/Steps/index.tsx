@@ -1,5 +1,7 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { Step, Steps as ChakraSteps } from "chakra-ui-steps";
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { useRouter } from "next/router";
 
 type StepsContent = {
   keyStep: string;
@@ -20,6 +22,7 @@ export const Steps = ({
   prevStep,
   nextStep,
 }: StepsProps) => {
+  const router = useRouter();
   return (
     <Flex flexDir="column" width="100%">
       <ChakraSteps
@@ -35,25 +38,31 @@ export const Steps = ({
         ))}
       </ChakraSteps>
 
-      <Flex
-        mt="35px"
-        width="100%"
-        justify={activeStep === 0 ? "flex-end" : "space-between"}
-      >
-        {activeStep !== 0 && (
-          <Button
-            w="140px"
-            isDisabled={activeStep === 0}
-            mr={4}
-            bg="secondary"
-            onClick={prevStep}
-          >
-            Prev
-          </Button>
-        )}
-        <Button colorScheme="secondary" w="140px" onClick={nextStep}>
-          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+      <Flex mt="35px" width="100%" justify="space-between">
+        <Button
+          w="140px"
+          mr={4}
+          colorScheme="secondary"
+          onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
+        >
+          Discart
         </Button>
+        <Flex>
+          {activeStep !== 0 && (
+            <Button
+              w="140px"
+              isDisabled={activeStep === 0}
+              mr={4}
+              colorScheme="secondary"
+              onClick={prevStep}
+            >
+              Prev
+            </Button>
+          )}
+          <Button colorScheme="secondary" w="140px" onClick={nextStep}>
+            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   );

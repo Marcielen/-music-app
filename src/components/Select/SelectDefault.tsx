@@ -124,7 +124,7 @@ export const SelectDefault = ({
             />
 
             {!!error && (
-              <FormErrorMessage fontWeight="bold" color="white">
+              <FormErrorMessage fontWeight="bold" color="red.200">
                 {error.message}
               </FormErrorMessage>
             )}

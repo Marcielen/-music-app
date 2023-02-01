@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useMusicContext } from "store/contextMusic";
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 
-import { Header } from "components/HeaderCollection";
+import { Header } from "components/Header";
 import { CardsMusic } from "components/CardsMusic";
 
 export default function Search() {

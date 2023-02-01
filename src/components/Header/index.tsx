@@ -1,15 +1,19 @@
 import {
+  Avatar,
   Box,
+  Button,
   Flex,
-  IconButton,
+  Text,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
+  Icon,
 } from "@chakra-ui/react";
-import { useCallback } from "react";
-import { AiOutlineMenu, AiOutlinePoweroff } from "react-icons/ai";
+import { useCallback, useEffect, useState } from "react";
+import { AiOutlinePoweroff } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
+import { IoIosArrowDown } from "react-icons/io";
 import { useRouter } from "next/router";
 
 import { auth } from "modules/auth";
@@ -21,13 +25,27 @@ type HeaderCollectionProps = {
 };
 
 export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
-  const router = useRouter();
+  const [nameUser, setNameUser] = useState("");
+  const [emailUser, setEmailUser] = useState("");
+  const [photoUser, setPhotoUser] = useState("");
   const clearDataUser = auth.clearToken;
 
-  const signOut = useCallback(() => {
-    clearDataUser();
+  const router = useRouter();
+
+  const signOut = useCallback(async () => {
+    await clearDataUser();
     router.reload();
   }, [clearDataUser, router]);
+
+  useEffect(() => {
+    const name = auth.getNameUser();
+    const photo = auth.getPhotoUser();
+    const email = auth.getEmail();
+
+    setNameUser(name);
+    setEmailUser(email);
+    setPhotoUser(photo);
+  }, []);
 
   return (
     <Flex pr="15px" w="full" justifyContent="space-between">
@@ -48,7 +66,7 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
       </Box>
       <Menu>
         <MenuButton
-          as={IconButton}
+          as={Button}
           aria-label="Options"
           bg="primary.850"
           color="white"
@@ -60,10 +78,40 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
           _active={{
             background: "primary.800",
           }}
-          icon={<AiOutlineMenu />}
+          rightIcon={<Icon boxSize="15px" as={IoIosArrowDown} />}
           variant="outline"
-        />
+        >
+          <Flex>
+            {nameUser !== null ? (
+              <>
+                <Avatar mt="2px" mr="8px" boxSize="25px" src={photoUser} />
+                <Flex
+                  display={emailUser === null ? "flex" : "column"}
+                  alignItems="center"
+                >
+                  <Box>
+                    {emailUser !== null && (
+                      <Box fontSize="12px" textAlign="left">
+                        {emailUser}
+                      </Box>
+                    )}
+                  </Box>
+                  <Box>
+                    <Box fontSize="12px" textAlign="left">
+                      {nameUser}
+                    </Box>
+                  </Box>
+                </Flex>
+              </>
+            ) : (
+              <Text fontSize="12px" textAlign="left">
+                Hi welcome!
+              </Text>
+            )}
+          </Flex>
+        </MenuButton>
         <MenuList
+          w="full"
           borderRadius="10px"
           borderColor="primary.600"
           bg="primary.850"
@@ -77,6 +125,7 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
             borderColor="primary.600"
             color="white"
             onClick={() => signOut()}
+            fontSize="12px"
           >
             <Box ml="5px" mr="15px">
               <AiOutlinePoweroff />

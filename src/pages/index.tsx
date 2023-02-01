@@ -4,17 +4,17 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import * as firebase from "firebase/auth";
+import { FaFacebookF } from "react-icons/Fa";
+import { FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { firebaseAuth } from "services/firebase";
 import { auth } from "modules/auth";
 
 import { InputDefault } from "components/Input";
+import { LogoGoogle } from "icons";
 
 import { NextPageLayout } from "./_app";
-import { VscGithubAlt } from "react-icons/vsc";
-import { LogoGoogle } from "icons";
-import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 const Login: NextPageLayout = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,14 +41,15 @@ const Login: NextPageLayout = () => {
       });
   });
 
-  const handleSingInGitHub = () => {
+  const handleSingInFacebook = () => {
     setIsLoading(true);
 
     firebase
-      .signInWithPopup(firebaseAuth, new GithubAuthProvider())
+      .signInWithPopup(firebaseAuth, new FacebookAuthProvider())
       .then(async (value) => {
-        console.log(value);
         await auth.setToken(value.user.uid);
+        await auth.setNameUser(value.user.displayName);
+        await auth.setPhotoUser(value.user.photoURL);
 
         router.push(EnumConstRouter.HOME);
       })
@@ -62,8 +63,10 @@ const Login: NextPageLayout = () => {
     firebase
       .signInWithPopup(firebaseAuth, new GoogleAuthProvider())
       .then(async (value) => {
-        console.log(value);
         await auth.setToken(value.user.uid);
+        await auth.setEmail(value.user.email);
+        await auth.setNameUser(value.user.displayName);
+        await auth.setPhotoUser(value.user.photoURL);
 
         router.push(EnumConstRouter.HOME);
       })
@@ -119,15 +122,15 @@ const Login: NextPageLayout = () => {
         <Flex mt="10px" justifyContent="space-evenly">
           <Button
             bg="primary.800"
-            onClick={() => handleSingInGitHub()}
+            onClick={() => handleSingInFacebook()}
             variant=""
             _hover={{
               opacity: 0.7,
             }}
             color="white"
-            leftIcon={<Icon color="white" boxSize="20px" as={VscGithubAlt} />}
+            leftIcon={<Icon color="white" boxSize="20px" as={FaFacebookF} />}
           >
-            Github
+            Facebook
           </Button>
           <Button
             bg="primary.800"

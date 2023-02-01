@@ -184,8 +184,17 @@ export const PlayerMusic = () => {
               <SliderTrack bg="gray.600">
                 <SliderFilledTrack bg="white" />
               </SliderTrack>
-              <SliderThumb>
-                <Box color="gray" as={MdGraphicEq} />
+              <SliderThumb
+                boxSize={4}
+                borderWidth="3px"
+                borderColor="secondary.500"
+                _focus={{ boxShadow: "none" }}
+              >
+                <Box
+                  color="primary.300"
+                  borderColor="primary.300"
+                  as={MdGraphicEq}
+                />
               </SliderThumb>
             </Slider>
           </HStack>
