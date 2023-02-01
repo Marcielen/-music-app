@@ -12,7 +12,9 @@ import { auth } from "modules/auth";
 import { InputDefault } from "components/Input";
 
 import { NextPageLayout } from "./_app";
-import { BsGithub } from "react-icons/bs";
+import { VscGithubAlt } from "react-icons/vsc";
+import { LogoGoogle } from "icons";
+import { GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 const Login: NextPageLayout = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,10 +36,40 @@ const Login: NextPageLayout = () => {
 
         router.push(EnumConstRouter.HOME);
       })
-      .catch(() => {
-        toast.warning("error");
+      .catch((error) => {
+        toast.warning(error);
       });
   });
+
+  const handleSingInGitHub = () => {
+    setIsLoading(true);
+
+    firebase
+      .signInWithPopup(firebaseAuth, new GithubAuthProvider())
+      .then(async (value) => {
+        console.log(value);
+        await auth.setToken(value.user.uid);
+
+        router.push(EnumConstRouter.HOME);
+      })
+      .catch((err) => toast.warning(err))
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleSingInGoogle = () => {
+    setIsLoading(true);
+
+    firebase
+      .signInWithPopup(firebaseAuth, new GoogleAuthProvider())
+      .then(async (value) => {
+        console.log(value);
+        await auth.setToken(value.user.uid);
+
+        router.push(EnumConstRouter.HOME);
+      })
+      .catch((err) => toast.warning(err))
+      .finally(() => setIsLoading(false));
+  };
 
   return (
     <Box w="full">
@@ -68,15 +100,7 @@ const Login: NextPageLayout = () => {
             name="password"
           />
         </VStack>
-        <Button
-          mt="10px"
-          fontSize="12px"
-          color="white"
-          onClick={() => router.push(EnumConstRouter.REGISTER_USER)}
-          variant="link"
-        >
-          Register here!
-        </Button>
+
         <Button
           bg="secondary.400"
           _hover={{
@@ -91,8 +115,51 @@ const Login: NextPageLayout = () => {
         >
           Login
         </Button>
-        <Flex>
-          <Icon color="white" boxSize="40px" as={BsGithub} />
+        <Text>Connect with</Text>
+        <Flex mt="10px" justifyContent="space-evenly">
+          <Button
+            bg="primary.800"
+            onClick={() => handleSingInGitHub()}
+            variant=""
+            _hover={{
+              opacity: 0.7,
+            }}
+            color="white"
+            leftIcon={<Icon color="white" boxSize="20px" as={VscGithubAlt} />}
+          >
+            Github
+          </Button>
+          <Button
+            bg="primary.800"
+            onClick={() => handleSingInGoogle()}
+            variant=""
+            _hover={{
+              opacity: 0.7,
+            }}
+            color="white"
+            leftIcon={<Icon color="white" boxSize="20px" as={LogoGoogle} />}
+          >
+            Google
+          </Button>
+        </Flex>
+        <Flex
+          alignItems="baseline"
+          justifyContent="center"
+          color="white"
+          mt="20px"
+        >
+          <Text fontSize="12px" mr="5px">
+            Not a member?
+          </Text>
+          <Button
+            mt="10px"
+            fontSize="12px"
+            color="white"
+            onClick={() => router.push(EnumConstRouter.REGISTER_USER)}
+            variant="link"
+          >
+            Register here!
+          </Button>
         </Flex>
       </FormProvider>
     </Box>

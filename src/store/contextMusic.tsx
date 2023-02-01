@@ -131,7 +131,7 @@ export default function MusicProvider({
       limit(10)
     );
 
-    const testando = await getDocs(dataMusic);
+    const docsMusic = await getDocs(dataMusic);
 
     onSnapshot(dataMusic, (snapshot) => {
       snapshot.forEach((doc) => {
@@ -163,7 +163,7 @@ export default function MusicProvider({
       });
     });
 
-    latestDoc = testando.docs[testando.docs.length - 1];
+    latestDoc = docsMusic.docs[docsMusic.docs.length - 1];
     setIsLoading(false);
   }, [id]);
 
