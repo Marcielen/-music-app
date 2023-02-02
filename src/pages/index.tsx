@@ -57,10 +57,10 @@ const Login: NextPageLayout = () => {
       .finally(() => setIsLoading(false));
   };
 
-  const handleSingInGoogle = () => {
+  const handleSingInGoogle = async () => {
     setIsLoading(true);
-
-    firebase
+    console.log("oi");
+    await firebase
       .signInWithPopup(firebaseAuth, new GoogleAuthProvider())
       .then(async (value) => {
         await auth.setToken(value.user.uid);
@@ -71,7 +71,10 @@ const Login: NextPageLayout = () => {
         router.push(EnumConstRouter.HOME);
       })
       .catch((err) => toast.warning(err))
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+        console.log("oi");
+      });
   };
 
   return (
