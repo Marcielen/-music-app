@@ -119,7 +119,9 @@ const Login: NextPageLayout = () => {
         >
           Login
         </Button>
-        <Text>Connect with</Text>
+        <Text mt="10px" color="white" fontSize="12px">
+          Connect with
+        </Text>
         <Flex mt="10px" justifyContent="space-evenly">
           <Button
             bg="primary.800"

@@ -9,8 +9,10 @@ import GenresMusicPunkImage from "assets/punk.png";
 
 import { Carousel } from "components/Carousel";
 import { Box } from "@chakra-ui/react";
+import { Router, useRouter } from "next/router";
 
 export const GenresMusic = () => {
+  const router = useRouter();
   return (
     <Box maxW="80vw">
       <Carousel initialSlide={3} spaceBetween={50} slidesPerView={3}>
@@ -20,6 +22,7 @@ export const GenresMusic = () => {
               objectFit: "cover",
               borderRadius: "10px",
             }}
+            onClick={() => router.push("/genere/abc")}
             src={GenresMusicRockImage}
             alt="Genres Music Rock"
           />
