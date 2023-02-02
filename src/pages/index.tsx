@@ -4,7 +4,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import * as firebase from "firebase/auth";
-import { FaFacebookF } from "react-icons/Fa";
+
+import { GrFacebookOption } from "react-icons/gr";
 import { FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 import { EnumConstRouter } from "constants/enumConstRouter";
@@ -128,7 +129,9 @@ const Login: NextPageLayout = () => {
               opacity: 0.7,
             }}
             color="white"
-            leftIcon={<Icon color="white" boxSize="20px" as={FaFacebookF} />}
+            leftIcon={
+              <Icon color="white" boxSize="20px" as={GrFacebookOption} />
+            }
           >
             Facebook
           </Button>
