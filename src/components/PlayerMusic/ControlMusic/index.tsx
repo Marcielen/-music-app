@@ -130,7 +130,7 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           focusThumbOnChange={false}
         >
           <SliderTrack bg="gray.600" borderRadius="full">
-            <SliderFilledTrack bg="secondary.200" />
+            <SliderFilledTrack bg="primary.200" />
           </SliderTrack>
           <SliderThumb
             boxSize={4}
