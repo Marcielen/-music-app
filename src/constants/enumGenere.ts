@@ -1,9 +1,9 @@
 export const EnumGenere = {
-  pop: 1,
-  rock: 2,
-  indie: 3,
-  punk: 4,
-  hipHop: 5,
+  pop: "Pop",
+  rock: "Rock",
+  indie: "Indie",
+  punk: "Punk",
+  hipHop: "Hip Hop",
 
   properties: [
     {
