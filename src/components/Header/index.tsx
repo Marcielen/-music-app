@@ -19,6 +19,9 @@ import { useRouter } from "next/router";
 import { auth } from "modules/auth";
 
 import { InputDefault } from "components/Input";
+import { firebaseAuth } from "services/firebase";
+import { signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 
 type HeaderCollectionProps = {
   isCollection?: boolean;
@@ -32,9 +35,15 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
 
   const router = useRouter();
 
-  const signOut = useCallback(async () => {
-    await clearDataUser();
-    router.reload();
+  const handleSignOut = useCallback(async () => {
+    await signOut(firebaseAuth)
+      .then(async () => {
+        await clearDataUser();
+        router.reload();
+      })
+      .catch((error) => {
+        toast.warning(error);
+      });
   }, [clearDataUser, router]);
 
   useEffect(() => {
@@ -124,7 +133,7 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
             }}
             borderColor="primary.600"
             color="white"
-            onClick={() => signOut()}
+            onClick={() => handleSignOut()}
             fontSize="12px"
           >
             <Box ml="5px" mr="15px">

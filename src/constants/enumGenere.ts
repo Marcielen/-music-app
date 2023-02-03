@@ -3,6 +3,7 @@ export const EnumGenere = {
   rock: 2,
   indie: 3,
   punk: 4,
+  hipHop: 5,
 
   properties: [
     {
@@ -20,6 +21,10 @@ export const EnumGenere = {
     {
       label: "Punk",
       value: 4,
+    },
+    {
+      label: "Hip Hop",
+      value: 5,
     },
   ],
 };

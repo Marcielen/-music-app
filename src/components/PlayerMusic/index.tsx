@@ -115,7 +115,7 @@ export const PlayerMusic = () => {
   }, [musicHasSound]);
 
   return (
-    <Box bg="primary.850" h="80px">
+    <Box bg="primary.850" zIndex="9999" h="80px">
       <audio
         src={selectedMusic.musicUrl}
         ref={audioRef}

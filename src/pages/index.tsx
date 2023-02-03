@@ -39,13 +39,15 @@ const Login: NextPageLayout = () => {
       })
       .catch((error) => {
         toast.warning(error);
-      });
+      })
+      .finally(() => setIsLoading(false));
+    setIsLoading(false);
   });
 
-  const handleSingInFacebook = () => {
+  const handleSingInFacebook = async () => {
     setIsLoading(true);
 
-    firebase
+    await firebase
       .signInWithPopup(firebaseAuth, new FacebookAuthProvider())
       .then(async (value) => {
         await auth.setToken(value.user.uid);
@@ -60,7 +62,7 @@ const Login: NextPageLayout = () => {
 
   const handleSingInGoogle = async () => {
     setIsLoading(true);
-    console.log("oi");
+
     await firebase
       .signInWithPopup(firebaseAuth, new GoogleAuthProvider())
       .then(async (value) => {
@@ -74,7 +76,6 @@ const Login: NextPageLayout = () => {
       .catch((err) => toast.warning(err))
       .finally(() => {
         setIsLoading(false);
-        console.log("oi");
       });
   };
 
