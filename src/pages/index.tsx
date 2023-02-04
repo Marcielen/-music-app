@@ -4,13 +4,13 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import * as firebase from "firebase/auth";
-
 import { GrFacebookOption } from "react-icons/gr";
 import { FacebookAuthProvider, GoogleAuthProvider } from "firebase/auth";
 
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { firebaseAuth } from "services/firebase";
 import { auth } from "modules/auth";
+import { yupResolver, FormData } from "validation/validationAuthUser";
 
 import { InputDefault } from "components/Input";
 import { LogoGoogle } from "icons";
@@ -20,7 +20,9 @@ import { NextPageLayout } from "./_app";
 const Login: NextPageLayout = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const formMethods = useForm();
+  const formMethods = useForm<FormData>({
+    resolver: yupResolver,
+  });
 
   const { handleSubmit } = formMethods;
 

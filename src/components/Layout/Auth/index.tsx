@@ -114,7 +114,7 @@ export const Auth = ({ children }: AuthProps) => {
       <Box
         bg="primary.850"
         borderRadius="10px"
-        h={["520px", "550px", "550px"]}
+        minH={["520px", "550px", "550px"]}
         pl={["20px", "30px", "30px"]}
         w={["300px", "390px", "390px"]}
         zIndex="9999"
