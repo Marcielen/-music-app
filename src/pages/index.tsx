@@ -82,10 +82,10 @@ const Login: NextPageLayout = () => {
   return (
     <Box w="full">
       <FormProvider {...formMethods}>
-        <Text mb="10px" color="white" fontSize="12px">
+        <Text mb="10px" color="white" fontSize={["10px", "12px", "12px"]}>
           Enter the information you entered while registering
         </Text>
-        <VStack spacing="20px" w="full">
+        <VStack spacing={["15px", "20px", "20px"]} w="full">
           <InputDefault
             colorLabel="white"
             label="E-mail"
@@ -114,7 +114,7 @@ const Login: NextPageLayout = () => {
           _hover={{
             opacity: "0.8",
           }}
-          mt="25px"
+          mt={["20px", "25px", "25px"]}
           color="white"
           isLoading={isLoading}
           variant=""
@@ -163,7 +163,7 @@ const Login: NextPageLayout = () => {
           alignItems="baseline"
           justifyContent="center"
           color="white"
-          mt="20px"
+          mt={["10px", "20px", "20px"]}
         >
           <Text fontSize="12px" mr="5px">
             Not a member?

@@ -104,11 +104,12 @@ export const Auth = ({ children }: AuthProps) => {
       <Box
         bg="primary.850"
         borderRadius="10px"
+        h={["520px", "550px", "550px"]}
         pl={["20px", "30px", "30px"]}
         w={["300px", "390px", "390px"]}
         zIndex="9999"
         pr={["20px", "30px", "30px"]}
-        pt="40px"
+        pt={["20px", "40px", "40px"]}
         pb="40px"
       >
         <Icon
@@ -117,7 +118,7 @@ export const Auth = ({ children }: AuthProps) => {
           w="full"
           h="40px"
           color="secondary.200"
-          mb="40px"
+          mb={["20px", "40px", "40px"]}
           as={LogoIcon}
         />
         <Text color="white" fontWeight="black" fontSize="16px">
