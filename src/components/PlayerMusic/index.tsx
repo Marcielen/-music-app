@@ -40,7 +40,9 @@ export const PlayerMusic = () => {
 
   const { pathname } = useRouter();
 
-  const routeAllCollection = pathname.includes(EnumConstRouter.ALL_COLLECTIONS);
+  const routeAllCollection =
+    pathname.includes(EnumConstRouter.ALL_COLLECTIONS) ||
+    pathname.includes(EnumConstRouter.GENERE);
 
   const isAllCollection = routeAllCollection;
 

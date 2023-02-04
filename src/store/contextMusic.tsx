@@ -79,11 +79,26 @@ export default function MusicProvider({
   const [progressMusic, setProgressMusic] = useState(0);
   const [durationMusic, setDurationMusic] = useState(0);
 
-  const { pathname } = useRouter();
+  const { pathname, query: router } = useRouter();
 
-  const routeAllCollection = pathname.includes(EnumConstRouter.ALL_COLLECTIONS);
+  const routeAllCollection =
+    pathname.includes(EnumConstRouter.ALL_COLLECTIONS) ||
+    pathname.includes("genere");
 
   const isAllCollection = routeAllCollection;
+
+  const listDataMusic = useCallback(() => {
+    if (pathname.includes(EnumConstRouter.ALL_COLLECTIONS)) {
+      return listAllMusic;
+    }
+
+    if (pathname.includes(EnumConstRouter.GENERE)) {
+      const idRouter = router.id as string;
+      return listAllMusic.filter((allMusic) => allMusic.genere === idRouter);
+    }
+
+    return listMusic;
+  }, [listAllMusic, listMusic, pathname, router])();
 
   const handleIsMusicActive = useCallback(() => {
     setIsMusicActive(!isMusicActive);
@@ -95,7 +110,7 @@ export default function MusicProvider({
 
   const id = auth.getToken();
   const handleNextMusic = useCallback(() => {
-    const data = isAllCollection ? listAllMusic : listMusic;
+    const data = listDataMusic;
     const indexMusicSelected = data.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
     );
@@ -106,10 +121,10 @@ export default function MusicProvider({
       setSelectedMusic(data[indexMusicSelected + 1]);
     }
     setIsMusicActive(true);
-  }, [isAllCollection, listAllMusic, listMusic, selectedMusic]);
+  }, [listDataMusic, selectedMusic]);
 
   const handlePreviousMusic = useCallback(() => {
-    const data = isAllCollection ? listAllMusic : listMusic;
+    const data = listDataMusic;
     const indexMusicSelected = data.findIndex(
       (valueMusic) => valueMusic.musicUrl === selectedMusic.musicUrl
     );
@@ -120,7 +135,7 @@ export default function MusicProvider({
       setSelectedMusic(data[indexMusicSelected - 1]);
     }
     setIsMusicActive(true);
-  }, [isAllCollection, listAllMusic, listMusic, selectedMusic.musicUrl]);
+  }, [listDataMusic, selectedMusic.musicUrl]);
 
   const handleDataMusic = useCallback(async () => {
     setIsLoading(true);

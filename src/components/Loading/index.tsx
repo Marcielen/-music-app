@@ -11,7 +11,6 @@ export const Loading = ({ color, ...rest }: SpinnerProps) => {
       transition="all ease 4s"
       minW="100%"
       minH="100%"
-      background="rgba(255, 255, 255, 0.7)"
       zIndex="998"
       {...rest}
     >

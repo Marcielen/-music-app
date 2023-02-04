@@ -1,4 +1,4 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Step, Steps as ChakraSteps } from "chakra-ui-steps";
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { useRouter } from "next/router";
@@ -31,8 +31,9 @@ export const Steps = ({
         colorScheme="indigo"
         activeStep={activeStep}
       >
-        {steps.map(({ keyStep, content }) => (
+        {steps.map(({ keyStep, content, label }) => (
           <Step key={keyStep}>
+            <Text color="white">{label}</Text>
             <Box pt="25px">{content}</Box>
           </Step>
         ))}

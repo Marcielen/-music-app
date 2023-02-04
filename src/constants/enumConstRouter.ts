@@ -5,4 +5,5 @@ export const EnumConstRouter = {
   ALL_COLLECTIONS: "/all-collections",
   REGISTER_USER: "/register-user",
   CREATE_MUSIC: "/create-music",
+  GENERE: "/genere",
 };

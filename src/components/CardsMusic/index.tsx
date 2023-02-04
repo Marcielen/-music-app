@@ -21,7 +21,7 @@ export const CardsMusic = ({ dataMusic }: CardsMusicProps) => {
       color="white"
     >
       {dataMusic.map((music) => (
-        <GridItem key={music.musicUrl}>
+        <GridItem ml="5px" key={music.musicUrl}>
           <Box
             backgroundImage={music.imageAlbum}
             backgroundPosition="bottom"
@@ -34,11 +34,12 @@ export const CardsMusic = ({ dataMusic }: CardsMusicProps) => {
           ></Box>
           <Box h="290px" mt="-300px" w="210px" position="absolute">
             <Image
-              w="210px"
+              w="208px"
               borderTopEndRadius="6px"
               borderTopStartRadius="6px"
               objectFit="cover"
-              h="200"
+              h="190px"
+              mt="10px"
               alt={music.nameMusic}
               src={music.imageAlbum}
             />
