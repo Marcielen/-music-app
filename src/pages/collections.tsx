@@ -51,7 +51,6 @@ export default function Search() {
           w="full"
           pt="35px"
           pr="40px"
-          maxH="calc(100vh - 80px)"
           overflow="auto"
         >
           <Header />

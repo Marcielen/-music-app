@@ -24,10 +24,11 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <MusicProvider>
-      <Flex bg="black" maxW="100vw">
+      <Flex bg="black" maxH="calc(100vh - 80px)">
         <Box h="full" pr="3%">
           <Menu />
         </Box>
+
         {children}
       </Flex>
       <PlayerMusic />

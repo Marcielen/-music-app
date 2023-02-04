@@ -39,8 +39,8 @@ const Login: NextPageLayout = () => {
 
         router.push(EnumConstRouter.HOME);
       })
-      .catch((error) => {
-        toast.warning(error);
+      .catch(() => {
+        toast.warning("Email or password is incorrect");
       })
       .finally(() => setIsLoading(false));
     setIsLoading(false);

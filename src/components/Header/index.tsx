@@ -9,6 +9,8 @@ import {
   MenuItem,
   MenuList,
   Icon,
+  useMediaQuery,
+  IconButton,
 } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { AiOutlinePoweroff } from "react-icons/ai";
@@ -31,6 +33,10 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
   const [nameUser, setNameUser] = useState("");
   const [emailUser, setEmailUser] = useState("");
   const [photoUser, setPhotoUser] = useState("");
+
+  const [isLargerThan780] = useMediaQuery("(min-width: 780px)");
+  const [isLargerThan400] = useMediaQuery("(min-width: 400px)");
+
   const clearDataUser = auth.clearToken;
 
   const router = useRouter();
@@ -57,9 +63,13 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
   }, []);
 
   return (
-    <Flex pr="15px" w="full" justifyContent="space-between">
-      <Box w={["full", "full", "350px"]}>
-        {isCollection && (
+    <Flex
+      pr={["1px", "5px", "15px"]}
+      w="full"
+      justifyContent={isCollection ? "space-between" : "flex-end"}
+    >
+      {isCollection && (
+        <Box mr={["20px", "20px", "0"]} w={["80%", "80%", "350px"]}>
           <InputDefault
             autoFocus
             bg="primary.850"
@@ -71,11 +81,11 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
             iconLeftElement={FiSearch}
             name="searchMusic"
           />
-        )}
-      </Box>
+        </Box>
+      )}
       <Menu>
         <MenuButton
-          as={Button}
+          as={isLargerThan400 ? Button : IconButton}
           aria-label="Options"
           bg="primary.850"
           color="white"
@@ -87,34 +97,45 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
           _active={{
             background: "primary.800",
           }}
-          rightIcon={<Icon boxSize="15px" as={IoIosArrowDown} />}
+          rightIcon={
+            isLargerThan400 ? (
+              <Icon boxSize="15px" as={IoIosArrowDown} />
+            ) : undefined
+          }
           variant="outline"
+          icon={
+            !isLargerThan400 ? (
+              <Icon boxSize="15px" as={IoIosArrowDown} />
+            ) : undefined
+          }
         >
           <Flex>
             {nameUser !== null ? (
               <>
                 <Avatar mt="2px" mr="8px" boxSize="25px" src={photoUser} />
-                <Flex
-                  display={emailUser === null ? "flex" : "column"}
-                  alignItems="center"
-                >
-                  <Box>
-                    {emailUser !== null && (
-                      <Box fontSize="12px" textAlign="left">
-                        {emailUser}
-                      </Box>
-                    )}
-                  </Box>
-                  <Box>
-                    <Box fontSize="12px" textAlign="left">
-                      {nameUser}
+                {isLargerThan780 && (
+                  <Flex
+                    display={emailUser === null ? "flex" : "column"}
+                    alignItems="center"
+                  >
+                    <Box>
+                      {emailUser !== null && (
+                        <Box fontSize="12px" textAlign="left">
+                          {emailUser}
+                        </Box>
+                      )}
                     </Box>
-                  </Box>
-                </Flex>
+                    <Box>
+                      <Box fontSize="12px" textAlign="left">
+                        {nameUser}
+                      </Box>
+                    </Box>
+                  </Flex>
+                )}
               </>
             ) : (
               <Text fontSize="12px" textAlign="left">
-                Hi welcome!
+                Hi {isLargerThan780 && "welcome!"}
               </Text>
             )}
           </Flex>

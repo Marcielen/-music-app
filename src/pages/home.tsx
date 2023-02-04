@@ -5,7 +5,22 @@ import { Header } from "components/Header";
 
 export default function Home() {
   return (
-    <Box w="full" position="relative" pr="2%" h="calc(100vh - 80px)">
+    <Box
+      overflow="auto"
+      w="full"
+      position="relative"
+      pr="2%"
+      sx={{
+        "&::-webkit-scrollbar": {
+          height: "0",
+          width: "0",
+        },
+        "& .virtualized_List::-webkit-scrollbar": {
+          height: "0",
+          width: "0",
+        },
+      }}
+    >
       <Box w="full" mt="20px">
         <Header isCollection={false} />
       </Box>

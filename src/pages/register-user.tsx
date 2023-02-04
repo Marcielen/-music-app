@@ -3,6 +3,7 @@ import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import * as firebase from "firebase/auth";
 
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { firebaseAuth } from "services/firebase";
@@ -10,27 +11,32 @@ import { firebaseAuth } from "services/firebase";
 import { InputDefault } from "components/Input";
 
 import { NextPageLayout } from "./_app";
-
-type FormData = {
-  email: string;
-  password: string;
-};
+import { yupResolver, FormData } from "validation/validationAuthUser";
 
 const RegisterUser: NextPageLayout = () => {
-  const formMethods = useForm<FormData>();
+  const formMethods = useForm<FormData>({
+    resolver: yupResolver,
+  });
   const { handleSubmit } = formMethods;
 
   const router = useRouter();
 
-  const [createUserWithEmailAndPassword] =
-    useCreateUserWithEmailAndPassword(firebaseAuth);
-
-  const handleSignOut = handleSubmit((data) => {
+  const handleSignOut = handleSubmit(async (data) => {
     const { email, password } = data;
 
-    createUserWithEmailAndPassword(email, password);
-    router.push(EnumConstRouter.LOGIN);
-    toast.success("Your records have been saved successfully");
+    await firebase
+      .createUserWithEmailAndPassword(firebaseAuth, email, password)
+      .catch((error) => {
+        toast.warning(
+          error.message.replaceAll("-", " ").replaceAll(")", "").split("/")[1]
+        );
+      })
+      .then((user) => {
+        if (user !== undefined) {
+          router.push(EnumConstRouter.LOGIN);
+          toast.success("Your records have been saved successfully");
+        }
+      });
   });
 
   return (

@@ -157,13 +157,7 @@ export default function CreateMusic() {
   });
 
   return (
-    <Box
-      w="full"
-      position="relative"
-      justifyContent="space-between"
-      bg="black"
-      h="calc(100vh - 80px)"
-    >
+    <Box w="full" position="relative" justifyContent="space-between" bg="black">
       <Box w="full" mt="20px" pr="2%">
         <Header isCollection={false} />
       </Box>

@@ -45,7 +45,7 @@ export default function Genere() {
   });
 
   return (
-    <Box color="white" h={"calc(100vh - 80px)"} w="full">
+    <Box color="white" w="full">
       <Box
         pb="25px"
         bgGradient="linear-gradient(to left, #ce79ca, #b06fba, #9464a9, #7a5996, #624e83, #57426f, #4b375b, #3f2d49, #352234, #271922, #190f14, #000000);"
