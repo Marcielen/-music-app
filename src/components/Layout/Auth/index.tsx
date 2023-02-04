@@ -85,6 +85,16 @@ export const Auth = ({ children }: AuthProps) => {
       h="100vh"
       w="100vw"
       justifyContent="center"
+      sx={{
+        "&::-webkit-scrollbar": {
+          height: "0",
+          width: "0",
+        },
+        "& .virtualized_List::-webkit-scrollbar": {
+          height: "0",
+          width: "0",
+        },
+      }}
       position="relative"
       alignItems="center"
       bgGradient={`${colors[colorIndex]}, #fbb6ce, #f1a0c9, #e28bc8, #ce79ca, #b369ce, #9961c3, #7f58b6, #6550a9, #544788, #453e68, #373448, #2a2a2a);`}

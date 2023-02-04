@@ -21,7 +21,7 @@ export const CardAnimation = ({ itensAnimation }: CardAnimationProps) => {
                     w="100%"
                     bottom="20px"
                     color={animation.color}
-                    h="30px"
+                    h="25px"
                     as={animation.icon}
                   />
                 </Flex>
