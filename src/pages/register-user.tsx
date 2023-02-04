@@ -39,7 +39,7 @@ const RegisterUser: NextPageLayout = () => {
         <Text mb="10px" color="white" fontSize="12px">
           Inform your records and register!
         </Text>
-        <VStack spacing="20px" w="320px">
+        <VStack spacing="20px" w="full">
           <InputDefault
             colorLabel="white"
             textFillColor="white"

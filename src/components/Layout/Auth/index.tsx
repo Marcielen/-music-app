@@ -85,17 +85,18 @@ export const Auth = ({ children }: AuthProps) => {
       h="100vh"
       w="100vw"
       justifyContent="center"
+      position="relative"
       alignItems="center"
       bgGradient={`${colors[colorIndex]}, #fbb6ce, #f1a0c9, #e28bc8, #ce79ca, #b369ce, #9961c3, #7f58b6, #6550a9, #544788, #453e68, #373448, #2a2a2a);`}
     >
       <HStack
         position="absolute"
         justifyContent="space-between"
-        pr="5%"
-        pl="5%"
+        pl={["0", "0", "5%"]}
+        pr={["0", "0", "5%"]}
         zIndex="2"
         w="full"
-        spacing="20px"
+        spacing={["0", "0", "20px"]}
         bottom="0"
       >
         <CardAnimation itensAnimation={itensAnimation} />
@@ -103,9 +104,10 @@ export const Auth = ({ children }: AuthProps) => {
       <Box
         bg="primary.850"
         borderRadius="10px"
-        pl="30px"
+        pl={["20px", "30px", "30px"]}
+        w={["300px", "390px", "390px"]}
         zIndex="9999"
-        pr="30px"
+        pr={["20px", "30px", "30px"]}
         pt="40px"
         pb="40px"
       >

@@ -85,7 +85,7 @@ const Login: NextPageLayout = () => {
         <Text mb="10px" color="white" fontSize="12px">
           Enter the information you entered while registering
         </Text>
-        <VStack spacing="20px" w="320px">
+        <VStack spacing="20px" w="full">
           <InputDefault
             colorLabel="white"
             label="E-mail"
@@ -123,10 +123,14 @@ const Login: NextPageLayout = () => {
         >
           Login
         </Button>
-        <Text mt="10px" color="white" fontSize="12px">
-          Connect with
+        <Text mt="15px" color="white" fontSize="12px">
+          Connect with:
         </Text>
-        <Flex mt="10px" justifyContent="space-evenly">
+        <Flex
+          mt="10px"
+          flexDirection={["column", "row", "row"]}
+          justifyContent="space-evenly"
+        >
           <Button
             bg="primary.800"
             onClick={() => handleSingInFacebook()}
@@ -135,6 +139,7 @@ const Login: NextPageLayout = () => {
               opacity: 0.7,
             }}
             color="white"
+            mb={["15px", "0", "0"]}
             leftIcon={
               <Icon color="white" boxSize="20px" as={GrFacebookOption} />
             }

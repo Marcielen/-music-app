@@ -18,7 +18,7 @@ export const CardAnimation = ({ itensAnimation }: CardAnimationProps) => {
               {itensAnimation.map((animation) => (
                 <Flex key={animation.animation} animation={animation.animation}>
                   <Icon
-                    w="30px"
+                    w="100%"
                     bottom="20px"
                     color={animation.color}
                     h="30px"
