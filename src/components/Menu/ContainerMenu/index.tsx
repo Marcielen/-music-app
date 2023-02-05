@@ -1,6 +1,6 @@
-import { Box, BoxProps } from "@chakra-ui/react";
+import { Box, FlexProps, Flex, useMediaQuery } from "@chakra-ui/react";
 
-interface ContainerMenuProps extends BoxProps {
+interface ContainerMenuProps extends FlexProps {
   children: React.ReactNode;
 }
 
@@ -9,11 +9,21 @@ export const ContainerMenu = ({
   children,
   ...rest
 }: ContainerMenuProps) => {
+  const [mobile] = useMediaQuery("(max-width: 900px)");
   return (
-    <Box display="flex" flexDirection="column" bg="primary.900" height="full">
-      <Box w={width} {...rest}>
+    <Flex
+      flexDirection={mobile ? "row" : "column"}
+      bg="primary.900"
+      height="full"
+    >
+      <Box
+        display={mobile ? "flex" : "column"}
+        justifyContent={mobile ? "space-between" : undefined}
+        w={width}
+        {...rest}
+      >
         {children}
       </Box>
-    </Box>
+    </Flex>
   );
 };

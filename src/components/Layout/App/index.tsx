@@ -1,7 +1,7 @@
 import MusicProvider from "store/contextMusic";
 
 import { PlayerMusic } from "components/PlayerMusic";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import { Menu } from "components/Menu";
 import { useEffect } from "react";
 import { auth } from "modules/auth";
@@ -16,6 +16,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const loggedUser = auth.getToken();
   const router = useRouter();
 
+  const [mobile] = useMediaQuery("(max-width: 900px)");
+
   useEffect(() => {
     if (!loggedUser) {
       router.push(EnumConstRouter.LOGIN);
@@ -24,14 +26,25 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <MusicProvider>
-      <Flex bg="black" maxH="calc(100vh - 80px)">
-        <Box h="full" pr="3%">
+      {mobile ? (
+        <>
+          <Flex bg="black" pl="3%" h="calc(100vh - 40px)">
+            {children}
+          </Flex>
           <Menu />
-        </Box>
+        </>
+      ) : (
+        <>
+          <Flex bg="black" maxH="calc(100vh - 80px)">
+            <Box h="full" pr="3%">
+              <Menu />
+            </Box>
 
-        {children}
-      </Flex>
-      <PlayerMusic />
+            {children}
+          </Flex>
+          <PlayerMusic />
+        </>
+      )}
     </MusicProvider>
   );
 };

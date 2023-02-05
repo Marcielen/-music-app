@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Icon, Tooltip, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FiMusic } from "react-icons/fi";
 
@@ -12,19 +12,30 @@ import { RiPlayListFill } from "react-icons/ri";
 
 export const Menu = () => {
   const router = useRouter();
+  const [mobile] = useMediaQuery("(max-width: 900px)");
 
   return (
-    <Box position="relative" w="60px" h="calc(100vh - 80px)">
-      <ContainerMenu width="60px" pt="20px">
-        <Flex pb="15px" justifyContent="center" alignItems="center">
-          <Icon
-            cursor="pointer"
-            color="white"
-            w="30px"
-            h="50px"
-            as={LogoIconSmall}
-          />
-        </Flex>
+    <Box
+      position="relative"
+      w={mobile ? "full" : "60px"}
+      h={mobile ? "40px" : "calc(100vh - 80px)"}
+    >
+      <ContainerMenu
+        width={mobile ? "full" : "60px"}
+        pt={mobile ? "5px" : "20px"}
+        pl={mobile ? "10px" : undefined}
+      >
+        {!mobile && (
+          <Flex pb="15px" justifyContent="center" alignItems="center">
+            <Icon
+              cursor="pointer"
+              color="white"
+              w="30px"
+              h="50px"
+              as={LogoIconSmall}
+            />
+          </Flex>
+        )}
 
         <Tooltip placement="right" color="secondary.100" hasArrow label="Home">
           <Flex
@@ -53,11 +64,11 @@ export const Menu = () => {
             _hover={{
               background: "#282828",
             }}
-            mb="5px"
+            mb={mobile ? undefined : "5px"}
             cursor="pointer"
             alignItems="center"
-            pt="10px"
-            pb="10px"
+            pt={mobile ? undefined : "10px"}
+            pb={mobile ? "5px" : "10px"}
             pl="10px"
             onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
             justifyContent="center"
