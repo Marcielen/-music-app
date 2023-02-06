@@ -23,7 +23,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       router.push(EnumConstRouter.LOGIN);
     }
   }, [router, loggedUser]);
-  console.log(window.innerHeight);
+
   return (
     <MusicProvider>
       <MusicContext.Consumer>
@@ -36,9 +36,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                   <Flex
                     bg="black"
                     pl="3%"
-                    h={`calc(${window.innerHeight}px - ${
-                      isMusicSelected ? "100px" : "41px"
-                    })`}
+                    h={`calc(100vh - ${isMusicSelected ? "100px" : "40px"})`}
                   >
                     {children}
                   </Flex>
