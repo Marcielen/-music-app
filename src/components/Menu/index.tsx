@@ -16,7 +16,7 @@ export const Menu = () => {
 
   return (
     <Box
-      position={mobile ? "fixed" : "relative"}
+      position={"relative"}
       w={mobile ? "full" : "60px"}
       h={mobile ? "40px" : "full"}
     >
