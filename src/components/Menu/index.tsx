@@ -18,7 +18,7 @@ export const Menu = () => {
     <Box
       position="relative"
       w={mobile ? "full" : "60px"}
-      h={mobile ? "40px" : "calc(100vh - 80px)"}
+      h={mobile ? "40px" : "full"}
     >
       <ContainerMenu
         width={mobile ? "full" : "60px"}
