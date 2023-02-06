@@ -57,7 +57,9 @@ interface MusicContextProps {
   listAllMusic: ListMusicProps[];
 }
 
-const MusicContext = createContext<MusicContextProps>({} as MusicContextProps);
+export const MusicContext = createContext<MusicContextProps>(
+  {} as MusicContextProps
+);
 
 let latestDoc: QueryDocumentSnapshot<DocumentData> | null = null;
 

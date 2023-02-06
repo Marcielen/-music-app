@@ -9,10 +9,17 @@ import {
   SliderTrack,
   SliderThumb,
   SliderFilledTrack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  AiFillFastBackward,
+  AiFillFastForward,
+  AiFillPauseCircle,
+  AiFillPlayCircle,
+} from "react-icons/ai";
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill } from "react-icons/bs";
 import { MdGraphicEq } from "react-icons/md";
 
@@ -32,13 +39,17 @@ export const PlayerMusic = () => {
     isMusicActive,
     setIsMusicActive,
     setListMusic,
+    handleIsMusicActive,
     setListAllMusic,
+    handlePreviousMusic,
     setProgressMusic,
     setDurationMusic,
     handleNextMusic,
   } = useMusicContext();
 
   const { pathname } = useRouter();
+
+  const [mobile] = useMediaQuery("(max-width: 900px)");
 
   const routeAllCollection =
     pathname.includes(EnumConstRouter.ALL_COLLECTIONS) ||
@@ -117,7 +128,7 @@ export const PlayerMusic = () => {
   }, [musicHasSound]);
 
   return (
-    <Box bg="primary.850" zIndex="9999" h="80px">
+    <Box bg="primary.850" zIndex="9999" h={mobile ? "60px" : "80px"}>
       <audio
         src={selectedMusic.musicUrl}
         ref={audioRef}
@@ -133,73 +144,116 @@ export const PlayerMusic = () => {
         onLoadedMetadata={progressMusicPlayer}
         onEnded={() => handleNextMusic()}
       />
+
       <Flex
         h="full"
         justifyContent={selectedMusic.musicUrl ? "space-between" : "center"}
         alignItems="center"
-        pl="20px"
-        pr="20px"
+        pl={mobile ? "10px" : "20px"}
+        pr={mobile ? "10px" : "20px"}
       >
         {selectedMusic.musicUrl && (
-          <Flex>
+          <Flex alignItems="center">
             <Image
               objectFit="cover"
-              h="60px"
-              w="60px"
+              h={mobile ? "40px" : "60px"}
+              w={mobile ? "40px" : "60px"}
               alt="image album music"
               src={selectedMusic.imageAlbum}
             />
             <Box ml="10px">
-              <Text mt="5px" color="gray.300">
+              <Text mt="5px" fontSize="12px" color="gray.300">
                 {selectedMusic.nameMusic}
               </Text>
-              <Text fontSize="10px" mt="5px" color="gray.300">
+              <Text fontSize="10px" mt="2px" color="gray.300">
                 {selectedMusic.author}
               </Text>
             </Box>
           </Flex>
         )}
-        <ControlMusic handleSeek={handleSeek} />
-        {selectedMusic.musicUrl && (
+        {mobile ? (
           <HStack
-            w="100px"
-            spacing="10px"
+            mt="10px"
+            spacing="5px"
             justifyContent="center"
             alignItems="center"
           >
             <Icon
               color="white"
-              boxSize="20px"
+              boxSize="15px"
               cursor="pointer"
-              onClick={() => {
-                handleMusicHasSound();
+              _hover={{
+                color: "secondary.200",
               }}
-              as={musicHasSound ? BsFillVolumeUpFill : BsFillVolumeMuteFill}
+              onClick={() => handlePreviousMusic()}
+              as={AiFillFastBackward}
             />
-
-            <Slider
-              onChange={(volume) => handleVolumeMusic(volume / 100)}
-              aria-label="slider-ex-1"
-              min={1}
-              defaultValue={100}
-            >
-              <SliderTrack bg="gray.600">
-                <SliderFilledTrack bg="white" />
-              </SliderTrack>
-              <SliderThumb
-                boxSize={4}
-                borderWidth="3px"
-                borderColor="secondary.500"
-                _focus={{ boxShadow: "none" }}
-              >
-                <Box
-                  color="primary.300"
-                  borderColor="primary.300"
-                  as={MdGraphicEq}
-                />
-              </SliderThumb>
-            </Slider>
+            <Icon
+              boxSize="35px"
+              cursor="pointer"
+              color="white"
+              _hover={{
+                color: "secondary.200",
+              }}
+              onClick={() => handleIsMusicActive()}
+              as={isMusicActive ? AiFillPauseCircle : AiFillPlayCircle}
+            />
+            <Icon
+              cursor="pointer"
+              color="white"
+              boxSize="15px"
+              _hover={{
+                color: "secondary.200",
+              }}
+              onClick={() => handleNextMusic()}
+              as={AiFillFastForward}
+            />
           </HStack>
+        ) : (
+          <>
+            <ControlMusic handleSeek={handleSeek} />
+            {selectedMusic.musicUrl && (
+              <HStack
+                w="100px"
+                spacing="10px"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Icon
+                  color="white"
+                  boxSize="20px"
+                  cursor="pointer"
+                  onClick={() => {
+                    handleMusicHasSound();
+                  }}
+                  as={musicHasSound ? BsFillVolumeUpFill : BsFillVolumeMuteFill}
+                />
+
+                <Slider
+                  onChange={(volume) => handleVolumeMusic(volume / 100)}
+                  aria-label="slider-ex-1"
+                  min={1}
+                  defaultValue={100}
+                >
+                  <SliderTrack bg="gray.600">
+                    <SliderFilledTrack bg="white" />
+                  </SliderTrack>
+                  <SliderThumb
+                    boxSize={4}
+                    borderWidth="3px"
+                    borderColor="secondary.500"
+                    _focus={{ boxShadow: "none" }}
+                  >
+                    <Box
+                      color="primary.300"
+                      borderColor="primary.300"
+                      as={MdGraphicEq}
+                    />
+                  </SliderThumb>
+                </Slider>
+              </HStack>
+            )}
+          </>
         )}
       </Flex>
     </Box>

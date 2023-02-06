@@ -1,4 +1,4 @@
-import MusicProvider from "store/contextMusic";
+import MusicProvider, { MusicContext } from "store/contextMusic";
 
 import { PlayerMusic } from "components/PlayerMusic";
 import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
@@ -26,25 +26,38 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <MusicProvider>
-      {mobile ? (
-        <>
-          <Flex bg="black" pl="3%" h="calc(100vh - 40px)">
-            {children}
-          </Flex>
-          <Menu />
-        </>
-      ) : (
-        <>
-          <Flex bg="black" maxH="calc(100vh - 80px)">
-            <Box h="full" pr="3%">
-              <Menu />
-            </Box>
+      <MusicContext.Consumer>
+        {({ selectedMusic }) => (
+          <>
+            {mobile ? (
+              <>
+                <Flex
+                  bg="black"
+                  pl="3%"
+                  h={`calc(100vh - ${
+                    selectedMusic?.musicUrl ? "100px" : "40px"
+                  })`}
+                >
+                  {children}
+                </Flex>
+                {selectedMusic?.musicUrl && <PlayerMusic />}
+                <Menu />
+              </>
+            ) : (
+              <>
+                <Flex bg="black" maxH="calc(100vh - 80px)">
+                  <Box h="full" pr="3%">
+                    <Menu />
+                  </Box>
 
-            {children}
-          </Flex>
-          <PlayerMusic />
-        </>
-      )}
+                  {children}
+                </Flex>
+                <PlayerMusic />
+              </>
+            )}
+          </>
+        )}
+      </MusicContext.Consumer>
     </MusicProvider>
   );
 };
