@@ -40,8 +40,10 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                   >
                     {children}
                   </Flex>
-                  {isMusicSelected && <PlayerMusic />}
-                  <Menu />
+                  <Box position="fixed" w="full" bottom="1px" zIndex="9999">
+                    {isMusicSelected && <PlayerMusic />}
+                    <Menu />
+                  </Box>
                 </>
               ) : (
                 <>
