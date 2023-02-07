@@ -27,7 +27,15 @@ import { useMusicContext } from "store/contextMusic";
 
 import { ControlMusic } from "./ControlMusic";
 
-export const PlayerMusic = () => {
+type PlayerMusicProps = {
+  handleClick?: () => void;
+  isExpandPlayer?: boolean;
+};
+
+export const PlayerMusic = ({
+  handleClick,
+  isExpandPlayer = false,
+}: PlayerMusicProps) => {
   const [musicHasSound, setMusicHasSound] = useState(true);
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -48,6 +56,7 @@ export const PlayerMusic = () => {
   } = useMusicContext();
 
   const { pathname } = useRouter();
+  console.log(isExpandPlayer);
 
   const [mobile] = useMediaQuery("(max-width: 900px)");
 
@@ -128,7 +137,11 @@ export const PlayerMusic = () => {
   }, [musicHasSound]);
 
   return (
-    <Box bg="primary.850" zIndex="9999" h={mobile ? "60px" : "80px"}>
+    <Box
+      bg="primary.850"
+      zIndex="9999"
+      h={mobile ? (isExpandPlayer ? "100vh" : "60px") : "80px"}
+    >
       <audio
         src={selectedMusic.musicUrl}
         ref={audioRef}
@@ -149,6 +162,11 @@ export const PlayerMusic = () => {
         h="full"
         justifyContent={selectedMusic.musicUrl ? "space-between" : "center"}
         alignItems="center"
+        onClick={() => {
+          if (handleClick && !isExpandPlayer) {
+            handleClick();
+          }
+        }}
         pl={mobile ? "10px" : "20px"}
         pr={mobile ? "10px" : "20px"}
       >

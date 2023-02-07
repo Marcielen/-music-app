@@ -26,7 +26,7 @@ const AppLayouts = {
 
 export default function App({ Component, pageProps }: AppPropsLayout) {
   const Layout = AppLayouts[Component.layout || "app"];
-
+  console.log(Layout);
   return (
     <ChakraProvider theme={theme}>
       <HeadNext />
