@@ -32,7 +32,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           return (
             <>
               {mobile ? (
-                <Grid maxH="100vh">
+                <>
                   <Flex
                     bg="black"
                     pl="3%"
@@ -42,7 +42,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                   </Flex>
                   {isMusicSelected && <PlayerMusic />}
                   <Menu />
-                </Grid>
+                </>
               ) : (
                 <>
                   <Flex
