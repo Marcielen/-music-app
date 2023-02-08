@@ -16,10 +16,12 @@ import {
   QueryDocumentSnapshot,
   startAfter,
 } from "firebase/firestore";
-import { db } from "services/firebase";
+import { db, firebaseAuth } from "services/firebase";
 import { auth } from "modules/auth";
 import { EnumConstRouter } from "constants/enumConstRouter";
 import { useRouter } from "next/router";
+import { signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 
 export type ListMusicProps = {
   album: string;
@@ -55,6 +57,7 @@ interface MusicContextProps {
   handleDataMusic: () => Promise<void>;
   handleMusicActive(url: string): void;
   listAllMusic: ListMusicProps[];
+  handleSignOut: () => Promise<void>;
 }
 
 export const MusicContext = createContext<MusicContextProps>(
@@ -81,7 +84,9 @@ export default function MusicProvider({
   const [progressMusic, setProgressMusic] = useState(0);
   const [durationMusic, setDurationMusic] = useState(0);
 
-  const { pathname, query: router } = useRouter();
+  const { pathname, query: router, reload } = useRouter();
+  const clearDataUser = auth.clearToken;
+  const userId = auth.getToken();
 
   const routeAllCollection =
     pathname.includes(EnumConstRouter.ALL_COLLECTIONS) ||
@@ -110,7 +115,6 @@ export default function MusicProvider({
     setIsLoopMusic(!isLoopMusic);
   }, [isLoopMusic]);
 
-  const id = auth.getToken();
   const handleNextMusic = useCallback(() => {
     const data = listDataMusic;
     const indexMusicSelected = data.findIndex(
@@ -160,11 +164,11 @@ export default function MusicProvider({
           );
 
           if (musicIsAlreadyAdded) {
-            return valueListMusic.filter((listUser) => listUser.id === id);
+            return valueListMusic.filter((listUser) => listUser.id === userId);
           }
 
           const values = [...valueListMusic, data];
-          return values.filter((listUser) => listUser.id === id);
+          return values.filter((listUser) => listUser.id === userId);
         });
         setListAllMusic((valueListMusic) => {
           const musicIsAlreadyAdded = valueListMusic.some(
@@ -182,7 +186,7 @@ export default function MusicProvider({
 
     latestDoc = docsMusic.docs[docsMusic.docs.length - 1];
     setIsLoading(false);
-  }, [id]);
+  }, [userId]);
 
   function handleMusicActive(url: string) {
     if (isAllCollection) {
@@ -202,6 +206,17 @@ export default function MusicProvider({
     }
   }
 
+  const handleSignOut = useCallback(async () => {
+    await signOut(firebaseAuth)
+      .then(async () => {
+        await clearDataUser();
+        reload();
+      })
+      .catch((error) => {
+        toast.warning(error);
+      });
+  }, [clearDataUser, reload]);
+
   useEffect(() => {
     handleDataMusic();
   }, [handleDataMusic]);
@@ -219,6 +234,7 @@ export default function MusicProvider({
         durationMusic,
         setDurationMusic,
         progressMusic,
+        handleSignOut,
         setProgressMusic,
         isMusicActive,
         listMusic,

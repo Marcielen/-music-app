@@ -10,20 +10,16 @@ import {
   MenuList,
   Icon,
   useMediaQuery,
-  IconButton,
 } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
-import { useRouter } from "next/router";
 
 import { auth } from "modules/auth";
+import { useMusicContext } from "store/contextMusic";
 
 import { InputDefault } from "components/Input";
-import { firebaseAuth } from "services/firebase";
-import { signOut } from "firebase/auth";
-import { toast } from "react-toastify";
 
 type HeaderCollectionProps = {
   isCollection?: boolean;
@@ -34,23 +30,9 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
   const [emailUser, setEmailUser] = useState("");
   const [photoUser, setPhotoUser] = useState("");
 
-  const [isLargerThan780] = useMediaQuery("(min-width: 780px)");
-  const [isLargerThan400] = useMediaQuery("(min-width: 400px)");
+  const [mobile] = useMediaQuery("(max-width: 900px)");
 
-  const clearDataUser = auth.clearToken;
-
-  const router = useRouter();
-
-  const handleSignOut = useCallback(async () => {
-    await signOut(firebaseAuth)
-      .then(async () => {
-        await clearDataUser();
-        router.reload();
-      })
-      .catch((error) => {
-        toast.warning(error);
-      });
-  }, [clearDataUser, router]);
+  const { handleSignOut } = useMusicContext();
 
   useEffect(() => {
     const name = auth.getNameUser();
@@ -83,37 +65,29 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
           />
         </Box>
       )}
-      <Menu>
-        <MenuButton
-          as={isLargerThan400 ? Button : IconButton}
-          aria-label="Options"
-          bg="primary.850"
-          color="white"
-          borderColor="primary.600"
-          borderRadius="10px"
-          _hover={{
-            background: "black",
-          }}
-          _active={{
-            background: "primary.800",
-          }}
-          rightIcon={
-            isLargerThan400 ? (
-              <Icon boxSize="15px" as={IoIosArrowDown} />
-            ) : undefined
-          }
-          variant="outline"
-          icon={
-            !isLargerThan400 ? (
-              <Icon boxSize="15px" as={IoIosArrowDown} />
-            ) : undefined
-          }
-        >
-          <Flex>
-            {nameUser !== null ? (
-              <>
-                <Avatar mt="2px" mr="8px" boxSize="25px" src={photoUser} />
-                {isLargerThan780 && (
+      {!mobile && (
+        <Menu>
+          <MenuButton
+            as={Button}
+            aria-label="Options"
+            bg="primary.850"
+            color="white"
+            borderColor="primary.600"
+            borderRadius="10px"
+            _hover={{
+              background: "black",
+            }}
+            _active={{
+              background: "primary.800",
+            }}
+            rightIcon={<Icon boxSize="15px" as={IoIosArrowDown} />}
+            variant="outline"
+          >
+            <Flex>
+              {nameUser !== null ? (
+                <>
+                  <Avatar mt="2px" mr="8px" boxSize="25px" src={photoUser} />
+
                   <Flex
                     display={emailUser === null ? "flex" : "column"}
                     alignItems="center"
@@ -131,39 +105,39 @@ export const Header = ({ isCollection = true }: HeaderCollectionProps) => {
                       </Box>
                     </Box>
                   </Flex>
-                )}
-              </>
-            ) : (
-              <Text fontSize="12px" textAlign="left">
-                Hi {isLargerThan780 && "welcome!"}
-              </Text>
-            )}
-          </Flex>
-        </MenuButton>
-        <MenuList
-          w="full"
-          borderRadius="10px"
-          borderColor="primary.600"
-          bg="primary.850"
-          zIndex="9999"
-        >
-          <MenuItem
-            bg="none"
-            _hover={{
-              background: "primary.800",
-            }}
+                </>
+              ) : (
+                <Text fontSize="12px" textAlign="left">
+                  Hi, welcome!
+                </Text>
+              )}
+            </Flex>
+          </MenuButton>
+          <MenuList
+            w="full"
+            borderRadius="10px"
             borderColor="primary.600"
-            color="white"
-            onClick={() => handleSignOut()}
-            fontSize="12px"
+            bg="primary.850"
+            zIndex="9999"
           >
-            <Box ml="5px" mr="15px">
-              <AiOutlinePoweroff />
-            </Box>{" "}
-            Sing out
-          </MenuItem>
-        </MenuList>
-      </Menu>
+            <MenuItem
+              bg="none"
+              _hover={{
+                background: "primary.800",
+              }}
+              borderColor="primary.600"
+              color="white"
+              onClick={() => handleSignOut()}
+              fontSize="12px"
+            >
+              <Box ml="5px" mr="15px">
+                <AiOutlinePoweroff />
+              </Box>{" "}
+              Sing out
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      )}
     </Flex>
   );
 };

@@ -8,6 +8,7 @@ import {
   SliderThumb,
   SliderTrack,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import {
   AiFillFastBackward,
@@ -39,51 +40,58 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
     handlePreviousMusic,
   } = useMusicContext();
 
+  const [mobile] = useMediaQuery("(max-width: 900px)");
+
   return (
-    <Box>
+    <Flex flexDirection={mobile ? "column-reverse" : "column"}>
       <HStack
-        pr="20px"
-        mt="10px"
+        pr={mobile ? undefined : "20px"}
+        mt={mobile ? "20px" : "10px"}
         spacing="10px"
-        justifyContent="center"
+        justifyContent={mobile ? "space-between" : "center"}
         alignItems="center"
       >
         <Icon
           color="white"
-          boxSize="15px"
-          cursor="not-allowed"
+          _hover={{
+            color: "secondary.200",
+          }}
+          boxSize={mobile ? "40px" : "15px"}
+          cursor="pointer"
           as={AleatoryMusicIcon}
         />
-        <Icon
-          color="white"
-          boxSize="20px"
-          cursor="pointer"
-          _hover={{
-            color: "secondary.200",
-          }}
-          onClick={() => handlePreviousMusic()}
-          as={AiFillFastBackward}
-        />
-        <Icon
-          boxSize="40px"
-          cursor="pointer"
-          color="white"
-          _hover={{
-            color: "secondary.200",
-          }}
-          onClick={() => handleIsMusicActive()}
-          as={isMusicActive ? AiFillPauseCircle : AiFillPlayCircle}
-        />
-        <Icon
-          cursor="pointer"
-          color="white"
-          boxSize="20px"
-          _hover={{
-            color: "secondary.200",
-          }}
-          onClick={() => handleNextMusic()}
-          as={AiFillFastForward}
-        />
+        <HStack>
+          <Icon
+            color="white"
+            boxSize={mobile ? "50px" : "20px"}
+            cursor="pointer"
+            _hover={{
+              color: "secondary.200",
+            }}
+            onClick={() => handlePreviousMusic()}
+            as={AiFillFastBackward}
+          />
+          <Icon
+            boxSize={mobile ? "70px" : "40px"}
+            cursor="pointer"
+            color="white"
+            _hover={{
+              color: "secondary.200",
+            }}
+            onClick={() => handleIsMusicActive()}
+            as={isMusicActive ? AiFillPauseCircle : AiFillPlayCircle}
+          />
+          <Icon
+            cursor="pointer"
+            color="white"
+            boxSize={mobile ? "50px" : "20px"}
+            _hover={{
+              color: "secondary.200",
+            }}
+            onClick={() => handleNextMusic()}
+            as={AiFillFastForward}
+          />
+        </HStack>
         <Box position="relative">
           <Icon
             color={isLoopMusic ? "secondary.200" : "white"}
@@ -92,15 +100,15 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
               color: "secondary.200",
             }}
             onClick={() => handleIsMusicLoop()}
-            boxSize="17px"
-            mt="-3px"
+            boxSize={mobile ? "50px" : "17px"}
+            mt={mobile ? undefined : "-3px"}
             as={RepeatMusicIcon}
           />
           {isLoopMusic && (
             <Text
-              fontSize="5px"
-              left="7px"
-              top="8.8px"
+              fontSize={mobile ? "10px" : "5px"}
+              left={mobile ? "22px" : "7px"}
+              top={mobile ? "16px" : "8.8px"}
               position="absolute"
               color="secondary.200"
             >
@@ -110,9 +118,9 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
         </Box>
       </HStack>
       <Flex
-        w="500px"
-        ml="-10px"
-        mt="2px"
+        w={mobile ? "100%" : "500px"}
+        ml={mobile ? undefined : "-10px"}
+        mt={mobile ? "10px" : "2px"}
         justifyContent="center"
         alignItems="center"
       >
@@ -146,6 +154,6 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           {convertDurationToTimeString(durationMusic)}
         </Text>
       </Flex>
-    </Box>
+    </Flex>
   );
 };

@@ -1,18 +1,22 @@
 import { Box, Flex, Icon, Tooltip, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FiMusic } from "react-icons/fi";
+import { MdOutlineLibraryMusic } from "react-icons/md";
+import { RiPlayListFill } from "react-icons/ri";
+import { BiUser } from "react-icons/bi";
 
 import { EnumConstRouter } from "constants/enumConstRouter";
+import { useMusicContext } from "store/contextMusic";
 
 import { HomeIcon, LogoIconSmall } from "icons";
 
 import { ContainerMenu } from "./ContainerMenu";
-import { MdOutlineLibraryMusic } from "react-icons/md";
-import { RiPlayListFill } from "react-icons/ri";
 
 export const Menu = () => {
   const router = useRouter();
   const [mobile] = useMediaQuery("(max-width: 900px)");
+
+  const { handleSignOut } = useMusicContext();
 
   return (
     <Box
@@ -22,7 +26,7 @@ export const Menu = () => {
     >
       <ContainerMenu
         width={mobile ? "full" : "60px"}
-        pt={mobile ? "5px" : "20px"}
+        pt={mobile ? "0px" : "20px"}
         pl={mobile ? "10px" : undefined}
       >
         {!mobile && (
@@ -42,11 +46,11 @@ export const Menu = () => {
             _hover={{
               background: "#282828",
             }}
-            mb="5px"
+            mb={mobile ? undefined : "5px"}
             cursor="pointer"
             alignItems="center"
-            pt="10px"
-            pb="10px"
+            pt={mobile ? "5px" : "10px"}
+            pb={mobile ? "5px" : "10px"}
             pl="10px"
             onClick={() => router.push(EnumConstRouter.HOME)}
             justifyContent="center"
@@ -64,10 +68,10 @@ export const Menu = () => {
             _hover={{
               background: "#282828",
             }}
-            mb={mobile ? undefined : "5px"}
             cursor="pointer"
             alignItems="center"
-            pt={mobile ? undefined : "10px"}
+            mb={mobile ? undefined : "5px"}
+            pt={mobile ? "5px" : "10px"}
             pb={mobile ? "5px" : "10px"}
             pl="10px"
             onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
@@ -93,11 +97,11 @@ export const Menu = () => {
             _hover={{
               background: "#282828",
             }}
-            mb="5px"
             cursor="pointer"
             alignItems="center"
-            pt="10px"
-            pb="10px"
+            mb={mobile ? undefined : "5px"}
+            pt={mobile ? "5px" : "10px"}
+            pb={mobile ? "5px" : "10px"}
             pl="10px"
             onClick={() => router.push(EnumConstRouter.ALL_COLLECTIONS)}
             justifyContent="center"
@@ -122,11 +126,11 @@ export const Menu = () => {
             _hover={{
               background: "#282828",
             }}
-            mb="5px"
             cursor="pointer"
             alignItems="center"
-            pt="10px"
-            pb="10px"
+            mb={mobile ? undefined : "5px"}
+            pt={mobile ? "5px" : "10px"}
+            pb={mobile ? "5px" : "10px"}
             pl="10px"
             onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
             justifyContent="center"
@@ -141,6 +145,37 @@ export const Menu = () => {
             />
           </Flex>
         </Tooltip>
+        {mobile && (
+          <Tooltip
+            hasArrow
+            color="secondary.100"
+            placement="right"
+            label="Create music"
+          >
+            <Flex
+              _hover={{
+                background: "#282828",
+              }}
+              cursor="pointer"
+              alignItems="center"
+              mb={mobile ? undefined : "5px"}
+              pt={mobile ? "5px" : "10px"}
+              pb={mobile ? "5px" : "10px"}
+              pl="10px"
+              onClick={() => handleSignOut()}
+              justifyContent="center"
+            >
+              <Icon
+                mr="15px"
+                cursor="pointer"
+                w="30px"
+                h="25px"
+                color="white"
+                as={BiUser}
+              />
+            </Flex>
+          </Tooltip>
+        )}
       </ContainerMenu>
     </Box>
   );
