@@ -41,7 +41,7 @@ export const ExpandPlayer = ({
         />
       </Flex>
       <Flex
-        pt="40px"
+        pt="100px"
         w="full"
         h="full"
         display="column"
