@@ -11,7 +11,6 @@ import {
   SliderFilledTrack,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { EnumConstRouter } from "constants/enumConstRouter";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -23,20 +22,13 @@ import {
 import { BsFillVolumeUpFill, BsFillVolumeMuteFill } from "react-icons/bs";
 import { MdGraphicEq } from "react-icons/md";
 
+import { EnumConstRouter } from "constants/enumConstRouter";
 import { useMusicContext } from "store/contextMusic";
 
 import { ControlMusic } from "./ControlMusic";
 import { ExpandPlayer } from "./ExpandPlayer";
 
-type PlayerMusicProps = {
-  handleClick?: () => void;
-  isExpandPlayer?: boolean;
-};
-
-export const PlayerMusic = ({
-  handleClick,
-  isExpandPlayer = false,
-}: PlayerMusicProps) => {
+export const PlayerMusic = () => {
   const [musicHasSound, setMusicHasSound] = useState(true);
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -46,9 +38,11 @@ export const PlayerMusic = ({
     selectedMusic,
     isLoopMusic,
     isMusicActive,
+    isExpandPlayer,
     setIsMusicActive,
     setListMusic,
     handleIsMusicActive,
+    handleExpandPlayer,
     setListAllMusic,
     handlePreviousMusic,
     setProgressMusic,
@@ -160,15 +154,15 @@ export const PlayerMusic = ({
       />
 
       {isExpandPlayer ? (
-        <ExpandPlayer handleSeek={handleSeek} handleClick={handleClick} />
+        <ExpandPlayer handleSeek={handleSeek} />
       ) : (
         <Flex
           h="full"
           justifyContent={selectedMusic.musicUrl ? "space-between" : "center"}
           alignItems="center"
           onClick={() => {
-            if (handleClick && !isExpandPlayer) {
-              handleClick();
+            if (mobile && !isExpandPlayer) {
+              handleExpandPlayer();
             }
           }}
           pl={mobile ? "10px" : "20px"}

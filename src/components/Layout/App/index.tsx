@@ -1,21 +1,26 @@
-import MusicProvider, { MusicContext } from "store/contextMusic";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
+
+import MusicProvider, {
+  MusicContext,
+  useMusicContext,
+} from "store/contextMusic";
+import { auth } from "modules/auth";
+import { EnumConstRouter } from "constants/enumConstRouter";
 
 import { PlayerMusic } from "components/PlayerMusic";
-import { Box, Flex, useMediaQuery, Grid } from "@chakra-ui/react";
 import { Menu } from "components/Menu";
-import { useEffect, useState } from "react";
-import { auth } from "modules/auth";
-import { useRouter } from "next/router";
-import { EnumConstRouter } from "constants/enumConstRouter";
 
 type AppLayoutProps = {
   children: React.ReactNode;
 };
 
 export const AppLayout = ({ children }: AppLayoutProps) => {
-  const [isExpandPlayer, setIsExpandPlayer] = useState(false);
   const loggedUser = auth.getToken();
   const router = useRouter();
+
+  const { isExpandPlayer } = useMusicContext();
 
   const [mobile] = useMediaQuery("(max-width: 900px)");
 
@@ -44,12 +49,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                     </Flex>
                   )}
                   <Box position="fixed" w="full" bottom="1px" zIndex="9999">
-                    {isMusicSelected && (
-                      <PlayerMusic
-                        isExpandPlayer={isExpandPlayer}
-                        handleClick={() => setIsExpandPlayer(!isExpandPlayer)}
-                      />
-                    )}
+                    {isMusicSelected && <PlayerMusic />}
                     <Menu />
                   </Box>
                 </>

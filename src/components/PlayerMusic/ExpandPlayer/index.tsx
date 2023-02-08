@@ -8,15 +8,11 @@ import { useMusicContext } from "store/contextMusic";
 import { ControlMusic } from "../ControlMusic";
 
 type ExpandPlayerProps = {
-  handleClick?: () => void;
   handleSeek: (amount: number) => void;
 };
 
-export const ExpandPlayer = ({
-  handleClick,
-  handleSeek,
-}: ExpandPlayerProps) => {
-  const { selectedMusic } = useMusicContext();
+export const ExpandPlayer = ({ handleSeek }: ExpandPlayerProps) => {
+  const { selectedMusic, handleExpandPlayer } = useMusicContext();
   return (
     <Flex
       pt="10%"
@@ -30,10 +26,8 @@ export const ExpandPlayer = ({
       <Flex position="fixed" top="30px">
         <Icon
           onClick={() => {
-            if (handleClick) {
-              handleClick();
-              router.push(EnumConstRouter.ALL_COLLECTIONS);
-            }
+            handleExpandPlayer();
+            router.push(EnumConstRouter.ALL_COLLECTIONS);
           }}
           boxSize="20px"
           cursor="pointer"

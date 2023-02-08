@@ -1,7 +1,8 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Step, Steps as ChakraSteps } from "chakra-ui-steps";
-import { EnumConstRouter } from "constants/enumConstRouter";
 import { useRouter } from "next/router";
+
+import { EnumConstRouter } from "constants/enumConstRouter";
 
 type StepsContent = {
   keyStep: string;

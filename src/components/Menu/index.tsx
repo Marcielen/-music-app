@@ -16,7 +16,7 @@ export const Menu = () => {
   const router = useRouter();
   const [mobile] = useMediaQuery("(max-width: 900px)");
 
-  const { handleSignOut } = useMusicContext();
+  const { handleSignOut, setIsExpandPlayer } = useMusicContext();
 
   return (
     <Box
@@ -52,7 +52,10 @@ export const Menu = () => {
             pt={mobile ? "5px" : "10px"}
             pb={mobile ? "5px" : "10px"}
             pl="10px"
-            onClick={() => router.push(EnumConstRouter.HOME)}
+            onClick={() => {
+              setIsExpandPlayer(false);
+              router.push(EnumConstRouter.HOME);
+            }}
             justifyContent="center"
           >
             <Icon mr="15px" cursor="pointer" w="30px" h="25px" as={HomeIcon} />
@@ -74,7 +77,10 @@ export const Menu = () => {
             pt={mobile ? "5px" : "10px"}
             pb={mobile ? "5px" : "10px"}
             pl="10px"
-            onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
+            onClick={() => {
+              setIsExpandPlayer(false);
+              router.push(EnumConstRouter.COLLECTIONS);
+            }}
             justifyContent="center"
           >
             <Icon
@@ -103,7 +109,10 @@ export const Menu = () => {
             pt={mobile ? "5px" : "10px"}
             pb={mobile ? "5px" : "10px"}
             pl="10px"
-            onClick={() => router.push(EnumConstRouter.ALL_COLLECTIONS)}
+            onClick={() => {
+              setIsExpandPlayer(false);
+              router.push(EnumConstRouter.ALL_COLLECTIONS);
+            }}
             justifyContent="center"
           >
             <Icon
@@ -132,7 +141,10 @@ export const Menu = () => {
             pt={mobile ? "5px" : "10px"}
             pb={mobile ? "5px" : "10px"}
             pl="10px"
-            onClick={() => router.push(EnumConstRouter.CREATE_MUSIC)}
+            onClick={() => {
+              setIsExpandPlayer(false);
+              router.push(EnumConstRouter.CREATE_MUSIC);
+            }}
             justifyContent="center"
           >
             <Icon

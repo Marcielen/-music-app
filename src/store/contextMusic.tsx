@@ -39,6 +39,8 @@ interface MusicContextProps {
   selectedMusic: ListMusicProps;
   setSelectedMusic: React.Dispatch<React.SetStateAction<ListMusicProps>>;
   listMusic: ListMusicProps[];
+  isExpandPlayer: boolean;
+  setIsExpandPlayer: React.Dispatch<React.SetStateAction<boolean>>;
   setListMusic: React.Dispatch<React.SetStateAction<ListMusicProps[]>>;
   setListAllMusic: React.Dispatch<React.SetStateAction<ListMusicProps[]>>;
   setIsLoopMusic: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,6 +52,7 @@ interface MusicContextProps {
   durationMusic: number;
   isMusicActive: boolean;
   handleIsMusicLoop: () => void;
+  handleExpandPlayer: () => void;
   handleIsMusicActive: () => void;
   handleNextMusic: () => void;
   handlePreviousMusic: () => void;
@@ -83,6 +86,7 @@ export default function MusicProvider({
   const [isLoading, setIsLoading] = useState(false);
   const [progressMusic, setProgressMusic] = useState(0);
   const [durationMusic, setDurationMusic] = useState(0);
+  const [isExpandPlayer, setIsExpandPlayer] = useState(false);
 
   const { pathname, query: router, reload } = useRouter();
   const clearDataUser = auth.clearToken;
@@ -142,6 +146,10 @@ export default function MusicProvider({
     }
     setIsMusicActive(true);
   }, [listDataMusic, selectedMusic.musicUrl]);
+
+  const handleExpandPlayer = () => {
+    setIsExpandPlayer(!isExpandPlayer);
+  };
 
   const handleDataMusic = useCallback(async () => {
     setIsLoading(true);
@@ -228,11 +236,13 @@ export default function MusicProvider({
         setIsLoopMusic,
         handleDataMusic,
         setListAllMusic,
+        setIsExpandPlayer,
         listAllMusic,
         handleMusicActive,
         setIsMusicActive,
         durationMusic,
         setDurationMusic,
+        handleExpandPlayer,
         progressMusic,
         handleSignOut,
         setProgressMusic,
@@ -240,6 +250,7 @@ export default function MusicProvider({
         listMusic,
         handleIsMusicActive,
         isLoading,
+        isExpandPlayer,
         selectedMusic,
         setSelectedMusic,
         isLoopMusic,
