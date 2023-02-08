@@ -27,7 +27,7 @@ export const ExpandPlayer = ({
       display="column"
       justifyContent="space-between"
     >
-      <Flex>
+      <Flex position="fixed" top="30px">
         <Icon
           onClick={() => {
             if (handleClick) {
