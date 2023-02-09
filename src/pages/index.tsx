@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, VStack, Button, Text, Flex, Icon } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -18,6 +18,7 @@ import { LogoGoogle } from "icons";
 import { NextPageLayout } from "./_app";
 
 const Login: NextPageLayout = () => {
+  const idUser = auth.getToken();
   const [isLoading, setIsLoading] = useState(false);
 
   const formMethods = useForm<FormData>({
@@ -80,6 +81,12 @@ const Login: NextPageLayout = () => {
         setIsLoading(false);
       });
   };
+
+  useEffect(() => {
+    if (idUser) {
+      router.push(EnumConstRouter.HOME);
+    }
+  }, [idUser, router]);
 
   return (
     <Box w="full">

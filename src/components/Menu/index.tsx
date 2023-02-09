@@ -1,4 +1,15 @@
-import { Box, Flex, Icon, Tooltip, useMediaQuery } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Icon,
+  Tooltip,
+  useMediaQuery,
+  Menu as MenuChakra,
+  MenuList,
+  MenuButton,
+  IconButton,
+  MenuItem,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FiMusic } from "react-icons/fi";
 import { MdOutlineLibraryMusic } from "react-icons/md";
@@ -11,6 +22,7 @@ import { useMusicContext } from "store/contextMusic";
 import { HomeIcon, LogoIconSmall } from "icons";
 
 import { ContainerMenu } from "./ContainerMenu";
+import { AiOutlinePoweroff } from "react-icons/ai";
 
 export const Menu = () => {
   const router = useRouter();
@@ -174,17 +186,49 @@ export const Menu = () => {
               pt={mobile ? "5px" : "10px"}
               pb={mobile ? "5px" : "10px"}
               pl="10px"
-              onClick={() => handleSignOut()}
               justifyContent="center"
             >
-              <Icon
-                mr="15px"
-                cursor="pointer"
-                w="30px"
-                h="25px"
-                color="white"
-                as={BiUser}
-              />
+              <MenuChakra>
+                <MenuButton
+                  _hover={{
+                    background: "none",
+                  }}
+                  border="none"
+                  _active={{
+                    background: "none",
+                  }}
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={
+                    <Icon
+                      mr="15px"
+                      cursor="pointer"
+                      w="30px"
+                      h="25px"
+                      color="white"
+                      as={BiUser}
+                    />
+                  }
+                  variant="outline"
+                />
+                <MenuList bg="primary.700" border="none">
+                  <MenuItem
+                    color="white"
+                    bg="primary.700"
+                    _hover={{
+                      background: "primary.600",
+                    }}
+                    borderColor="primary.600"
+                    onClick={() => handleSignOut()}
+                    fontSize="12px"
+                  >
+                    <Box ml="5px" mr="15px">
+                      <AiOutlinePoweroff />
+                    </Box>{" "}
+                    Sing out
+                  </MenuItem>
+                </MenuList>
+              </MenuChakra>
             </Flex>
           </Tooltip>
         )}

@@ -1,36 +1,16 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  Table,
-  Tbody,
-  Image as ImageChakra,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  Divider,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { BsFillPlayFill, BsPause } from "react-icons/bs";
 
 import { useIntersectionObserver } from "hooks/useIntersectionObserver";
 import { fileGenere } from "services/Data/filesGenere";
 import { useMusicContext } from "store/contextMusic";
 
 import { Header } from "components/Header";
+import { CardsMusic } from "components/CardsMusic";
 
 export default function Genere() {
-  const {
-    listAllMusic,
-    setSelectedMusic,
-    handleMusicActive,
-    setIsMusicActive,
-    handleDataMusic,
-  } = useMusicContext();
+  const { listAllMusic, handleDataMusic } = useMusicContext();
   const router = useRouter();
 
   const idRouter = router.query.id as string;
@@ -42,13 +22,14 @@ export default function Genere() {
   );
 
   const [mobile] = useMediaQuery("(max-width: 900px)");
+  const [is500MediaQuery] = useMediaQuery("(max-width: 500px)");
 
   const { elementRef } = useIntersectionObserver({
     onIntersecting: handleDataMusic,
   });
 
   return (
-    <Box color="white" w="full">
+    <Box h={mobile ? "85vh" : undefined} color="white" w="full">
       <Box
         pb="25px"
         bgGradient="linear-gradient(to left, #ce79ca, #b06fba, #9464a9, #7a5996, #624e83, #57426f, #4b375b, #3f2d49, #352234, #271922, #190f14, #000000);"
@@ -61,7 +42,11 @@ export default function Genere() {
             <Image
               style={{
                 objectFit: "cover",
-                height: "200px",
+                height: mobile
+                  ? is500MediaQuery
+                    ? "200px"
+                    : "220px"
+                  : "200px",
                 width: mobile ? undefined : "350px",
                 borderRadius: "10px",
               }}
@@ -74,7 +59,7 @@ export default function Genere() {
             pb="20px"
             flexDirection="column"
             justifyContent="space-between"
-            pl="30px"
+            pl={mobile ? "10px" : "30px"}
           >
             <Text fontWeight="bold" fontSize="12px">
               GENERE
@@ -103,74 +88,7 @@ export default function Genere() {
         pr="3%"
       >
         {listGenereMusic.length > 0 ? (
-          <Table variant="">
-            <Thead>
-              <Tr>
-                <Th color="white" w="1%">
-                  #
-                </Th>
-                <Th color="white" w="52%">
-                  Title
-                </Th>
-                <Th color="white" w="24%">
-                  Genere
-                </Th>
-                <Th color="white" w="24%">
-                  Album
-                </Th>
-              </Tr>
-              <Th p="0" colSpan={5}>
-                <Divider />
-              </Th>
-            </Thead>
-            <Tbody>
-              {listGenereMusic.map((genere) => {
-                return (
-                  <Tr key={genere.id}>
-                    <Td
-                      onClick={() => {
-                        handleMusicActive(genere.musicUrl);
-                        setIsMusicActive(
-                          genere.isActive ? !genere.isActive : true
-                        );
-                        setSelectedMusic(genere);
-                      }}
-                      alignItems="baseline"
-                      pt="10px"
-                      pb="0"
-                    >
-                      <Icon
-                        cursor="pointer"
-                        as={genere.isActive ? BsPause : BsFillPlayFill}
-                      />
-                    </Td>
-                    <Td pt="15px" pb="0">
-                      <Flex>
-                        <ImageChakra
-                          h="40px"
-                          w="40px"
-                          objectFit="cover"
-                          alt={genere.nameMusic}
-                          src={genere.imageAlbum}
-                        />
-                        <Flex
-                          display="column"
-                          justifyContent="left"
-                          alignItems="center"
-                          pl="10px"
-                        >
-                          <Text fontSize="12px">{genere.author}</Text>
-                          <Text fontSize="12px">{genere.nameMusic}</Text>
-                        </Flex>
-                      </Flex>
-                    </Td>
-                    <Td fontSize="12px">{genere.genere}</Td>
-                    <Td fontSize="12px">{genere.album}</Td>
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
+          <CardsMusic dataMusic={listGenereMusic} />
         ) : (
           <Box mt="10px">There are no songs in this genre</Box>
         )}
