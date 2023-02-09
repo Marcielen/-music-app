@@ -291,7 +291,7 @@ export default function CreateMusic() {
                           {fileAlbumMusic.name && (
                             <Flex
                               mt={mobile ? "10px" : undefined}
-                              justifyContent="center"
+                              justifyContent={mobile ? "center" : "flex-end"}
                               w="full"
                             >
                               <Flex
