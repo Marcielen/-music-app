@@ -1,4 +1,4 @@
-import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
+import { Box, Flex, Icon, Text, useMediaQuery } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -8,6 +8,8 @@ import { useMusicContext } from "store/contextMusic";
 
 import { Header } from "components/Header";
 import { CardsMusic } from "components/CardsMusic";
+import { EnumConstRouter } from "constants/enumConstRouter";
+import { AiOutlineArrowLeft } from "react-icons/ai";
 
 export default function Genere() {
   const { listAllMusic, handleDataMusic } = useMusicContext();
@@ -47,6 +49,7 @@ export default function Genere() {
     >
       <Box
         pb="25px"
+        h={mobile ? "56%" : undefined}
         bgGradient="linear-gradient(to left, #ce79ca, #b06fba, #9464a9, #7a5996, #624e83, #57426f, #4b375b, #3f2d49, #352234, #271922, #190f14, #000000);"
       >
         <Box w="full" pt="20px" pr="2%">
