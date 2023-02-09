@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, useMediaQuery } from "@chakra-ui/react";
 import { Step, Steps as ChakraSteps } from "chakra-ui-steps";
 import { useRouter } from "next/router";
 
@@ -24,6 +24,8 @@ export const Steps = ({
   nextStep,
 }: StepsProps) => {
   const router = useRouter();
+
+  const [mobile] = useMediaQuery("(max-width: 900px)");
   return (
     <Flex flexDir="column" width="100%">
       <ChakraSteps
@@ -40,19 +42,26 @@ export const Steps = ({
         ))}
       </ChakraSteps>
 
-      <Flex mt="35px" width="100%" justify="space-between">
+      <Flex
+        mt="35px"
+        width="100%"
+        direction={mobile ? "column" : "row"}
+        justify="space-between"
+      >
         <Button
-          w="140px"
+          w={mobile ? "full" : "140px"}
+          mb={mobile ? "10px" : undefined}
           mr={4}
           colorScheme="secondary"
           onClick={() => router.push(EnumConstRouter.COLLECTIONS)}
         >
           Discart
         </Button>
-        <Flex>
+        <Flex direction={mobile ? "column" : "row"}>
           {activeStep !== 0 && (
             <Button
-              w="140px"
+              mb={mobile ? "10px" : undefined}
+              w={mobile ? "full" : "140px"}
               isDisabled={activeStep === 0}
               mr={4}
               colorScheme="secondary"
@@ -61,7 +70,11 @@ export const Steps = ({
               Prev
             </Button>
           )}
-          <Button colorScheme="secondary" w="140px" onClick={nextStep}>
+          <Button
+            colorScheme="secondary"
+            w={mobile ? "full" : "140px"}
+            onClick={nextStep}
+          >
             {activeStep === steps.length - 1 ? "Finish" : "Next"}
           </Button>
         </Flex>

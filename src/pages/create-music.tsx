@@ -6,6 +6,7 @@ import {
   Image,
   Input,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { ChangeEvent, useRef, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -39,6 +40,8 @@ export default function CreateMusic() {
   const [fileMusic, setFileMusic] = useState<File>({} as File);
   const [fileAlbumMusic, setFileAlbumMusic] = useState<File>({} as File);
   const [activeStep, setActiveStep] = useState(0);
+
+  const [mobile] = useMediaQuery("(max-width: 900px)");
 
   const formMethods = useForm<FormData>({
     defaultValues: formDefaultValues,
@@ -134,6 +137,7 @@ export default function CreateMusic() {
       }
     );
   });
+
   const prevStep = () => {
     setActiveStep((prev) => prev - 1);
   };
@@ -233,7 +237,7 @@ export default function CreateMusic() {
                         <Button
                           onClick={() => handleChooseMusic()}
                           color="secondary.600"
-                          w="240px"
+                          w={mobile ? "full" : "240px"}
                           mb="10px"
                         >
                           Upload
@@ -266,12 +270,16 @@ export default function CreateMusic() {
                     label: "To finish, do upload of your album's picture",
                     content: (
                       <Box>
-                        <Flex w="100%" justifyContent="space-between">
+                        <Flex
+                          w="100%"
+                          direction={mobile ? "column" : "row"}
+                          justifyContent="space-between"
+                        >
                           <Box>
                             <Button
                               onClick={() => handleChooseImageAlbum()}
                               color="secondary.600"
-                              w="240px"
+                              w={mobile ? "full" : "240px"}
                               mb="10px"
                             >
                               Upload
@@ -281,20 +289,26 @@ export default function CreateMusic() {
                             </Text>
                           </Box>
                           {fileAlbumMusic.name && (
-                            <Box
-                              w="70px"
-                              border="1px"
-                              borderStyle="dashed"
-                              borderColor="primary.300"
-                              h="70px"
-                              p="5px"
+                            <Flex
+                              mt={mobile ? "10px" : undefined}
+                              justifyContent="center"
+                              w="full"
                             >
-                              <Image
-                                objectFit="cover"
-                                alt={fileAlbumMusic.name}
-                                src={URL.createObjectURL(fileAlbumMusic)}
-                              />
-                            </Box>
+                              <Flex
+                                w="70px"
+                                border="1px"
+                                borderStyle="dashed"
+                                borderColor="primary.300"
+                                h="70px"
+                                p="5px"
+                              >
+                                <Image
+                                  objectFit="cover"
+                                  alt={fileAlbumMusic.name}
+                                  src={URL.createObjectURL(fileAlbumMusic)}
+                                />
+                              </Flex>
+                            </Flex>
                           )}
                         </Flex>
 

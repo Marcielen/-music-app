@@ -11,6 +11,7 @@ import {
   Thead,
   Tr,
   Divider,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -40,6 +41,8 @@ export default function Genere() {
     (allMusic) => allMusic.genere === idRouter
   );
 
+  const [mobile] = useMediaQuery("(max-width: 900px)");
+
   const { elementRef } = useIntersectionObserver({
     onIntersecting: handleDataMusic,
   });
@@ -53,13 +56,13 @@ export default function Genere() {
         <Box w="full" pt="20px" pr="2%">
           <Header isCollection={false} />
         </Box>
-        <Flex>
-          <Box>
+        <Flex direction={mobile ? "column" : "row"}>
+          <Box pr={mobile ? "3%" : undefined}>
             <Image
               style={{
                 objectFit: "cover",
                 height: "200px",
-                width: "350px",
+                width: mobile ? undefined : "350px",
                 borderRadius: "10px",
               }}
               alt={genereSelected?.alt || ""}

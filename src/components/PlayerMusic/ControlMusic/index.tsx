@@ -56,7 +56,7 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
           _hover={{
             color: "secondary.200",
           }}
-          boxSize={mobile ? "40px" : "15px"}
+          boxSize={mobile ? "30px" : "15px"}
           cursor="pointer"
           as={AleatoryMusicIcon}
         />
@@ -100,15 +100,15 @@ export const ControlMusic = ({ handleSeek }: ControlMusicProps) => {
               color: "secondary.200",
             }}
             onClick={() => handleIsMusicLoop()}
-            boxSize={mobile ? "50px" : "17px"}
+            boxSize={mobile ? "30px" : "17px"}
             mt={mobile ? undefined : "-3px"}
             as={RepeatMusicIcon}
           />
           {isLoopMusic && (
             <Text
               fontSize={mobile ? "10px" : "5px"}
-              left={mobile ? "22px" : "7px"}
-              top={mobile ? "16px" : "8.8px"}
+              left={mobile ? "12px" : "7px"}
+              top={mobile ? "8px" : "8.8px"}
               position="absolute"
               color="secondary.200"
             >
