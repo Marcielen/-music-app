@@ -51,7 +51,6 @@ export const PlayerMusic = () => {
   } = useMusicContext();
 
   const { pathname } = useRouter();
-  console.log(isExpandPlayer);
 
   const [mobile] = useMediaQuery("(max-width: 900px)");
 

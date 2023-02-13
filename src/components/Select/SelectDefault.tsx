@@ -4,7 +4,7 @@ import {
   FormErrorMessage,
   SelectProps,
   useToken,
-  Text,
+  Flex,
   Box,
 } from "@chakra-ui/react";
 import { Controller } from "react-hook-form";
@@ -58,7 +58,13 @@ export const SelectDefault = ({
   ]);
 
   const Control = ({ children, ...props }: ControlProps) => {
-    return <components.Control {...props}>{children}</components.Control>;
+    return (
+      <components.Control {...props}>
+        <Flex w="full" fontSize="14px">
+          {children}
+        </Flex>
+      </components.Control>
+    );
   };
 
   const styles: StylesConfig = {
